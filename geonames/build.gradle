@@ -1,0 +1,25 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.7
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    dependencies {
+        compile 'org.apache.jena:jena:2.+'
+        compile 'org.apache.jena:jena-arq:2.+'
+        compile 'org.apache.jena:jena-tdb:1.+'
+        compile 'org.elasticsearch:elasticsearch:1.4.+'
+
+        compile fileTree(dir: 'libs', include: ['*.jar'])
+        compile 'org.djodjo.json:json-core:1.+'
+        compile 'org.djodjo.json:json-generator:1.+'
+        compile 'org.djodjo.json:json-wrapper:1.+'
+
+        testCompile group: 'junit', name: 'junit', version: '4.11'
+
+    }
+}
