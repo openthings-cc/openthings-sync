@@ -14,9 +14,22 @@
  * limitations under the License.
  */
 
-package cc.openthings.sync.dbpedia;public class FetchData {
+package cc.openthings.sync.openbrussels.model;
 
-    public static void main(String[] args) {
+import org.djodjo.json.wrapper.JsonObjectWrapper;
 
+
+public class FieldInfo extends JsonObjectWrapper {
+
+    public String getLabel() {
+        return getJson().getString("label");
+    }
+
+    public String getType() {
+        return getJson().getString("type");
+    }
+
+    public String getName() {
+        return getJson().getString("name");
     }
 }
