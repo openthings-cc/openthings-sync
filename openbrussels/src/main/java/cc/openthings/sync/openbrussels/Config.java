@@ -14,9 +14,17 @@
  * limitations under the License.
  */
 
-package cc.openthings.sync.dbpedia;public class ProcessData {
+package cc.openthings.sync.openbrussels;
 
-    public static void main(String[] args) {
+//info from http://opendata.brussels.be/api/doc/
+public class Config {
 
-    }
+
+    public static final String baseUrl = "http://opendata.brussels.be/";
+    public static final String dataSetSearch = "/api/datasets/1.0/search/";
+    public static final String dataSetLookup = "/api/dataset/1.0/";
+
+    public static final String recordSearch = "/api/records/1.0/search/";
+
+
 }

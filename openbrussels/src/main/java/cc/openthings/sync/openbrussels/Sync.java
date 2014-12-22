@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package cc.openthings.sync.dbpedia;public class Sync {
+package cc.openthings.sync.openbrussels;public class Sync {
 
     public static void main(String[] args) {
 
