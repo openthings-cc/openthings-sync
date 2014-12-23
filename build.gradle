@@ -19,18 +19,17 @@ allprojects {
     }
 }
 
-    dependencies {
-        compile 'org.djodjo.json:json-core:1.+'
-        compile 'org.djodjo.json:json-generator:1.+'
-        compile 'org.djodjo.json:json-wrapper:1.+'
-        compile 'log4j:log4j:1.2.17'
-        // compile 'org.apache.jena:apache-jena-libs:2.12.1'
-        //compile 'org.apache.jena:jena:2.12.1'
-        // compile 'com.hp.hpl.jena:jena:2.6.4'
-        compile 'org.apache.jena:jena-core:2.12.1'
-        compile 'org.apache.jena:jena-arq:2.12.1'
-        compile project (':Sender')
-    }
+dependencies {
+    compile 'org.djodjo.json:json-core:1.+'
+    compile 'org.djodjo.json:json-generator:1.+'
+    compile 'org.djodjo.json:json-wrapper:1.+'
+    compile 'log4j:log4j:1.2.17'
+    // compile 'org.apache.jena:apache-jena-libs:2.12.1'
+    //compile 'org.apache.jena:jena:2.12.1'
+    compile 'org.apache.jena:jena-core:2.12.1'
+    compile 'org.apache.jena:jena-arq:2.12.1'
+    compile project (':Sender')
+}
 
 task printLGDont(type: JavaExec) {
     dependsOn classes
@@ -38,9 +37,18 @@ task printLGDont(type: JavaExec) {
         println(" ****** Print linkedgeodata ontology  ****** ")
     }
     main = "cc.openthings.sync.PrintTtlOntology"
-            classpath = sourceSets.main.runtimeClasspath
-            //args = ['-f', 'pretty', '--format', 'junit:target/cucumber-junit-report.xml', '--format', 'html:target/cucumber-html-report',  '--glue', 'gradle.cucumber', 'src/resources']
-            //systemProperty 'profile', "stage"
+    classpath = sourceSets.main.runtimeClasspath
+    //args = []
+    //systemProperty 'x', "y"
+}
+
+task analyseOnt(type: JavaExec) {
+    dependsOn classes
+    doFirst{
+        println(" ****** analyse ontology  ****** ")
+    }
+    main = "cc.openthings.sync.OntAnalyser"
+    classpath = sourceSets.main.runtimeClasspath
 }
 
 
