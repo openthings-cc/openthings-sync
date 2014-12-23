@@ -32,7 +32,7 @@ public class OntAnalyser {
     String queryString= "select * where { ?x <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> }";
     String queryGNtypes= "select * where { ?x <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.geonames.org/ontology#Code> }";
     String queryGN2LGDmapping= "select * where { ?x <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> . " +
-            "FILTER CONTAINS ( ?x,  <linkedgeodata>) " +
+            "FILTER regex(str(?x), \"linkedgeodata\") " +
             "}";
 
     public static void main(String[] args) {
