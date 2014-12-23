@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:base="http://www.data.ign.fr/rge/taxoign.owl#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:owl="http://www.w3.org/2002/07/owl#"
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:dbpedia-owl="http://dbpedia.org/ontology/"
+         xmlns:taxoign="http://www.data.ign.fr/rge/taxoign.owl#">
+
+
+ <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Aeroport">
+    <rdfs:label xml:lang="en">airport</rdfs:label>
+    <rdfs:label xml:lang="fr">a�roport</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#InfrastructureDeTransportAerien"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/Airport"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Carrefour">
+    <rdfs:label xml:lang="fr">carrefour</rdfs:label>
+    <rdfs:label xml:lang="en">crossroads</rdfs:label>
+    <rdfs:label xml:lang="en">intersection</rdfs:label>
+    <rdfs:label xml:lang="fr">intersection</rdfs:label>
+    <rdfs:label xml:lang="en">junction</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#InfrastructureDeTransportRoutier"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/RoadJunction"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Cave">
+    <rdfs:label xml:lang="fr">cave</rdfs:label>
+    <rdfs:label xml:lang="en">hollow</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#Grotte"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/Cave"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Chemin">
+    <rdfs:label xml:lang="fr">chemin</rdfs:label>
+    <rdfs:label xml:lang="en">road</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#VoieDeCommunicationNonCarrossable"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/Road"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Arene">
+    <rdfs:label xml:lang="fr">ar�ne</rdfs:label>
+    <rdfs:label xml:lang="en">arena</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#TheatreDePleinAir"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/Arena"/>
+  </owl:Class>
+
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#CentreHistorique">
+    <rdfs:label xml:lang="fr">centre historique</rdfs:label>
+    <rdfs:label xml:lang="en">historical downtown</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#ElementDuPatrimoine"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/HistoricPlace"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Col">
+    <rdfs:label xml:lang="fr">col</rdfs:label>
+    <rdfs:label xml:lang="en">mountain pass</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#ElementDuRelief"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/MountainPass"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Eglise">
+    <rdfs:label xml:lang="en">church</rdfs:label>
+    <rdfs:label xml:lang="fr">�glise</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#BatimentReligieuxChretien"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/Church"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#EtablissementDEnseignement">
+    <rdfs:label xml:lang="en">school</rdfs:label>
+    <rdfs:label xml:lang="fr">�cole</rdfs:label>
+    <rdfs:label xml:lang="fr">�tablissement d'enseignement</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#EntiteAVocationDeService"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/EducationalInstitution"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Hopital">
+    <rdfs:label xml:lang="en">hospital</rdfs:label>
+    <rdfs:label xml:lang="fr">h�pital</rdfs:label>
+    <rdfs:label xml:lang="fr">�tablissement hospitalier</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#EtablissementDeSante"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/Hospital"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#VoieFerree">
+    <rdfs:label xml:lang="en">railway line</rdfs:label>
+    <rdfs:label xml:lang="fr">voie ferr�e</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#InfrastructureDeTransport"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/RailwayLine"/>
+  </owl:Class>
+
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Hotel">
+    <rdfs:label xml:lang="en">hotel</rdfs:label>
+    <rdfs:label xml:lang="fr">h�tel</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#EquipementDeLoisir"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/Hotel"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Ile">
+    <rdfs:label xml:lang="en">island</rdfs:label>
+    <rdfs:label xml:lang="en">isle</rdfs:label>
+    <rdfs:label xml:lang="fr">�le</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#ElementDeLEspaceMaritime"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/Island"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Montagne">
+    <rdfs:label xml:lang="fr">montagne</rdfs:label>
+    <rdfs:label xml:lang="en">mountain</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#Sommet"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/Mountain"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Monument">
+    <rdfs:label xml:lang="fr">monument</rdfs:label>
+    <rdfs:label xml:lang="en">monument</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#ElementDuPatrimoine"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/Monument"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#MonumentCommemoratif">
+    <rdfs:label xml:lang="fr">monument</rdfs:label>
+    <rdfs:label xml:lang="en">monument comm�moratif</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#ElementDuPatrimoine"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/Monument"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#EtablissementDEnseignement">
+    <rdfs:label xml:lang="fr">�cole</rdfs:label>
+    <rdfs:label xml:lang="en">school</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#EntiteAVocationDeService"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/School"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Riviere">
+    <rdfs:label xml:lang="fr">rivi�re</rdfs:label>
+    <rdfs:label xml:lang="en">river</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#CoursDEau"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/River"/>
+  </owl:Class>
+
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Musee">
+    <rdfs:label xml:lang="en">museum</rdfs:label>
+    <rdfs:label xml:lang="fr">mus�e</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#ElementDuPatrimoine"/>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#EquipementDeLoisir"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/Museum"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Parc">
+    <rdfs:label xml:lang="fr">parc</rdfs:label>
+    <rdfs:label xml:lang="en">park</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#EquipementDeLoisir"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/Park"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Phare">
+    <rdfs:label xml:lang="en">lighthouse</rdfs:label>
+    <rdfs:label xml:lang="fr">phare</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#Amer"/>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#BatimentRemarquable"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/Lighthouse"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Pont">
+    <rdfs:label xml:lang="en">bridge</rdfs:label>
+    <rdfs:label xml:lang="fr">pont</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#Franchissement"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/Bridge"/>
+  </owl:Class>
+
+   <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#NappeDEau">
+    <rdfs:label xml:lang="en">body of water</rdfs:label>
+    <rdfs:label xml:lang="fr">nappe d'eau</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#SurfaceDEau"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/BodyOfWater"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Region">
+    <rdfs:label xml:lang="en">region</rdfs:label>
+    <rdfs:label xml:lang="fr">r�gion</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#CollectiviteTerritoriale"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/AdministrativeRegion"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Franchissement">
+    <rdfs:label xml:lang="en">bridge</rdfs:label>
+    <rdfs:label xml:lang="fr">franchissement</rdfs:label>
+	<rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#InfrastructureDeTransport"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/Bridge"/>
+  </owl:Class>
+
+   <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Lac">
+    <rdfs:label xml:lang="en">lake</rdfs:label>
+    <rdfs:label xml:lang="fr">lac</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#SurfaceDEau"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/Lake"/>
+  </owl:Class>
+
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Route">
+    <rdfs:label xml:lang="en">road</rdfs:label>
+    <rdfs:label xml:lang="fr">route</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#InfrastructureDeTransportRoutier"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/Road"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Stade">
+    <rdfs:label xml:lang="en">sports-ground</rdfs:label>
+    <rdfs:label xml:lang="fr">stade</rdfs:label>
+    <rdfs:label xml:lang="en">stadium</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#EquipementSportif"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/Stadium"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#StationDeVoyageurs">
+    <rdfs:label xml:lang="en">passenger station</rdfs:label>
+    <rdfs:label xml:lang="fr">station de voyageurs</rdfs:label>
+    <rdfs:label xml:lang="en">station</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#GareVoyageurs"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/Station"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#TheatreDePleinAir">
+    <rdfs:label xml:lang="en">open-air theater</rdfs:label>
+    <rdfs:label xml:lang="en">outdoor theater</rdfs:label>
+    <rdfs:label xml:lang="fr">th��tre de plein air</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#BatimentRemarquable"/>
+    <rdfs:subClassOf rdf:resource="http://dbpedia.org/ontology/Theatre"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Gare">
+    <rdfs:label xml:lang="en">station</rdfs:label>
+    <rdfs:label xml:lang="fr">gare</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#ArretFerroviaire"/>
+    <rdfs:subClassOf rdf:resource="http://dbpedia.org/ontology/Station"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Tombe">
+    <rdfs:label xml:lang="en">monument</rdfs:label>
+    <rdfs:label xml:lang="fr">tombe</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#Cimetiere"/>
+    <rdfs:subClassOf rdf:resource="http://dbpedia.org/ontology/Monument"/>
+  </owl:Class>
+
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Vallee">
+    <rdfs:label xml:lang="en">valley</rdfs:label>
+    <rdfs:label xml:lang="fr">vall�e</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#ElementDuRelief"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/Valley"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Canal">
+    <rdfs:label xml:lang="en">canal</rdfs:label>
+    <rdfs:label xml:lang="fr">canal</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#CoursDEauArtificiel"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/Canal"/>
+  </owl:Class>
+
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Village">
+    <rdfs:label xml:lang="en">village</rdfs:label>
+    <rdfs:label xml:lang="fr">village</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#EntiteAVocationResidentielle"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/Village"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Ville">
+    <rdfs:label xml:lang="en">city</rdfs:label>
+    <rdfs:label xml:lang="en">town</rdfs:label>
+    <rdfs:label xml:lang="fr">ville</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#EntiteAVocationResidentielle"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/City"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/Town"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#ZonesNaturellesProtegees">
+    <rdfs:label xml:lang="en">protected natural zones</rdfs:label>
+    <rdfs:label xml:lang="fr">zones naturelles prot�g�es</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#EntiteAVocationAdministrative"/>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#EquipementDeLoisir"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/ProtectedArea"/>
+  </owl:Class>
+
+   <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Tunnel">
+    <rdfs:label xml:lang="en">tunnel</rdfs:label>
+    <rdfs:label xml:lang="fr">tunnel</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#Franchissement"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/Tunnel"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Ruisseau">
+    <rdfs:label xml:lang="en">stream</rdfs:label>
+    <rdfs:label xml:lang="fr">ruisseau</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#CoursDEau"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/Stream"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Usine">
+    <rdfs:label xml:lang="en">plant</rdfs:label>
+    <rdfs:label xml:lang="fr">usine</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#BatimentIndustriel"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/Plant"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Universite">
+    <rdfs:label xml:lang="en">college</rdfs:label>
+    <rdfs:label xml:lang="fr">universit�</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#CentreUniversitaire"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/College"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Fleuve">
+    <rdfs:label xml:lang="en">river</rdfs:label>
+    <rdfs:label xml:lang="fr">fleuve</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#CoursDEau"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/River"/>
+  </owl:Class>
+
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Universite">
+    <rdfs:label xml:lang="en">university</rdfs:label>
+    <rdfs:label xml:lang="fr">universit�</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#CentreUniversitaire"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/University"/>
+  </owl:Class>
+
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#CentraleElectrique">
+    <rdfs:label xml:lang="en">power station</rdfs:label>
+    <rdfs:label xml:lang="fr">centrale �lectrique</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#EntiteAVocationIndustrielle"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/PowerStation"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#SurfaceDEau">
+    <rdfs:label xml:lang="en">water surface</rdfs:label>
+    <rdfs:label xml:lang="fr">surface d'eau</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#EntiteAVocationIndustrielle"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/BodyOfWater"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#Col">
+    <rdfs:label xml:lang="en">mpountain pass</rdfs:label>
+    <rdfs:label xml:lang="fr">col</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#ElementDuRelief"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/MountainPass"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.data.ign.fr/rge/taxoign.owl#College">
+    <rdfs:label xml:lang="en">school</rdfs:label>
+    <rdfs:label xml:lang="fr">coll�ge</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#EtablissementDEnseignementSecondaire"/>
+    <owl:equivalentClass rdf:resource="http://dbpedia.org/ontology/College"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://dbpedia.org/ontology/AdministrativeRegion"/>
+  <owl:Class rdf:about="http://dbpedia.org/ontology/Airport"/>
+  <owl:Class rdf:about="http://dbpedia.org/ontology/Bridge"/>
+  <owl:Class rdf:about="http://dbpedia.org/ontology/Cave"/>
+  <owl:Class rdf:about="http://dbpedia.org/ontology/City"/>
+  <owl:Class rdf:about="http://dbpedia.org/ontology/EducationalInstitution"/>
+  <owl:Class rdf:about="http://dbpedia.org/ontology/HistoricPlace"/>
+  <owl:Class rdf:about="http://dbpedia.org/ontology/Hospital"/>
+  <owl:Class rdf:about="http://dbpedia.org/ontology/Island"/>
+  <owl:Class rdf:about="http://dbpedia.org/ontology/Lighthouse"/>
+  <owl:Class rdf:about="http://dbpedia.org/ontology/Monument"/>
+  <owl:Class rdf:about="http://dbpedia.org/ontology/Mountain"/>
+  <owl:Class rdf:about="http://dbpedia.org/ontology/MountainPass"/>
+  <owl:Class rdf:about="http://dbpedia.org/ontology/Museum"/>
+  <owl:Class rdf:about="http://dbpedia.org/ontology/NaturalPlace">
+    <rdfs:subClassOf rdf:resource="http://www.data.ign.fr/rge/taxoign.owl#EntiteTopographiqueNaturelle"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://dbpedia.org/ontology/Park"/>
+  <owl:Class rdf:about="http://dbpedia.org/ontology/ProtectedArea"/>
+  <owl:Class rdf:about="http://dbpedia.org/ontology/Road"/>
+  <owl:Class rdf:about="http://dbpedia.org/ontology/RoadJunction"/>
+  <owl:Class rdf:about="http://dbpedia.org/ontology/Stadium"/>
+  <owl:Class rdf:about="http://dbpedia.org/ontology/Station"/>
+  <owl:Class rdf:about="http://dbpedia.org/ontology/Theatre"/>
+  <owl:Class rdf:about="http://dbpedia.org/ontology/Town"/>
+  <owl:Class rdf:about="http://dbpedia.org/ontology/Valley"/>
+  <owl:Class rdf:about="http://dbpedia.org/ontology/Village"/>
+  <owl:Class rdf:about="dbpedia-owll:Church"/>
+
+ </rdf:RDF>
