@@ -16,17 +16,22 @@
 
 package cc.openthings.sync;
 
+import com.hp.hpl.jena.ontology.OntClass;
+import com.hp.hpl.jena.ontology.OntModel;
+import com.hp.hpl.jena.ontology.OntModelSpec;
 import com.hp.hpl.jena.query.*;
-import com.hp.hpl.jena.rdf.model.InfModel;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.hp.hpl.jena.rdf.model.*;
+import org.djodjo.json.JsonObject;
 
 import java.io.File;
+import java.util.Iterator;
 
 public class OntAnalyser {
 
     final static String gnOnto = "geonames-ontology_v3.1.rdf";
     final static String gnMappings = "mappings_geonames3.01-all.rdf";
+
+    final static String lgdOnto = "lgd_2014-09-09-ontology.sorted.nt";
 
 
     String queryString= "select * where { ?x <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> }";
@@ -35,6 +40,8 @@ public class OntAnalyser {
             "FILTER regex(str(?x), \"linkedgeodata\") " +
             "}";
 
+
+
     public static void main(String[] args) {
         OntAnalyser ontAnalyser = new OntAnalyser();
         ontAnalyser.analyseGN();
@@ -42,7 +49,9 @@ public class OntAnalyser {
 
     private void analyseGN() {
         //analyseGNtypes();
-        analyseGNmappings();
+        //analyseGNmappings();
+
+        analyseLGDtypes();
     }
 
     private void analyseGNmappings() {
@@ -88,6 +97,46 @@ public class OntAnalyser {
 
 
 
+    private void analyseLGDtypes() {
+        int types = 0;
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource(lgdOnto).getFile());
+        OntModel model =  getOntModel(file);
+
+
+        collectClassInfo( model);
+       //collectObjectInfo(model);
+        System.exit(0);
+
+        Query query= QueryFactory.create(queryString);
+        QueryExecution qe= QueryExecutionFactory.create(query, model);
+        ResultSet results= qe.execSelect();
+
+        while (results.hasNext()) {
+            QuerySolution row= results.next();
+            //  String value= row.getLiteral("name").toString();
+            String value= row.toString();
+            types++;
+            System.out.println(value);
+        }
+        System.out.println("Types: " + types);
+    }
+
+
+
+    public static void collectObjectInfo( Model model) {
+        System.out.println("=======  getting subjects  =======");
+        ResIterator itr = model.listSubjects();
+        JsonObject currObject = null;
+        Resource resource;
+        int counter = 0;
+        while ( itr.hasNext()) {
+            System.out.println("======= " + counter + " =======");
+            resource = itr.next();
+            System.out.println(resource.toString());
+            counter++;
+        }
+    }
 
     public Model getModel(File modelFile) {
         Model model= ModelFactory.createDefaultModel();
@@ -97,6 +146,67 @@ public class OntAnalyser {
 
         return rdfs;
     }
+
+    public OntModel getOntModel(File modelFile) {
+
+        OntModel ontModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
+
+        ontModel.read( modelFile.getAbsolutePath());
+        Model baseModel = ontModel.getBaseModel();
+
+       // System.out.println("baseModel Graph=" + baseModel.getGraph().toString());
+
+        System.out.println( "======= Classes =======");
+
+        return ontModel;
+
+    }
+
+    public void collectClassInfo( OntModel ontModel) {
+        OntClass ontClass;
+        int counter = 0;
+        JsonObject typesTree =  new JsonObject();
+        Iterator<OntClass> itrClass = ontModel.listClasses();
+        while ( itrClass.hasNext()) {
+            ontClass = itrClass.next();
+            counter++;
+            System.out.println( "------- NO." + counter + " -------");
+// Parse the class
+            System.out.println( "----------"+ontClass.toString()+"-----------");
+
+           typesTree.merge(parseClass(ontClass, new JsonObject()));
+
+        }
+        System.out.println( "======= " + counter + " =======");
+        System.out.println(typesTree.toString());
+    }
+
+    public JsonObject parseClass( OntClass ontClass, JsonObject subJson) {
+        JsonObject res = new JsonObject();
+        String name =  ontClass.toString();
+                //.asComplementClass().getRDFType().getLocalName();
+        //System.out.println("\t>>>>\t" + name);
+
+        Resource superClass = null;
+        NodeIterator superClasses = ontClass.listPropertyValues(ontClass.getProfile().SUB_CLASS_OF());
+
+       if(!superClasses.hasNext()) {
+           return new JsonObject().put(ontClass.toString(), subJson);
+       }
+
+        while(superClasses.hasNext()) {
+            //superClass = superClasses.next().asResource();
+           OntClass sClass = superClasses.next().as(OntClass.class);
+
+            //if(superClass.getNameSpace().equals("http://schema.org/")) break;
+            System.out.println("\t\t\t -- " + sClass);
+            res.merge(parseClass((OntClass) sClass, new JsonObject().put(ontClass.toString(), subJson)));
+        }
+
+        return res;
+
+    }
+
 
 }
 
