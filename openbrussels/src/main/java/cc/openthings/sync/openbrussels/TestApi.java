@@ -41,6 +41,9 @@ public final class TestApi {
 
             System.out.println(respDataSets.length());
 
+            for(JsonElement je:respDataSets) {
+                System.out.println("- " + ((DataSet) new DataSet().wrap(je)).getId().replace("-", " "));
+            }
             System.exit(0);
 //            httpResponse = getRecords("pavillons-seniors");
             // httpResponse = getRecords("pavillons-seniors", "public-hospitals");
