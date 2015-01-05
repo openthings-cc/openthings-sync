@@ -16,6 +16,10 @@
 
 package cc.openthings.sync.openbrussels;
 
+import org.djodjo.json.JsonArray;
+
+import java.util.HashMap;
+
 //info from http://opendata.brussels.be/api/doc/
 public class Config {
 
@@ -26,5 +30,24 @@ public class Config {
 
     public static final String recordSearch = "/api/records/1.0/search/";
 
+    private static HashMap<String, JsonArray> mapBruOpenDataOpenThings =  new HashMap<>();
+    static {
+        mapBruOpenDataOpenThings.put("public-hospitals", new JsonArray()
+                        .put("Amenity")
+                        .put("HealthCentre")
+                        .put("BuildingHospital")
+                        .put("Hospital")
+        );
+        mapBruOpenDataOpenThings.put("tourist-offices", new JsonArray()
+                        .put("TourismThing")
+                        .put("TourismInformation")
+                        .put("Tourist")
+        );
+        mapBruOpenDataOpenThings.put("dog-toilets", new JsonArray()
+                //TODO
+                //  .put("")
+
+        );
+    }
 
 }

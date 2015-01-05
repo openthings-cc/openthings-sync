@@ -58,12 +58,12 @@ public class DataSet extends JsonObjectWrapper {
         return getJson().getJsonObject("metas").getString("language");
     }
 
-    public String getTheme() {
-        return getJson().getJsonObject("metas").getString("theme");
+    public JsonElement getTheme() {
+        return getJson().getJsonObject("metas").opt("theme");
     }
 
-    public String getKeyword() {
-        return getJson().getJsonObject("metas").getString("keyword");
+    public JsonElement getKeyword() {
+        return getJson().getJsonObject("metas").opt("keyword");
     }
 
 

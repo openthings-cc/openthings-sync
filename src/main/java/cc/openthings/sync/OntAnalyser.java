@@ -25,6 +25,8 @@ import org.djodjo.json.JsonElement;
 import org.djodjo.json.JsonObject;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 
 public class OntAnalyser {
@@ -38,7 +40,7 @@ public class OntAnalyser {
     String queryString= "select * where { ?x <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> }";
     String queryGNtypes= "select * where { ?x <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.geonames.org/ontology#Code> }";
     String queryGN2LGDmapping= "select * where { ?x <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> . " +
-            "FILTER regex(str(?x), \"linkedgeodata\") " +
+            // "FILTER regex(str(?x), \"linkedgeodata\") " +
             "}";
 
 
@@ -49,17 +51,109 @@ public class OntAnalyser {
     }
 
     private void analyseGN() {
-        //analyseGNtypes();
+        // analyseGNtypes();
         analyseGNmappings();
 
-        // analyseLGDtypes();
+        //  analyseLGDtypes();
+    }
+
+    private String getGeoType(OntClass ontClass) {
+        if(ontClass.isRestriction()) {
+            return ontClass.asRestriction().asHasValueRestriction().getHasValue().toString();
+        } else {
+            return ontClass.toString();
+        }
+    }
+
+    public void collectEquivClassInfo( OntModel ontModel) {
+
+        HashMap<String, HashSet<String>> typeMappings = new HashMap<>();
+        OntClass ontClass;
+        int counter = 0;
+         Iterator<OntClass> itrClass = ontModel.listClasses();
+        while ( itrClass.hasNext()) {
+
+            ontClass = itrClass.next();
+            counter++;
+            System.out.println( "------- NO." + counter + " -------");
+            System.out.println( "----------"+ontClass.toString()+"-----------");
+
+           String mappingKey = getGeoType(ontClass);
+            HashSet<String> mappingValue = typeMappings.get(mappingKey);
+            if(mappingValue==null) {
+                mappingValue =  new HashSet<>();
+                typeMappings.put(mappingKey, mappingValue);
+            }
+
+            Iterator<OntClass> itr2Class = ontClass.listEquivalentClasses();
+            OntClass equivClass;
+            HashSet<String> visitedEquivs = new HashSet<>();
+            //addself
+            visitedEquivs.add(mappingKey);
+            if(itr2Class.hasNext()) {
+                while ( itr2Class.hasNext()) {
+
+                    equivClass = itr2Class.next();
+                    System.out.println("==========" + equivClass.toString() + "==========");
+                   String equivType;
+                    if(equivClass.isRestriction()) {
+                        System.out.println("********" + equivClass.asRestriction().asHasValueRestriction().getHasValue().toString() + "********");
+                        equivType = equivClass.asRestriction().asHasValueRestriction().getHasValue().toString();
+
+                    } else {
+                        equivType = equivClass.toString();
+                    }
+                    mappingValue.add(equivType);
+                    putEquivClasses(typeMappings, mappingValue, equivType, visitedEquivs);
+                    //put reverse link
+
+                    HashSet<String> mappingEquivValue = typeMappings.get(equivType);
+                    if(mappingEquivValue==null) {
+                        mappingEquivValue =  new HashSet<>();
+                        typeMappings.put(equivType, mappingEquivValue);
+                    }
+
+                    mappingEquivValue.add(mappingKey);
+                    for(String equivMapping:mappingValue) {
+                        if(!equivMapping.equals(equivType)) {
+                            mappingEquivValue.add(equivMapping);
+                        }
+                    }
+
+                }
+                mappingValue.remove(mappingKey);
+            } else {
+                //  System.out.println("---------- ?!?!?! NO EQUIV CLASS ?!?!?! -----------");
+
+            }
+
+        }
+        System.out.println( "======= " + counter + " =======");
+        System.out.println( "======= \n" + new JsonObject(typeMappings).toString() + "\n =======");
+    }
+
+    private void putEquivClasses(HashMap<String, HashSet<String>> typeMappings, HashSet<String> srcEquivTypesArray, String typeKey, HashSet<String> visitedEquivs) {
+        if(visitedEquivs.contains(typeKey)) return;
+        visitedEquivs.add(typeKey);
+        HashSet<String> typeSet = typeMappings.get(typeKey);
+        if(typeSet!=null && typeSet.size()>0) {
+            srcEquivTypesArray.addAll(typeSet);
+            for (String equivType : typeSet) {
+                putEquivClasses(typeMappings, srcEquivTypesArray, equivType, visitedEquivs);
+            }
+        }
     }
 
     private void analyseGNmappings() {
         int mappings = 0;
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource(gnMappings).getFile());
+        OntModel model = getOntModel(file);
 
+        collectEquivClassInfo(model);
+
+        /*
+         File file = new File(classLoader.getResource(gnMappings).getFile());
         Model model =  getModel(file);
 
         Query query= QueryFactory.create(queryGN2LGDmapping);
@@ -74,38 +168,7 @@ public class OntAnalyser {
             System.out.println(value);
         }
         System.out.println("Mappings: " + mappings);
-
-        //////////
-        OntModel ontModel =  getOntModel(file);
-        OntClass ontClass;
-        int counter = 0;
-        JsonObject typesTree =  new JsonObject();
-        Iterator<OntClass> itrClass = ontModel.listClasses();
-        while ( itrClass.hasNext()) {
-            ontClass = itrClass.next();
-            counter++;
-            System.out.println("------- NO." + counter + " -------");
-// Parse the class
-            System.out.println("----------" + ontClass.toString() + "-----------");
-
-            Iterator<OntClass> itr2Class = ontClass.listEquivalentClasses();
-            OntClass equivClass;
-            if(itr2Class.hasNext()) {
-                while ( itr2Class.hasNext()) {
-                    equivClass = itr2Class.next();
-                    System.out.println("==========" + equivClass.toString() + "==========");
-                }
-            } else {
-                System.out.println("---------- ?!?!?! NO EQUIV CLASS ?!?!?! -----------");
-
-            }
-
-        }
-        System.out.println( "======= " + counter + " =======");
-        System.out.println(typesTree.toString());
-        System.out.println( "======= " + countElements(typesTree) + " =======");
-
-
+         */
     }
 
 
@@ -118,8 +181,8 @@ public class OntAnalyser {
         Model model =  getModel(file);
 
         Query query= QueryFactory.create(queryGNtypes);
-        QueryExecution qe= QueryExecutionFactory.create(query, model);
-        ResultSet results= qe.execSelect();
+        QueryExecution qe = QueryExecutionFactory.create(query, model);
+        ResultSet results = qe.execSelect();
 
         while (results.hasNext()) {
             QuerySolution row= results.next();
@@ -130,7 +193,6 @@ public class OntAnalyser {
         }
         System.out.println("Types: " + types);
     }
-
 
 
     private void analyseLGDtypes() {
@@ -244,12 +306,16 @@ public class OntAnalyser {
         }
 
         while(superClasses.hasNext()) {
-            //superClass = superClasses.next().asResource();
-            OntClass sClass = superClasses.next().as(OntClass.class);
+            try {
+                //superClass = superClasses.next().asResource();
+                OntClass sClass = superClasses.next().as(OntClass.class);
 
-            //if(superClass.getNameSpace().equals("http://schema.org/")) break;
-            System.out.println("\t\t\t -- " + sClass);
-            res.merge(parseClass((OntClass) sClass, new JsonObject().put(ontClass.toString(), subJson)));
+                //if(superClass.getNameSpace().equals("http://schema.org/")) break;
+                System.out.println("\t\t\t -- " + sClass);
+                res.merge(parseClass((OntClass) sClass, new JsonObject().put(ontClass.toString(), subJson)));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
 
         return res;

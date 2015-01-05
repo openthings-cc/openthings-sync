@@ -28,6 +28,7 @@ import java.util.HashMap;
 public final class TestApi {
 
 
+
     public static void main(String[] args) {
         HttpResponse httpResponse;
         int expMax = 1000;
@@ -40,9 +41,17 @@ public final class TestApi {
             JsonArray respDataSets = JsonArray.readFrom(httpResponse.body).asJsonObject().getJsonArray("datasets");
 
             System.out.println(respDataSets.length());
-
+            DataSet ds = null;
             for(JsonElement je:respDataSets) {
-                System.out.println("- " + ((DataSet) new DataSet().wrap(je)).getId().replace("-", " "));
+                ds =  new DataSet().wrap(je);
+                System.out.println("- "
+                                + ds.getId()
+                                //.replace("-", " ")
+                                + " - " + ds.getTitle()
+                                + " - " + ds.getKeyword()
+                                + " - " + ds.getTheme()
+                                + " - " + ds.getFeatures()
+                );
             }
             System.exit(0);
 //            httpResponse = getRecords("pavillons-seniors");
@@ -83,7 +92,9 @@ public final class TestApi {
     }
 
     private static HttpResponse getGeoDataSets() throws IOException {
-        return new HttpSender(Config.baseUrl + Config.dataSetSearch + "?rows=500&refine.language=en&refine.features=geo")
+        return new HttpSender(Config.baseUrl + Config.dataSetSearch + "?rows=500" +
+                "&refine.language=en" +
+                "&refine.features=geo")
                 .setMethod(HttpSender.GET)
                 .doCall();
     }
