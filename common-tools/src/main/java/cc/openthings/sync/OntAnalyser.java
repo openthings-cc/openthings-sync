@@ -21,13 +21,14 @@ import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.ontology.OntModelSpec;
 import com.hp.hpl.jena.query.*;
 import com.hp.hpl.jena.rdf.model.*;
+import org.apache.http.client.utils.URIBuilder;
 import org.djodjo.json.JsonElement;
 import org.djodjo.json.JsonObject;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.*;
 
 public class OntAnalyser {
 
@@ -71,111 +72,23 @@ public class OntAnalyser {
 
     private void analyseGN() {
      //    analyseGNtypes();
-       analyseGNmappings();
+       analyseMappings();
 
         //  analyseLGDtypes();
     }
 
-    private String getGeoType(OntClass ontClass) {
-        if(ontClass.isRestriction()) {
-            return ontClass.asRestriction().asHasValueRestriction().getHasValue().toString();
-        } else {
-            return ontClass.toString();
-        }
-    }
-
-    public void collectEquivClassInfo( OntModel ontModel) {
-        System.out.println( "------- model:" + ontModel.toString() + " -------");
-
-        HashMap<String, HashSet<String>> typeMappings = new HashMap<>();
-        OntClass ontClass;
-        int counter = 0;
-         Iterator<OntClass> itrClass = ontModel.listClasses();
-        while ( itrClass.hasNext()) {
-
-            ontClass = itrClass.next();
-            counter++;
-            System.out.println( "------- NO." + counter + " -------");
-            System.out.println( "----------"+ontClass.toString()+"-----------");
-
-           String mappingKey = getGeoType(ontClass);
-            HashSet<String> mappingValue = typeMappings.get(mappingKey);
-            if(mappingValue==null) {
-                mappingValue =  new HashSet<>();
-                typeMappings.put(mappingKey, mappingValue);
-            }
-
-            Iterator<OntClass> itr2Class = ontClass.listEquivalentClasses();
-            OntClass equivClass;
-            HashSet<String> visitedEquivs = new HashSet<>();
-            //addself
-            visitedEquivs.add(mappingKey);
-            if(itr2Class.hasNext()) {
-                while ( itr2Class.hasNext()) {
-
-                    equivClass = itr2Class.next();
-                    System.out.println("==========" + equivClass.toString() + "==========");
-                   String equivType;
-                    if(equivClass.isRestriction()) {
-                        if( equivClass.asRestriction().isHasValueRestriction()) {
-                            System.out.println("********" + equivClass.asRestriction().asHasValueRestriction().getHasValue().toString() + "********");
-                            equivType = equivClass.asRestriction().asHasValueRestriction().getHasValue().toString();
-                        } else {
-                            //TODO handle other restrctions (for now we care only for geonames specific using hasvalue)
-                            continue;
-                        }
-                    } else {
-                        equivType = equivClass.toString();
-                    }
-                    mappingValue.add(equivType);
-                    putEquivClasses(typeMappings, mappingValue, equivType, visitedEquivs);
-                    //put reverse link
-
-                    HashSet<String> mappingEquivValue = typeMappings.get(equivType);
-                    if(mappingEquivValue==null) {
-                        mappingEquivValue =  new HashSet<>();
-                        typeMappings.put(equivType, mappingEquivValue);
-                    }
-
-                    mappingEquivValue.add(mappingKey);
-                    for(String equivMapping:mappingValue) {
-                        if(!equivMapping.equals(equivType)) {
-                            mappingEquivValue.add(equivMapping);
-                        }
-                    }
-
-                }
-                mappingValue.remove(mappingKey);
-            } else {
-                //  System.out.println("---------- ?!?!?! NO EQUIV CLASS ?!?!?! -----------");
-
-            }
-
-        }
-        System.out.println( "======= " + counter + " =======");
-        System.out.println( "======= \n" + new JsonObject(typeMappings).toString() + "\n =======");
-    }
-
-    private void putEquivClasses(HashMap<String, HashSet<String>> typeMappings, HashSet<String> srcEquivTypesArray, String typeKey, HashSet<String> visitedEquivs) {
-        if(visitedEquivs.contains(typeKey)) return;
-        visitedEquivs.add(typeKey);
-        HashSet<String> typeSet = typeMappings.get(typeKey);
-        if(typeSet!=null && typeSet.size()>0) {
-            srcEquivTypesArray.addAll(typeSet);
-            for (String equivType : typeSet) {
-                putEquivClasses(typeMappings, srcEquivTypesArray, equivType, visitedEquivs);
-            }
-        }
-    }
-
-    private void analyseGNmappings() {
+    private void analyseMappings() {
         int mappings = 0;
+        Map<String, HashSet<String>> typeMappings = Collections.synchronizedMap(new HashMap<String, HashSet<String>>());
         ClassLoader classLoader = getClass().getClassLoader();
         OntModel gnMappingsModel = getOntModel(new File(classLoader.getResource(gnMappings).getFile()));
         OntModel mappingGeOntoGeonamesModel = getOntModel(new File(classLoader.getResource(mappingGeOntoGeonames).getFile()));
-        OntModel mappingGeOntoLgdoModel = getOntModel(new File(classLoader.getResource(mappingGeOntoLgdo).getFile()));
+        Model mappingGeOntoLgdoModel = getModel(new File(classLoader.getResource(mappingGeOntoLgdo).getFile()));
 
-        collectEquivClassInfo(gnMappingsModel);
+        collectEquivClassInfo(gnMappingsModel, typeMappings);
+
+        collectSameAsStatements(mappingGeOntoGeonamesModel, typeMappings);
+        collectSameAsStatements(mappingGeOntoLgdoModel, typeMappings);
 //        OntModel lovModel = getOntModel(new File(classLoader.getResource(lovOnto).getFile()));
 //        collectEquivClassInfo(lovModel);
 
@@ -230,7 +143,285 @@ public class OntAnalyser {
         }
         System.out.println("Mappings: " + mappings);
          */
+        System.out.println( "======= \n" + new JsonObject(typeMappings).toString() + "\n =======");
+        try {
+            Writer fw = new FileWriter("all-mappings.json");
+            new JsonObject(typeMappings).writeTo(fw);
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(new JsonObject(typeMappings).get("http://www.geonames.org/ontology#L.PRK").toString());
     }
+
+
+    private String getGeoType(OntClass ontClass) {
+        if(ontClass.isRestriction()) {
+            return ontClass.asRestriction().asHasValueRestriction().getHasValue().toString();
+        } else {
+            return ontClass.toString();
+        }
+    }
+
+    //Collect SameAs-es from model
+    public void collectSameAsStatements( Model ontModel, Map<String, HashSet<String>> typeMappings) {
+        System.out.println( "-------get sameAs from model:" + ontModel.toString() + " -------");
+
+
+        Statement statement;
+        int counter = 0;
+        StmtIterator itrStmt = ontModel.listStatements();
+        String equivType;
+
+        while ( itrStmt.hasNext()) {
+
+            statement = itrStmt.next();
+           if(statement.getPredicate().toString().equals("http://www.w3.org/2002/07/owl#sameAs")) {
+               counter++;
+               System.out.println("------- NO." + counter + " -------");
+               System.out.println("----------" + statement.toString() + "-----------");
+
+               String mappingKey = statement.getSubject().getURI();
+               HashSet<String> visitedEquivs = new HashSet<>();
+               //addself
+               visitedEquivs.add(mappingKey);
+
+               HashSet<String> mappingValues = typeMappings.get(mappingKey);
+               if (mappingValues == null) {
+                   mappingValues = new HashSet<>();
+                   typeMappings.put(mappingKey, mappingValues);
+               }
+               equivType = statement.getObject().asResource().getURI();
+               System.out.println("==========" + equivType + "==========");
+
+               //
+
+               addMapping(mappingKey, equivType, mappingValues);
+               //putEquivClasses(typeMappings, mappingValues, equivType, visitedEquivs);
+
+               //put reverse link
+               //get set for the value
+               HashSet<String> visitedEquivs2 = new HashSet<>();
+//addself
+               visitedEquivs2.add(equivType);
+
+               HashSet<String> mappingEquivValues = typeMappings.get(equivType);
+               if (mappingEquivValues == null) {
+                   mappingEquivValues = new HashSet<>();
+                   typeMappings.put(equivType, mappingEquivValues);
+               }
+
+               addMapping(equivType, mappingKey, mappingEquivValues);
+
+               for (String equivMapping : mappingValues) {
+                   if (!equivMapping.equals(equivType)) {
+                       addMapping(equivType, equivMapping, mappingEquivValues);
+                       addMapping(equivMapping, equivType, typeMappings.get(equivMapping));
+                       // putEquivClasses(typeMappings, mappingEquivValues, equivMapping, visitedEquivs2);
+
+                   }
+               }
+           }
+
+        }
+        System.out.println( "======= " + counter + " =======");
+        System.out.println( "======= \n" + new JsonObject(typeMappings).toString() + "\n =======");
+
+    }
+
+    private void addMapping(String key, String newMapping, Set<String> mappings) {
+        final URI keyUri = URI.create(key);
+       final URI newMappingUri = URI.create(newMapping);
+        try {
+            final String prefixKey = getPrefix(keyUri);
+            final String prefixValue = getPrefix(newMappingUri);
+            if (!prefixKey.equals(prefixValue)) {
+                mappings.add(newMapping);
+            }
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private String getPrefix(URI resUri) throws URISyntaxException {
+        String res;
+        if(resUri.getFragment()!=null && !resUri.getFragment().isEmpty()) {
+            res = new URIBuilder(resUri).setFragment("").build().toString();
+        } else {
+            res = new URIBuilder(resUri).setPath(resUri.getPath().substring(0, resUri.getPath().lastIndexOf("/"))).build().toString();
+        }
+        //System.out.println("prefix for uri: " + resUri  + " :: " + res);
+        return res;
+    }
+
+
+
+    //collect sameAs-es from ontology model
+    public void collectSameAsClasses( OntModel ontModel) {
+        System.out.println( "-------get sameAs from model:" + ontModel.toString() + " -------");
+
+        HashMap<String, HashSet<String>> typeMappings = new HashMap<>();
+        OntClass ontClass;
+        int counter = 0;
+        Iterator<OntClass> itrClass = ontModel.listClasses();
+        while ( itrClass.hasNext()) {
+
+            ontClass = itrClass.next();
+            counter++;
+            System.out.println("------- NO." + counter + " -------");
+            System.out.println("----------" + ontClass.toString() + "-----------");
+
+            String mappingKey = getGeoType(ontClass);
+            HashSet<String> mappingValue = typeMappings.get(mappingKey);
+            if (mappingValue == null) {
+                mappingValue = new HashSet<>();
+                typeMappings.put(mappingKey, mappingValue);
+            }
+///
+            NodeIterator sameClasses = ontClass.listPropertyValues(ontClass.getProfile().SAME_AS());
+            String equivType;
+            HashSet<String> visitedEquivs = new HashSet<>();
+            //addself
+            visitedEquivs.add(mappingKey);
+            if(sameClasses.hasNext()) {
+                while (sameClasses.hasNext()) {
+                    equivType = sameClasses.next().asResource().getURI();
+                    System.out.println("==========" + equivType + "==========");
+
+                    //
+                    mappingValue.add(equivType);
+                    putEquivClasses(typeMappings, mappingValue, equivType, visitedEquivs);
+                    //put reverse link
+
+                    HashSet<String> mappingEquivValue = typeMappings.get(equivType);
+                    if (mappingEquivValue == null) {
+                        mappingEquivValue = new HashSet<>();
+                        typeMappings.put(equivType, mappingEquivValue);
+                    }
+
+                    addMapping(equivType, mappingKey, mappingEquivValue);
+
+                    for (String equivMapping : mappingValue) {
+                        if (!equivMapping.equals(equivType)) {
+                            addMapping(equivType, equivMapping, mappingEquivValue);
+                            addMapping(equivMapping, equivType, typeMappings.get(equivMapping));
+                            // putEquivClasses(typeMappings, mappingEquivValues, equivMapping, visitedEquivs2);
+
+                        }
+                    }
+
+
+                    //
+                }
+                //remove self if there
+                mappingValue.remove(mappingKey);
+            }else {
+                //  System.out.println("---------- ?!?!?! NO SameAs CLASS ?!?!?! -----------");
+
+            }
+        }
+        System.out.println( "======= " + counter + " =======");
+        System.out.println( "======= \n" + new JsonObject(typeMappings).toString() + "\n =======");
+
+    }
+
+    public void collectEquivClassInfo( OntModel ontModel, Map<String, HashSet<String>> typeMappings) {
+        System.out.println( "------- model:" + ontModel.toString() + " -------");
+
+
+        OntClass ontClass;
+        int counter = 0;
+         Iterator<OntClass> itrClass = ontModel.listClasses();
+        while ( itrClass.hasNext()) {
+
+            ontClass = itrClass.next();
+            counter++;
+            System.out.println( "------- NO." + counter + " -------");
+            System.out.println( "----------"+ontClass.toString()+"-----------");
+
+           String mappingKey = getGeoType(ontClass);
+            HashSet<String> mappingValue = typeMappings.get(mappingKey);
+            if(mappingValue==null) {
+                mappingValue =  new HashSet<>();
+                typeMappings.put(mappingKey, mappingValue);
+            }
+
+            Iterator<OntClass> itr2Class = ontClass.listEquivalentClasses();
+            OntClass equivClass;
+            HashSet<String> visitedEquivs = new HashSet<>();
+            //addself
+            visitedEquivs.add(mappingKey);
+            if(itr2Class.hasNext()) {
+                while ( itr2Class.hasNext()) {
+
+                    equivClass = itr2Class.next();
+                    System.out.println("==========" + equivClass.toString() + "==========");
+                   String equivType;
+                    if(equivClass.isRestriction()) {
+                        if( equivClass.asRestriction().isHasValueRestriction()) {
+                            System.out.println("********" + equivClass.asRestriction().asHasValueRestriction().getHasValue().toString() + "********");
+                            equivType = equivClass.asRestriction().asHasValueRestriction().getHasValue().toString();
+                        } else {
+                            //TODO handle other restrctions (for now we care only for geonames specific using hasvalue)
+                            continue;
+                        }
+                    } else {
+                        equivType = equivClass.toString();
+                    }
+                 //   mappingValue.add(equivType);
+                    addMapping(mappingKey, equivType, mappingValue);
+                    putEquivClasses(typeMappings, mappingValue, equivType, visitedEquivs);
+                    //put reverse link
+
+                    HashSet<String> mappingEquivValue = typeMappings.get(equivType);
+                    if(mappingEquivValue==null) {
+                        mappingEquivValue =  new HashSet<>();
+                        typeMappings.put(equivType, mappingEquivValue);
+                    }
+
+                    mappingEquivValue.add(mappingKey);
+                    for(String equivMapping:mappingValue) {
+                        if(!equivMapping.equals(equivType)) {
+                            mappingEquivValue.add(equivMapping);
+                        }
+                    }
+
+                }
+                mappingValue.remove(mappingKey);
+            } else {
+                //  System.out.println("---------- ?!?!?! NO EQUIV CLASS ?!?!?! -----------");
+
+            }
+
+        }
+        System.out.println( "======= " + counter + " =======");
+        System.out.println( "======= \n" + new JsonObject(typeMappings).toString() + "\n =======");
+    }
+
+
+
+    private void putEquivClasses(Map<String, HashSet<String>> typeMappings, HashSet<String> srcEquivTypesArray, String typeKey, HashSet<String> visitedEquivs) {
+        if(visitedEquivs.contains(typeKey)) return;
+        visitedEquivs.add(typeKey);
+        HashSet<String> typeSet = typeMappings.get(typeKey);
+        if(typeSet!=null && typeSet.size()>0) {
+            //srcEquivTypesArray.addAll(typeSet);
+            for(String typeS:typeSet) {
+                addMapping(typeKey, typeS, srcEquivTypesArray);
+              //  addMapping(typeS, typeKey, typeMappings.get(typeS));
+            }
+            //dont deeplink too much
+            for (String equivType : typeSet) {
+
+                putEquivClasses(typeMappings, srcEquivTypesArray, equivType, visitedEquivs);
+                //putEquivClasses(typeMappings, typeMappings.get(equivType), typeKey, visitedEquivs);
+            }
+        }
+        ///then put reverse
+
+    }
+
 
 
 
