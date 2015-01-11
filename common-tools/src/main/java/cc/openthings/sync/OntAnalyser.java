@@ -74,7 +74,7 @@ public class OntAnalyser {
      //    analyseGNtypes();
        analyseMappings();
 
-        //  analyseLGDtypes();
+      //    analyseLGDtypes();
     }
 
     private void analyseMappings() {
@@ -83,9 +83,11 @@ public class OntAnalyser {
         ClassLoader classLoader = getClass().getClassLoader();
         OntModel gnMappingsModel = getOntModel(new File(classLoader.getResource(gnMappings).getFile()));
         OntModel mappingGeOntoGeonamesModel = getOntModel(new File(classLoader.getResource(mappingGeOntoGeonames).getFile()));
+        OntModel mappingGeOntoDbpediaModel = getOntModel(new File(classLoader.getResource(mappingGeOntoDbpedia).getFile()));
         Model mappingGeOntoLgdoModel = getModel(new File(classLoader.getResource(mappingGeOntoLgdo).getFile()));
 
         collectEquivClassInfo(gnMappingsModel, typeMappings);
+        collectEquivClassInfo2(mappingGeOntoDbpediaModel, typeMappings);
 
         collectSameAsStatements(mappingGeOntoGeonamesModel, typeMappings);
         collectSameAsStatements(mappingGeOntoLgdoModel, typeMappings);
@@ -107,8 +109,7 @@ public class OntAnalyser {
 
         // collectEquivClassInfo(model);
 
-//        file = new File(classLoader.getResource(mappingGeOntoDbpedia).getFile());
-//        model = getOntModel(file);
+
 //        model.add(dbpediaModel);
 //        model.add(schemaorgModel);
 //        model.add(biboModel);
@@ -151,7 +152,13 @@ public class OntAnalyser {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(new JsonObject(typeMappings).get("http://www.geonames.org/ontology#L.PRK").toString());
+        JsonObject geonamesMappings =  new JsonObject();
+        for(Map.Entry<String, HashSet<String>> entry:typeMappings.entrySet()) {
+            if(entry.getKey().startsWith("http://www.geonames.org/ontology")) {
+                geonamesMappings.put(entry.getKey(), entry.getValue());
+            }
+        }
+        System.out.println(geonamesMappings.toString());
     }
 
 
@@ -332,7 +339,7 @@ public class OntAnalyser {
 
         OntClass ontClass;
         int counter = 0;
-         Iterator<OntClass> itrClass = ontModel.listClasses();
+        Iterator<OntClass> itrClass = ontModel.listClasses();
         while ( itrClass.hasNext()) {
 
             ontClass = itrClass.next();
@@ -340,7 +347,7 @@ public class OntAnalyser {
             System.out.println( "------- NO." + counter + " -------");
             System.out.println( "----------"+ontClass.toString()+"-----------");
 
-           String mappingKey = getGeoType(ontClass);
+            String mappingKey = getGeoType(ontClass);
             HashSet<String> mappingValue = typeMappings.get(mappingKey);
             if(mappingValue==null) {
                 mappingValue =  new HashSet<>();
@@ -357,7 +364,7 @@ public class OntAnalyser {
 
                     equivClass = itr2Class.next();
                     System.out.println("==========" + equivClass.toString() + "==========");
-                   String equivType;
+                    String equivType;
                     if(equivClass.isRestriction()) {
                         if( equivClass.asRestriction().isHasValueRestriction()) {
                             System.out.println("********" + equivClass.asRestriction().asHasValueRestriction().getHasValue().toString() + "********");
@@ -369,7 +376,7 @@ public class OntAnalyser {
                     } else {
                         equivType = equivClass.toString();
                     }
-                 //   mappingValue.add(equivType);
+                    //   mappingValue.add(equivType);
                     addMapping(mappingKey, equivType, mappingValue);
                     putEquivClasses(typeMappings, mappingValue, equivType, visitedEquivs);
                     //put reverse link
@@ -380,15 +387,87 @@ public class OntAnalyser {
                         typeMappings.put(equivType, mappingEquivValue);
                     }
 
-                    mappingEquivValue.add(mappingKey);
-                    for(String equivMapping:mappingValue) {
-                        if(!equivMapping.equals(equivType)) {
-                            mappingEquivValue.add(equivMapping);
+                    addMapping(equivType, mappingKey, mappingEquivValue);
+
+                    for (String equivMapping : mappingValue) {
+                        if (!equivMapping.equals(equivType)) {
+                            addMapping(equivType, equivMapping, mappingEquivValue);
+                            addMapping(equivMapping, equivType, typeMappings.get(equivMapping));
+                            // putEquivClasses(typeMappings, mappingEquivValues, equivMapping, visitedEquivs2);
+
                         }
                     }
 
                 }
-                mappingValue.remove(mappingKey);
+                //mappingValue.remove(mappingKey);
+            } else {
+                //  System.out.println("---------- ?!?!?! NO EQUIV CLASS ?!?!?! -----------");
+
+            }
+
+        }
+        System.out.println( "======= " + counter + " =======");
+        System.out.println( "======= \n" + new JsonObject(typeMappings).toString() + "\n =======");
+    }
+
+    public void collectEquivClassInfo2( OntModel ontModel, Map<String, HashSet<String>> typeMappings) {
+        System.out.println( "------- model:" + ontModel.toString() + " -------");
+
+
+        OntClass ontClass;
+        int counter = 0;
+        Iterator<OntClass> itrClass = ontModel.listClasses();
+        while ( itrClass.hasNext()) {
+
+            ontClass = itrClass.next();
+            counter++;
+            System.out.println( "------- NO." + counter + " -------");
+            System.out.println( "----------"+ontClass.toString()+"-----------");
+
+            String mappingKey = getGeoType(ontClass);
+            HashSet<String> mappingValue = typeMappings.get(mappingKey);
+            if(mappingValue==null) {
+                mappingValue =  new HashSet<>();
+                typeMappings.put(mappingKey, mappingValue);
+            }
+
+            NodeIterator itr2Class = ontClass.listPropertyValues(ontClass.getProfile().EQUIVALENT_CLASS());
+
+            OntClass equivClass;
+            HashSet<String> visitedEquivs = new HashSet<>();
+            //addself
+            visitedEquivs.add(mappingKey);
+            if(itr2Class.hasNext()) {
+                while ( itr2Class.hasNext()) {
+
+                     String equivType=itr2Class.next().asResource().getURI();
+                    System.out.println("==========" + equivType + "==========");
+
+
+                    //   mappingValue.add(equivType);
+                    addMapping(mappingKey, equivType, mappingValue);
+                    putEquivClasses(typeMappings, mappingValue, equivType, visitedEquivs);
+                    //put reverse link
+
+                    HashSet<String> mappingEquivValue = typeMappings.get(equivType);
+                    if(mappingEquivValue==null) {
+                        mappingEquivValue =  new HashSet<>();
+                        typeMappings.put(equivType, mappingEquivValue);
+                    }
+
+                    addMapping(equivType, mappingKey, mappingEquivValue);
+
+                    for (String equivMapping : mappingValue) {
+                        if (!equivMapping.equals(equivType)) {
+                            addMapping(equivType, equivMapping, mappingEquivValue);
+                            addMapping(equivMapping, equivType, typeMappings.get(equivMapping));
+                            // putEquivClasses(typeMappings, mappingEquivValues, equivMapping, visitedEquivs2);
+
+                        }
+                    }
+
+                }
+                //mappingValue.remove(mappingKey);
             } else {
                 //  System.out.println("---------- ?!?!?! NO EQUIV CLASS ?!?!?! -----------");
 
