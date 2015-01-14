@@ -1,0 +1,143 @@
+{
+  "@context": {
+    "label": "http://www.w3.org/2000/01/rdf-schema#label",
+    "subClassOf": {
+      "@id": "http://www.w3.org/2000/01/rdf-schema#subClassOf",
+      "@type": "@id"
+    },
+    "meta": {
+      "@id": "http://openthings.cc/onotology/meta",
+      "@type": "@id"
+    },
+    "range": {
+      "@id": "http://www.w3.org/2000/01/rdf-schema#range",
+      "@type": "@id"
+    },
+    "domain": {
+      "@id": "http://www.w3.org/2000/01/rdf-schema#domain",
+      "@type": "@id"
+    },
+    "subPropertyOf": {
+      "@id": "http://www.w3.org/2000/01/rdf-schema#subPropertyOf",
+      "@type": "@id"
+    },
+    "inScheme": {
+      "@id": "http://www.w3.org/2004/02/skos/core#inScheme",
+      "@type": "@id"
+    },
+
+    "name": "http://xmlns.com/foaf/0.1/name",
+    "title": "http://purl.org/dc/terms/title",
+    "label": "http://www.w3.org/2000/01/rdf-schema#label",
+    "prefLabel": "http://www.w3.org/2004/02/skos/core#prefLabel",
+    "notation": "http://www.w3.org/2004/02/skos/core#notation",
+    "comment": "http://www.w3.org/2000/01/rdf-schema#comment",
+    "definition": "http://www.w3.org/2004/02/skos/core#definition",
+    "historyNote": "http://www.w3.org/2004/02/skos/core#historyNote",
+
+    "deprecated": {
+      "@id": "http://www.w3.org/2002/07/owl#deprecated",
+      "@type": "http://www.w3.org/2001/XMLSchema#boolean"
+    },
+    "onProperty": {
+      "@id": "http://www.w3.org/2002/07/owl#onProperty",
+      "@type": "@id"
+    },
+    "cardinality": {
+      "@id": "http://www.w3.org/2002/07/owl#cardinality",
+      "@type": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger"
+    },
+
+    "maxCardinality": {
+      "@id": "http://www.w3.org/2002/07/owl#maxCardinality",
+      "@type": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger"
+    },
+
+    "hasValue": {
+      "@id": "http://www.w3.org/2002/07/owl#hasValue",
+      "@type": "@id"
+    },
+
+    "propertyChainAxiom": {
+      "@id": "http://www.w3.org/2002/07/owl#propertyChainAxiom",
+      "@type": "@id"
+    },
+    "rest": {
+      "@id": "http://www.w3.org/1999/02/22-rdf-syntax-ns#rest",
+      "@type": "@id"
+    },
+    "first": {
+      "@id": "http://www.w3.org/1999/02/22-rdf-syntax-ns#first",
+      "@type": "@id"
+    },
+    "equivalentClass": {
+      "@id": "http://www.w3.org/2002/07/owl#equivalentClass",
+      "@type": "@id"
+    },
+    "publisher": {
+      "@id": "http://purl.org/dc/terms/publisher",
+      "@type": "@id"
+    },
+    "isDefinedBy": {
+      "@id": "http://www.w3.org/2000/01/rdf-schema#isDefinedBy",
+      "@type": "@id"
+    },
+    "creator": {
+      "@id": "http://purl.org/dc/terms/creator",
+      "@type": "@id"
+    },
+    "license": {
+      "@id": "http://creativecommons.org/ns#license",
+      "@type": "@id"
+    },
+    "versionInfo": "http://www.w3.org/2002/07/owl#versionInfo",
+    "priorVersion": {
+      "@id": "http://www.w3.org/2002/07/owl#priorVersion",
+      "@type": "@id"
+    },
+    "modified": "http://purl.org/dc/terms/modified",
+    "homepage": {
+      "@id": "http://xmlns.com/foaf/0.1/homepage",
+      "@type": "@id"
+    },
+    "relatedDocumentation": {
+      "@id": "http://www.w3.org/ns/adms#relatedDocumentation",
+      "@type": "@id"
+    },
+    "workplaceHomepage": {
+      "@id": "http://xmlns.com/foaf/0.1/workplaceHomepage",
+      "@type": "@id"
+    },
+    "page": {
+      "@id": "http://xmlns.com/foaf/0.1/page",
+      "@type": "@id"
+    },
+    "dtm": {
+      "@id": "http://id.loc.gov/vocabulary/relators/dtm",
+      "@type": "@id"
+    },
+    "seeAlso": {
+      "@id": "http://www.w3.org/2000/01/rdf-schema#seeAlso",
+      "@type": "@id"
+    },
+    "adms": "http://www.w3.org/ns/adms#",
+    "gn": "http://www.geonames.org/ontology#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "mrel": "http://id.loc.gov/vocabulary/relators/",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "vann": "http://purl.org/vocab/vann/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "cc": "http://creativecommons.org/ns#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "issued": "http://purl.org/dc/terms/issued",
+    "contributor": "http://purl.org/dc/terms/contributor",
+    "preferredNamespaceUri": "http://purl.org/vocab/vann/preferredNamespaceUri",
+    "preferredNamespacePrefix": "http://purl.org/vocab/vann/preferredNamespacePrefix",
+    "description": "http://purl.org/dc/terms/description"
+  }
+
+
+}

@@ -18,11 +18,8 @@ package cc.openthings.sync;
 
 import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.ontology.OntModel;
-import com.hp.hpl.jena.ontology.OntModelSpec;
 import com.hp.hpl.jena.query.*;
 import com.hp.hpl.jena.rdf.model.*;
-import org.apache.http.client.utils.URIBuilder;
-import org.djodjo.json.JsonElement;
 import org.djodjo.json.JsonObject;
 
 import java.io.*;
@@ -30,34 +27,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
 
+import static cc.openthings.sync.Common.*;
+
 public class OntAnalyser {
 
-    final static String gnOnto = "geonames-ontology_v3.1.rdf";
-    final static String gnMappings = "mappings_geonames3.01-all.rdf";
-    final static String mappingGeOntoGeonames = "mapping-geOnto-geonames.nt";
-    final static String mappingGeOntoDbpedia = "mapping_geOnto-dbpedia.rdf";
-    final static String mappingGeOntoLgdo = "mapping_geOnto-lgdo.nt";
 
-
-    final static String lovOnto = "lov.rdf";
-
-
-    final static String lgdOnto = "lgd_2014-09-09-ontology.sorted.nt";
-    final static String dbpediaOnto = "dbpedia_2014.owl";
-    final static String schemaorgOnto = "schemaorg.nt";
-    final static String biboOnto = "biboOnto.rdf";
-    final static String skosOnto = "skos.rdf";
-    final static String dulOnto = "dulOnto.owl";
-    final static String cidoccrmOnto = "cidoc-crmOnto.owl";
-    final static String bioOnto = "bioOnto.owl";
-    final static String d0Onto = "d0Onto.owl";
-    final static String dcTermsOnto = "dc-termsOnto.owl";
-    final static String dcElemOnto = "dc-elemOnto.owl";
-    final static String moOnto = "moOnto.rdfs";
-    final static String relationshipOnto = "relationshipOnto.owl";
-
-
-    String queryString= "select * where { ?x <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> }";
     String queryGNtypes= "select * where { ?x <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.geonames.org/ontology#Code> }";
     String queryGN2LGDmapping= "select * where { ?x <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> . " +
             // "FILTER regex(str(?x), \"linkedgeodata\") " +
@@ -71,20 +45,21 @@ public class OntAnalyser {
     }
 
     private void analyseGN() {
-     //    analyseGNtypes();
-       analyseMappings();
+         analyseGNtypes();
+     // analyseAllMappings();
 
-      //    analyseLGDtypes();
+      //   analyseLGDtypes();
     }
 
-    private void analyseMappings() {
+    public JsonObject analyseAllMappings() {
+        JsonObject allMappingJson = null;
         int mappings = 0;
         Map<String, HashSet<String>> typeMappings = Collections.synchronizedMap(new HashMap<String, HashSet<String>>());
         ClassLoader classLoader = getClass().getClassLoader();
-        OntModel gnMappingsModel = getOntModel(new File(classLoader.getResource(gnMappings).getFile()));
-        OntModel mappingGeOntoGeonamesModel = getOntModel(new File(classLoader.getResource(mappingGeOntoGeonames).getFile()));
-        OntModel mappingGeOntoDbpediaModel = getOntModel(new File(classLoader.getResource(mappingGeOntoDbpedia).getFile()));
-        Model mappingGeOntoLgdoModel = getModel(new File(classLoader.getResource(mappingGeOntoLgdo).getFile()));
+        OntModel gnMappingsModel = getOntModel(new File(classLoader.getResource(Common.gnMappings).getFile()));
+        OntModel mappingGeOntoGeonamesModel = getOntModel(new File(classLoader.getResource(Common.mappingGeOntoGeonames).getFile()));
+        OntModel mappingGeOntoDbpediaModel = getOntModel(new File(classLoader.getResource(Common.mappingGeOntoDbpedia).getFile()));
+        Model mappingGeOntoLgdoModel = getModel(new File(classLoader.getResource(Common.mappingGeOntoLgdo).getFile()));
 
         collectEquivClassInfo(gnMappingsModel, typeMappings);
         collectEquivClassInfo2(mappingGeOntoDbpediaModel, typeMappings);
@@ -147,7 +122,8 @@ public class OntAnalyser {
         System.out.println( "======= \n" + new JsonObject(typeMappings).toString() + "\n =======");
         try {
             Writer fw = new FileWriter("all-mappings.json");
-            new JsonObject(typeMappings).writeTo(fw);
+            allMappingJson = new JsonObject(typeMappings);
+            allMappingJson.writeTo(fw);
             fw.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -159,19 +135,14 @@ public class OntAnalyser {
             }
         }
         System.out.println(geonamesMappings.toString());
+        return allMappingJson;
     }
 
 
-    private String getGeoType(OntClass ontClass) {
-        if(ontClass.isRestriction()) {
-            return ontClass.asRestriction().asHasValueRestriction().getHasValue().toString();
-        } else {
-            return ontClass.toString();
-        }
-    }
+
 
     //Collect SameAs-es from model
-    public void collectSameAsStatements( Model ontModel, Map<String, HashSet<String>> typeMappings) {
+    public  void collectSameAsStatements( Model ontModel, Map<String, HashSet<String>> typeMappings) {
         System.out.println( "-------get sameAs from model:" + ontModel.toString() + " -------");
 
 
@@ -251,16 +222,7 @@ public class OntAnalyser {
 
     }
 
-    private String getPrefix(URI resUri) throws URISyntaxException {
-        String res;
-        if(resUri.getFragment()!=null && !resUri.getFragment().isEmpty()) {
-            res = new URIBuilder(resUri).setFragment("").build().toString();
-        } else {
-            res = new URIBuilder(resUri).setPath(resUri.getPath().substring(0, resUri.getPath().lastIndexOf("/"))).build().toString();
-        }
-        //System.out.println("prefix for uri: " + resUri  + " :: " + res);
-        return res;
-    }
+
 
 
 
@@ -508,7 +470,7 @@ public class OntAnalyser {
     private void analyseGNtypes() {
         int types = 0;
         ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource(gnOnto).getFile());
+        File file = new File(classLoader.getResource(Common.gnOnto).getFile());
         Model model =  getModel(file);
         /////////
 
@@ -548,31 +510,6 @@ public class OntAnalyser {
     }
 
 
-    private void analyseLGDtypes() {
-        int types = 0;
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource(lgdOnto).getFile());
-        OntModel model =  getOntModel(file);
-
-
-        collectClassInfo( model);
-        //collectObjectInfo(model);
-        System.exit(0);
-
-        Query query= QueryFactory.create(queryString);
-        QueryExecution qe= QueryExecutionFactory.create(query, model);
-        ResultSet results= qe.execSelect();
-
-        while (results.hasNext()) {
-            QuerySolution row= results.next();
-            //  String value= row.getLiteral("name").toString();
-            String value= row.toString();
-            types++;
-            System.out.println(value);
-        }
-        System.out.println("Types: " + types);
-
-    }
 
 
 
@@ -590,90 +527,10 @@ public class OntAnalyser {
         }
     }
 
-    public Model getModel(File modelFile) {
-        Model model= ModelFactory.createDefaultModel();
-        model= model.read(modelFile.getAbsolutePath(), "RDF");
-        InfModel rdfs= ModelFactory.createRDFSModel(model);
 
-        return rdfs;
-    }
 
-    public OntModel getOntModel(File modelFile) {
 
-        OntModel ontModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
-
-        ontModel.read( modelFile.getAbsolutePath());
-        Model baseModel = ontModel.getBaseModel();
-
-        // System.out.println("baseModel Graph=" + baseModel.getGraph().toString());
-
-        System.out.println( "======= Ont model created from: "+ modelFile.getAbsolutePath()+" =======");
-
-        return ontModel;
-
-    }
-
-    public void collectClassInfo( OntModel ontModel) {
-        OntClass ontClass;
-        int counter = 0;
-        JsonObject typesTree =  new JsonObject();
-        Iterator<OntClass> itrClass = ontModel.listClasses();
-        while ( itrClass.hasNext()) {
-            ontClass = itrClass.next();
-            counter++;
-            System.out.println( "------- NO." + counter + " -------");
-// Parse the class
-            System.out.println( "----------"+ontClass.toString()+"-----------");
-
-            typesTree.merge(parseClass(ontClass, new JsonObject()));
-
-        }
-        System.out.println( "======= " + counter + " =======");
-        System.out.println(typesTree.toString());
-        System.out.println( "======= " + countElements(typesTree) + " =======");
-    }
-
-    public int countElements(JsonObject job) {
-        int jobs = 0;
-        for(JsonElement je:job.valuesSet()) {
-            jobs++;
-            if(je.isJsonObject()) {
-                jobs += countElements(je.asJsonObject());
-            }
-        }
-        return jobs;
-    }
-
-    public JsonObject parseClass( OntClass ontClass, JsonObject subJson) {
-        JsonObject res = new JsonObject();
-        String name =  ontClass.toString();
-        //.asComplementClass().getRDFType().getLocalName();
-        //System.out.println("\t>>>>\t" + name);
-
-        Resource superClass = null;
-        NodeIterator superClasses = ontClass.listPropertyValues(ontClass.getProfile().SUB_CLASS_OF());
-
-        if(!superClasses.hasNext()) {
-            return new JsonObject().put(ontClass.toString(), subJson);
-        }
-
-        while(superClasses.hasNext()) {
-            try {
-                //superClass = superClasses.next().asResource();
-                OntClass sClass = superClasses.next().as(OntClass.class);
-
-                //if(superClass.getNameSpace().equals("http://schema.org/")) break;
-                System.out.println("\t\t\t -- " + sClass);
-                res.merge(parseClass((OntClass) sClass, new JsonObject().put(ontClass.toString(), subJson)));
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
-
-        return res;
-
-    }
-
+    ////\
 
 
 

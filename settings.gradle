@@ -1,2 +1,4 @@
 include  'common-tools',  'Sender', 'dbpedia', 'geonames', 'linkedgeodata', 'openbrussels'
 
+include 'openthings-ontology'
+
