@@ -21,9 +21,12 @@ import cc.openthings.sender.HttpSender;
 import cc.openthings.sync.openbrussels.model.DataSet;
 import org.djodjo.json.JsonArray;
 import org.djodjo.json.JsonElement;
+import org.djodjo.json.JsonObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public final class TestApi {
 
@@ -41,19 +44,39 @@ public final class TestApi {
             JsonArray respDataSets = JsonArray.readFrom(httpResponse.body).asJsonObject().getJsonArray("datasets");
 
             System.out.println(respDataSets.length());
+            final HashMap<String, List<String>> dataSetTypes =  new HashMap<>();
             DataSet ds = null;
             for(JsonElement je:respDataSets) {
                 ds =  new DataSet().wrap(je);
-                System.out.println("- "
-                                + ds.getId()
-                                //.replace("-", " ")
-                                + " - " + ds.getTitle()
-                                + " - " + ds.getKeyword()
-                                + " - " + ds.getTheme()
-                                + " - " + ds.getFeatures()
-                );
+                List<String> cats = new ArrayList<>();
+                if(ds.getTheme().isJsonArray()) {
+                    cats.addAll(ds.getTheme().asJsonArray().toArrayList());
+                } else {
+                    cats.add(ds.getTheme().toString());
+                }
+                //put dataset in all buckets
+                for(String cat:cats) {
+                    List<String> dsIds = new ArrayList<>();
+                    if (dataSetTypes.containsKey(cat)) {
+                        dsIds = dataSetTypes.get(cat);
+                    } else {
+                        dataSetTypes.put(cat, dsIds);
+                    }
+                    dsIds.add(ds.getId());
+                }
+
+//                System.out.println("- "
+//                                + ds.getId()
+//                                //.replace("-", " ")
+//                                + " - " + ds.getTitle()
+//                                + " - " + ds.getKeyword()
+//                                + " - " + ds.getTheme()
+//                                + " - " + ds.getFeatures()
+//                );
             }
-            System.exit(0);
+            System.out.println(new JsonObject(dataSetTypes));
+
+                    System.exit(0);
 //            httpResponse = getRecords("pavillons-seniors");
             // httpResponse = getRecords("pavillons-seniors", "public-hospitals");
 
