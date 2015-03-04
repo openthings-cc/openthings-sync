@@ -47,13 +47,17 @@ public final class TestApi {
                 System.out.println("- "
                                 + ds.getId()
                                 //.replace("-", " ")
-                                + " - " + ds.getTitle()
-                                + " - " + ds.getKeyword()
-                                + " - " + ds.getTheme()
-                                + " - " + ds.getFeatures()
+//                                + " - " + ds.getTitle()
+//                                + " - " + ds.getKeyword()
+//                                + " - " + ds.getTheme()
+//                                + " - " + ds.getFeatures()
+//                                + " - " + ds.getPublisher()
+                                + " - " + ds.getFields()
                 );
+
             }
-            System.exit(0);
+
+                     System.exit(0);
 //            httpResponse = getRecords("pavillons-seniors");
             // httpResponse = getRecords("pavillons-seniors", "public-hospitals");
 
