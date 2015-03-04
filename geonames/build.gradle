@@ -9,6 +9,7 @@ repositories {
 
 dependencies {
     dependencies {
+        compile project (':Sender')
         compile 'org.apache.jena:jena:2.+'
         compile 'org.apache.jena:jena-arq:2.+'
         compile 'org.apache.jena:jena-tdb:1.+'

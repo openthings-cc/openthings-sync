@@ -31,7 +31,7 @@ public class DataSet extends JsonObjectWrapper {
     }
 
     public String getPublisher() {
-        return getJson().getJsonObject("metas").getString("publisher");
+        return getJson().getJsonObject("metas").optString("publisher");
     }
 
     public String getDomain() {
@@ -86,7 +86,7 @@ public class DataSet extends JsonObjectWrapper {
             protected FieldInfo get(JsonElement jsonElement, int pos) {
                 return new FieldInfo().wrap(jsonElement);
             }
-        }.wrap(getJson().getJsonArray("fields"));
+        }.wrap(getJson().optJsonArray("fields"));
     }
 
     public FieldInfo getFieldInfo(String fieldName) {
