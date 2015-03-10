@@ -1,0 +1,2597 @@
+{
+  "nest-boxes": [
+    {
+      "label": "Nest box id",
+      "type": "int",
+      "name": "id"
+    }
+  ],
+  "seniors-pavilions": [
+    {
+      "label": "Pavilion name(fr)",
+      "type": "text",
+      "name": "paviljoen_fr_pavillon_fr"
+    },
+    {
+      "label": "Address(fr)",
+      "type": "text",
+      "name": "adres_fr_address_fr"
+    },
+    {
+      "label": "Postal code",
+      "type": "int",
+      "name": "postcode_postal_code"
+    },
+    {
+      "label": "Municipality (fr)",
+      "type": "text",
+      "name": "gemeente_fr_municipality_fr"
+    },
+    {
+      "label": "Telephone number",
+      "type": "phone",
+      "name": "telefoonnummer_telephone_number"
+    }
+  ],
+  "community-centres": [
+    {
+      "label": "Description",
+      "type": "text",
+      "name": "description"
+    }
+  ],
+  "parkings-for-coaches": [
+    {
+      "label": "Parkings",
+      "type": "text",
+      "name": "emplacements"
+    },
+    {
+      "label": "Parkeerplaatsen",
+      "type": "text",
+      "name": "parkeerplaatsen"
+    },
+    {
+      "label": "Precision",
+      "type": "text",
+      "name": "precision"
+    },
+    {
+      "label": "Verduidelijking",
+      "type": "text",
+      "name": "verduidelijking"
+    },
+    {
+      "label": "Number",
+      "type": "int",
+      "name": "nombre_d_emplacements_taantal_parkeerplaatsen"
+    },
+    {
+      "label": "Duration",
+      "type": "text",
+      "name": "duree"
+    },
+    {
+      "label": "Lengte",
+      "type": "text",
+      "name": "lengte"
+    }
+  ],
+  "markets": [
+    {
+      "label": "Markets",
+      "type": "text",
+      "name": "marches"
+    }
+  ],
+  "youth-hostels": [
+    {
+      "label": "Youth hostel",
+      "type": "text",
+      "name": "youth_hostel"
+    }
+  ],
+  "administrative-centre-and-liaison-offices": [
+    {
+      "label": "Administration",
+      "type": "text",
+      "name": "administration"
+    }
+  ],
+  "swimming-pools": [
+    {
+      "label": "Name (fr)",
+      "type": "text",
+      "name": "naam_fr_name_fr"
+    },
+    {
+      "label": "Address (fr)",
+      "type": "text",
+      "name": "adres_fr_address_fr"
+    },
+    {
+      "label": "Postal code",
+      "type": "int",
+      "name": "postcode_postal_code"
+    },
+    {
+      "label": "Municipality (fr)",
+      "type": "text",
+      "name": "gemeente_fr_municipality_fr"
+    },
+    {
+      "label": "Telephone number",
+      "type": "phone",
+      "name": "telefoonnummer_telephone_number"
+    }
+  ],
+  "villo-stations-availability-in-real-time": [
+    {
+      "label": "number",
+      "type": "int",
+      "name": "number"
+    },
+    {
+      "type": "text",
+      "name": "name",
+      "label": "name"
+    },
+    {
+      "type": "text",
+      "name": "address",
+      "label": "address"
+    },
+    {
+      "label": "banking",
+      "type": "text",
+      "name": "banking"
+    },
+    {
+      "label": "bonus",
+      "type": "text",
+      "name": "bonus"
+    },
+    {
+      "label": "status",
+      "type": "text",
+      "name": "status"
+    },
+    {
+      "label": "contract_name",
+      "type": "text",
+      "name": "contract_name"
+    },
+    {
+      "type": "int",
+      "name": "bike_stands",
+      "label": "bike_stands"
+    },
+    {
+      "type": "int",
+      "name": "available_bike_stands",
+      "label": "available_bike_stands"
+    },
+    {
+      "type": "int",
+      "name": "available_bikes",
+      "label": "available_bikes"
+    },
+    {
+      "type": "datetime",
+      "name": "last_update",
+      "label": "last_update"
+    }
+  ],
+  "atms": [
+    {
+      "label": "Address (fr)",
+      "type": "text",
+      "name": "description"
+    },
+    {
+      "label": "Address (nl)",
+      "type": "text",
+      "name": "beschrijving"
+    }
+  ],
+  "cultural-places": [
+    {
+      "label": "Title",
+      "type": "text",
+      "name": "cultural_place"
+    }
+  ],
+  "art-heritage-of-regional-roads-monuments": [
+    {
+      "label": "gid",
+      "type": "int",
+      "name": "gid"
+    },
+    {
+      "label": "Style",
+      "type": "text",
+      "name": "style"
+    },
+    {
+      "label": "Water",
+      "type": "text",
+      "name": "water"
+    },
+    {
+      "label": "Title (fr)",
+      "type": "text",
+      "name": "fr_name"
+    },
+    {
+      "label": "Title (nl)",
+      "type": "text",
+      "name": "du_name"
+    },
+    {
+      "label": "Address (fr)",
+      "type": "text",
+      "name": "fr_ad_1"
+    },
+    {
+      "label": "Address (nl)",
+      "type": "text",
+      "name": "du_ad_1"
+    },
+    {
+      "label": "Address in French 2",
+      "type": "text",
+      "name": "fr_ad_2"
+    },
+    {
+      "label": "Address in Dutch 2",
+      "type": "text",
+      "name": "du_ad_2"
+    },
+    {
+      "label": "rd_st",
+      "type": "text",
+      "name": "rd_st"
+    },
+    {
+      "label": "man",
+      "type": "text",
+      "name": "man"
+    },
+    {
+      "label": "Artist",
+      "type": "text",
+      "name": "artist"
+    },
+    {
+      "label": "Arch",
+      "type": "text",
+      "name": "arch",
+      "annotations": [
+        {
+          "name": "facet"
+        },
+        {
+          "args": [
+            "/"
+          ],
+          "name": "hierarchical"
+        }
+      ]
+    },
+    {
+      "label": "Servant",
+      "type": "text",
+      "name": "servant"
+    },
+    {
+      "label": "Contractor",
+      "type": "text",
+      "name": "contractor"
+    },
+    {
+      "label": "Year",
+      "type": "date",
+      "name": "build_year",
+      "annotations": [
+        {
+          "args": [
+            "year"
+          ],
+          "name": "timeserie_precision"
+        },
+        {
+          "name": "facet"
+        },
+        {
+          "args": [
+            "/"
+          ],
+          "name": "hierarchical"
+        }
+      ]
+    },
+    {
+      "label": "mod_year_1",
+      "type": "text",
+      "name": "mod_year_1"
+    },
+    {
+      "label": "mod_year_2",
+      "type": "double",
+      "name": "mod_year_2"
+    },
+    {
+      "label": "maint_1",
+      "type": "text",
+      "name": "maint_1"
+    },
+    {
+      "label": "maint_2",
+      "type": "double",
+      "name": "maint_2"
+    },
+    {
+      "label": "maint_3",
+      "type": "double",
+      "name": "maint_3"
+    },
+    {
+      "label": "note",
+      "type": "text",
+      "name": "note"
+    },
+    {
+      "label": "ori_val",
+      "type": "text",
+      "name": "ori_val"
+    },
+    {
+      "label": "cur_val",
+      "type": "text",
+      "name": "cur_val"
+    },
+    {
+      "label": "du_key_wor",
+      "type": "text",
+      "name": "du_key_wor"
+    },
+    {
+      "label": "fr_key_wor",
+      "type": "text",
+      "name": "fr_key_wor"
+    }
+  ],
+  "traffic-volume": [
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "geo_point_2d"
+    },
+    {
+      "label": "Geo Shape",
+      "type": "geo_shape",
+      "name": "geo_shape"
+    },
+    {
+      "label": "Level of service",
+      "type": "text",
+      "name": "level_of_service",
+      "annotations": [
+        {
+          "name": "facet"
+        },
+        {
+          "args": [
+            "/"
+          ],
+          "name": "hierarchical"
+        }
+      ]
+    },
+    {
+      "label": "Level",
+      "type": "text",
+      "name": "level"
+    }
+  ],
+  "nurseries-kindergartens": [
+    {
+      "label": "Nursery",
+      "type": "text",
+      "name": "milieu_d_accueil"
+    },
+    {
+      "label": "Recognition",
+      "type": "text",
+      "name": "reconnaissance",
+      "annotations": [
+        {
+          "name": "facet"
+        },
+        {
+          "args": [
+            "/"
+          ],
+          "name": "hierarchical"
+        }
+      ]
+    },
+    {
+      "label": "Age",
+      "type": "text",
+      "name": "age",
+      "annotations": [
+        {
+          "name": "facet"
+        },
+        {
+          "args": [
+            "/"
+          ],
+          "name": "hierarchical"
+        }
+      ]
+    },
+    {
+      "label": "Number of places",
+      "type": "int",
+      "name": "nombre_de_places",
+      "annotations": [
+        {
+          "name": "facet"
+        },
+        {
+          "args": [
+            "/"
+          ],
+          "name": "hierarchical"
+        }
+      ]
+    },
+    {
+      "label": "Quarter",
+      "type": "text",
+      "name": "quartier",
+      "annotations": [
+        {
+          "name": "facet"
+        },
+        {
+          "args": [
+            "/"
+          ],
+          "name": "hierarchical"
+        }
+      ]
+    },
+    {
+      "label": "Street",
+      "type": "text",
+      "name": "rue"
+    },
+    {
+      "label": "Postal code",
+      "type": "text",
+      "name": "code_postal"
+    },
+    {
+      "label": "Municipality",
+      "type": "text",
+      "name": "commune",
+      "annotations": [
+        {
+          "name": "facet"
+        },
+        {
+          "args": [
+            "/"
+          ],
+          "name": "hierarchical"
+        }
+      ]
+    },
+    {
+      "label": "Opening hours",
+      "type": "text",
+      "name": "heures_d_ouverture"
+    },
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "coordonnees_geographiques"
+    }
+  ],
+  "pharmacies": [
+    {
+      "label": "Geo Point",
+      "type": "geo_point_2d",
+      "name": "geo_point_2d"
+    },
+    {
+      "label": "Geo Shape",
+      "type": "geo_shape",
+      "name": "geo_shape"
+    },
+    {
+      "label": "visible",
+      "type": "text",
+      "name": "visible"
+    },
+    {
+      "label": "id",
+      "type": "text",
+      "name": "id"
+    },
+    {
+      "label": "timestamp",
+      "type": "datetime",
+      "name": "timestamp"
+    },
+    {
+      "label": "user",
+      "type": "text",
+      "name": "user"
+    },
+    {
+      "label": "amenity",
+      "type": "text",
+      "name": "amenity"
+    },
+    {
+      "label": "name",
+      "type": "text",
+      "name": "name",
+      "annotations": [
+        {
+          "name": "facet"
+        }
+      ]
+    },
+    {
+      "label": "dispensing",
+      "type": "text",
+      "name": "dispensing",
+      "annotations": [
+        {
+          "name": "facet"
+        }
+      ]
+    },
+    {
+      "label": "operator",
+      "type": "text",
+      "name": "operator",
+      "annotations": [
+        {
+          "name": "facet"
+        }
+      ]
+    },
+    {
+      "label": "other_tags",
+      "type": "text",
+      "name": "other_tags"
+    }
+  ],
+  "food-trucks": [
+    {
+      "label": "Location in French",
+      "type": "text",
+      "name": "emplacement_en_fr"
+    },
+    {
+      "label": "Location in Dutch",
+      "type": "text",
+      "name": "emplacement_en_nl"
+    },
+    {
+      "label": "Latitude",
+      "type": "text",
+      "name": "latitude_breedtegraad"
+    },
+    {
+      "label": "Longitude",
+      "type": "text",
+      "name": "longitude_lengtegraad"
+    },
+    {
+      "label": "Monday",
+      "type": "text",
+      "name": "lundi"
+    },
+    {
+      "label": "Tuesday",
+      "type": "text",
+      "name": "mardi"
+    },
+    {
+      "label": "Wednesday",
+      "type": "text",
+      "name": "mercredi"
+    },
+    {
+      "label": "Thursday",
+      "type": "text",
+      "name": "jeudi"
+    },
+    {
+      "label": "Friday",
+      "type": "text",
+      "name": "vendredi"
+    },
+    {
+      "label": "Saturday",
+      "type": "text",
+      "name": "samedi"
+    },
+    {
+      "label": "Sunday",
+      "type": "text",
+      "name": "dimanche"
+    },
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "geo_coordinates"
+    }
+  ],
+  "pentagon-quarter": [
+    {
+      "label": "Name",
+      "type": "text",
+      "name": "name"
+    },
+    {
+      "label": "Description",
+      "type": "text",
+      "name": "description"
+    },
+    {
+      "label": "Address",
+      "type": "text",
+      "name": "address"
+    },
+    {
+      "label": "Geometry",
+      "type": "geo_shape",
+      "name": "geometry"
+    },
+    {
+      "label": "x",
+      "type": "text",
+      "name": "x"
+    },
+    {
+      "label": "y",
+      "type": "text",
+      "name": "y"
+    },
+    {
+      "label": "geo_point_2d",
+      "type": "geo_point_2d",
+      "name": "geo_point_2d"
+    }
+  ],
+  "french-language-schools": [
+    {
+      "label": "Name",
+      "type": "text",
+      "name": "description"
+    },
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "geo_coordinates"
+    }
+  ],
+  "police-stations": [
+    {
+      "label": "Police station",
+      "type": "text",
+      "name": "police_station"
+    },
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "coordinates"
+    }
+  ],
+  "glass-containers": [
+    {
+      "label": "Glass container",
+      "type": "text",
+      "name": "glass_container"
+    },
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "coordinates"
+    }
+  ],
+  "public-toilets": [
+    {
+      "label": "Description (in French)",
+      "type": "text",
+      "name": "description"
+    },
+    {
+      "label": "Coordinates (WGS84)",
+      "type": "geo_point_2d",
+      "name": "geo_coordinates"
+    }
+  ],
+  "stib-stops": [
+    {
+      "label": "Name",
+      "type": "text",
+      "name": "name"
+    },
+    {
+      "label": "ID",
+      "type": "text",
+      "name": "id"
+    },
+    {
+      "label": "Latitude",
+      "type": "text",
+      "name": "latitude"
+    },
+    {
+      "label": "Longitude",
+      "type": "text",
+      "name": "longitude"
+    },
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "coordinates"
+    }
+  ],
+  "art-heritage-of-regional-roads-fountains": [
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "geo_point_2d"
+    },
+    {
+      "label": "Style",
+      "type": "text",
+      "name": "style",
+      "annotations": [
+        {
+          "name": "facet"
+        },
+        {
+          "args": [
+            "/"
+          ],
+          "name": "hierarchical"
+        }
+      ]
+    },
+    {
+      "label": "Water",
+      "type": "text",
+      "name": "water",
+      "annotations": [
+        {
+          "name": "facet"
+        },
+        {
+          "args": [
+            "/"
+          ],
+          "name": "hierarchical"
+        }
+      ]
+    },
+    {
+      "label": "Name in French",
+      "type": "text",
+      "name": "fr_name"
+    },
+    {
+      "label": "Name in Dutch",
+      "type": "text",
+      "name": "du_name"
+    },
+    {
+      "label": "Name in French 1",
+      "type": "text",
+      "name": "fr_ad_1"
+    },
+    {
+      "label": "Name in Dutch 1",
+      "type": "text",
+      "name": "du_ad_1"
+    },
+    {
+      "label": "Name in French 2",
+      "type": "text",
+      "name": "fr_ad_2"
+    },
+    {
+      "label": "Name in French 2",
+      "type": "text",
+      "name": "du_ad_2"
+    },
+    {
+      "label": "RD ST",
+      "type": "text",
+      "name": "rd_st"
+    },
+    {
+      "label": "MAN",
+      "type": "text",
+      "name": "man"
+    },
+    {
+      "label": "Artist",
+      "type": "text",
+      "name": "artist",
+      "annotations": [
+        {
+          "name": "facet"
+        },
+        {
+          "args": [
+            "/"
+          ],
+          "name": "hierarchical"
+        }
+      ]
+    },
+    {
+      "label": "Arch",
+      "type": "text",
+      "name": "arch"
+    },
+    {
+      "label": "Servant",
+      "type": "text",
+      "name": "servant"
+    },
+    {
+      "label": "Contractor",
+      "type": "text",
+      "name": "contractor",
+      "annotations": [
+        {
+          "name": "facet"
+        },
+        {
+          "args": [
+            "/"
+          ],
+          "name": "hierarchical"
+        }
+      ]
+    },
+    {
+      "label": "Build year",
+      "type": "date",
+      "name": "build_year",
+      "annotations": [
+        {
+          "name": "facet"
+        },
+        {
+          "args": [
+            "year"
+          ],
+          "name": "timeserie_precision"
+        },
+        {
+          "args": [
+            "/"
+          ],
+          "name": "hierarchical"
+        }
+      ]
+    },
+    {
+      "label": "MOD YEAR_1",
+      "type": "text",
+      "name": "mod_year_1"
+    },
+    {
+      "label": "MOD YEAR_2",
+      "type": "double",
+      "name": "mod_year_2"
+    },
+    {
+      "label": "Maint 1",
+      "type": "text",
+      "name": "maint_1"
+    },
+    {
+      "label": "Maint 2",
+      "type": "double",
+      "name": "maint_2"
+    },
+    {
+      "label": "Maint 3",
+      "type": "double",
+      "name": "maint_3"
+    },
+    {
+      "label": "Note",
+      "type": "text",
+      "name": "note"
+    },
+    {
+      "label": "ORI VAL",
+      "type": "text",
+      "name": "ori_val"
+    },
+    {
+      "label": "CUR VAL",
+      "type": "text",
+      "name": "cur_val"
+    },
+    {
+      "label": "DU KEY WOR",
+      "type": "text",
+      "name": "du_key_wor"
+    },
+    {
+      "label": "FR KEY WOR",
+      "type": "text",
+      "name": "fr_key_wor"
+    }
+  ],
+  "nursing-homes-for-elderly": [
+    {
+      "label": "Name",
+      "type": "text",
+      "name": "nom"
+    },
+    {
+      "label": "Adress",
+      "type": "text",
+      "name": "adresse"
+    },
+    {
+      "label": "Postal code",
+      "type": "text",
+      "name": "code_postal_postcode"
+    },
+    {
+      "label": "Municipality",
+      "type": "text",
+      "name": "commune"
+    },
+    {
+      "label": "Phone number",
+      "type": "text",
+      "name": "numero_de_telephone_telefoonnummer"
+    },
+    {
+      "label": "E-mail",
+      "type": "text",
+      "name": "e_mail"
+    },
+    {
+      "label": "Beds (MR)",
+      "type": "int",
+      "name": "nombre_de_lits_en_mr_aantal_bedden"
+    },
+    {
+      "label": "Beds (MRS)",
+      "type": "int",
+      "name": "nombre_de_lits_en_mrs_aantal_bedden"
+    },
+    {
+      "label": "Beds",
+      "type": "int",
+      "name": "total_du_nombre_de_lits_aantal_bedden"
+    },
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "geo_coordinates"
+    }
+  ],
+  "traffic-during-events-works": [
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "geo_point_2d"
+    },
+    {
+      "label": "Geo Shape",
+      "type": "geo_shape",
+      "name": "geo_shape"
+    },
+    {
+      "label": "Category",
+      "type": "text",
+      "name": "category",
+      "annotations": [
+        {
+          "name": "facet"
+        },
+        {
+          "args": [
+            "/"
+          ],
+          "name": "hierarchical"
+        }
+      ]
+    },
+    {
+      "label": "Street",
+      "type": "text",
+      "name": "street_name"
+    },
+    {
+      "label": "Cause",
+      "type": "text",
+      "name": "cause",
+      "annotations": [
+        {
+          "name": "facet"
+        },
+        {
+          "args": [
+            "/"
+          ],
+          "name": "hierarchical"
+        }
+      ]
+    }
+  ],
+  "childrens-homes": [
+    {
+      "label": "Adress (in French)",
+      "type": "text",
+      "name": "adresse"
+    },
+    {
+      "label": "Adress (in Dutch)",
+      "type": "text",
+      "name": "adres"
+    },
+    {
+      "label": "Postal code",
+      "type": "int",
+      "name": "code_postal_postcode"
+    },
+    {
+      "label": "Municipality (in French)",
+      "type": "text",
+      "name": "commune"
+    },
+    {
+      "label": "Municipality (in Dutch)",
+      "type": "text",
+      "name": "gemeente"
+    },
+    {
+      "label": "Tel.1",
+      "type": "text",
+      "name": "tel_1"
+    },
+    {
+      "label": "Tel. 2",
+      "type": "text",
+      "name": "tel_2"
+    },
+    {
+      "label": "Fax",
+      "type": "text",
+      "name": "fax"
+    },
+    {
+      "label": "E-mail",
+      "type": "text",
+      "name": "e_mail"
+    },
+    {
+      "label": "Latitude",
+      "type": "double",
+      "name": "latitude"
+    },
+    {
+      "label": "Longitude",
+      "type": "double",
+      "name": "longitude"
+    },
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "geos_coordinates"
+    }
+  ],
+  "sports-halls-and-stadiums": [
+    {
+      "label": "Description",
+      "type": "text",
+      "name": "description"
+    },
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "coordinates"
+    }
+  ],
+  "mayors": [
+    {
+      "label": "Mayors",
+      "type": "text",
+      "name": "bourgmestres"
+    },
+    {
+      "label": "Date of birth",
+      "type": "date",
+      "name": "date_de_naissance"
+    },
+    {
+      "label": "Date of the start of term of the Mayor",
+      "type": "date",
+      "name": "debut_de_mandat"
+    },
+    {
+      "label": "Date of the start as acting mayor",
+      "type": "date",
+      "name": "date_d_entree_en_fonction_de_bourgmestre_ou_de_1er_echevin_ff"
+    },
+    {
+      "label": "Date of the royal decrees for the appointment",
+      "type": "date",
+      "name": "arrete_royal_de_nomination"
+    },
+    {
+      "label": "Date of installation",
+      "type": "date",
+      "name": "date_d_installation"
+    },
+    {
+      "label": "End of the term",
+      "type": "date",
+      "name": "fin_de_fonction"
+    },
+    {
+      "label": "Date of the dismissal",
+      "type": "date",
+      "name": "date_de_demission"
+    },
+    {
+      "label": "Date of death",
+      "type": "date",
+      "name": "decede"
+    },
+    {
+      "label": "Image",
+      "type": "image",
+      "name": "image"
+    },
+    {
+      "label": "Category",
+      "type": "text",
+      "name": "category"
+    },
+    {
+      "label": "City",
+      "type": "text",
+      "name": "city"
+    },
+    {
+      "label": "Description",
+      "type": "text",
+      "name": "description"
+    },
+    {
+      "label": "Source",
+      "type": "text",
+      "name": "source"
+    },
+    {
+      "label": "Headline",
+      "type": "text",
+      "name": "headline"
+    },
+    {
+      "label": "Country",
+      "type": "text",
+      "name": "country"
+    },
+    {
+      "label": "Title",
+      "type": "text",
+      "name": "title"
+    },
+    {
+      "label": "Authors Position",
+      "type": "text",
+      "name": "authorsposition"
+    },
+    {
+      "label": "Date Created",
+      "type": "date",
+      "name": "datecreated"
+    },
+    {
+      "label": "Credit",
+      "type": "text",
+      "name": "credit"
+    },
+    {
+      "label": "State",
+      "type": "text",
+      "name": "state"
+    },
+    {
+      "label": "Supplemental Categories",
+      "type": "text",
+      "name": "supplementalcategories"
+    },
+    {
+      "label": "Subject",
+      "type": "text",
+      "name": "subject"
+    },
+    {
+      "label": "filename",
+      "type": "text",
+      "name": "filename"
+    },
+    {
+      "label": "geo_point_2d",
+      "type": "geo_point_2d",
+      "name": "geo_point_2d"
+    }
+  ],
+  "museums-in-brussels": [
+    {
+      "label": "Name (French)",
+      "type": "text",
+      "name": "nom_du_musee"
+    },
+    {
+      "label": "Name (Dutch)",
+      "type": "text",
+      "name": "naam_van_het_museum"
+    },
+    {
+      "label": "Adresse (French)",
+      "type": "text",
+      "name": "adresse"
+    },
+    {
+      "label": "Adres (Dutch)",
+      "type": "text",
+      "name": "adres"
+    },
+    {
+      "label": "Postal code",
+      "type": "int",
+      "name": "code_postal_postcode"
+    },
+    {
+      "label": "Municipality",
+      "type": "text",
+      "name": "commune_gemeente"
+    },
+    {
+      "label": "Telephone",
+      "type": "text",
+      "name": "telephone_telefoon"
+    },
+    {
+      "label": "E-mail",
+      "type": "text",
+      "name": "e_mail"
+    },
+    {
+      "label": "Website",
+      "type": "text",
+      "name": "site_web_website"
+    },
+    {
+      "label": "Facebook",
+      "type": "text",
+      "name": "facebook"
+    },
+    {
+      "label": "Latitude",
+      "type": "text",
+      "name": "latitude_breedtegraad"
+    },
+    {
+      "label": "Longitude",
+      "type": "text",
+      "name": "longitude_lengtegraad"
+    },
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "coordonnees_geographiques"
+    }
+  ],
+  "dutch-language-libraries": [
+    {
+      "label": "Library",
+      "type": "text",
+      "name": "library"
+    },
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "coordinates"
+    }
+  ],
+  "right-bank-of-the-canal-quarter": [
+    {
+      "label": "Name",
+      "type": "text",
+      "name": "name"
+    },
+    {
+      "label": "Description",
+      "type": "text",
+      "name": "description"
+    },
+    {
+      "label": "Address",
+      "type": "text",
+      "name": "address"
+    },
+    {
+      "label": "Geometry",
+      "type": "geo_shape",
+      "name": "geometry"
+    },
+    {
+      "label": "x",
+      "type": "text",
+      "name": "x"
+    },
+    {
+      "label": "y",
+      "type": "text",
+      "name": "y"
+    },
+    {
+      "label": "geo_point_2d",
+      "type": "geo_point_2d",
+      "name": "geo_point_2d"
+    }
+  ],
+  "laeken-quarter": [
+    {
+      "label": "Name",
+      "type": "text",
+      "name": "name"
+    },
+    {
+      "label": "Description",
+      "type": "text",
+      "name": "description"
+    },
+    {
+      "label": "Address",
+      "type": "text",
+      "name": "address"
+    },
+    {
+      "label": "Geometry",
+      "type": "geo_shape",
+      "name": "geometry"
+    },
+    {
+      "label": "x",
+      "type": "text",
+      "name": "x"
+    },
+    {
+      "label": "y",
+      "type": "text",
+      "name": "y"
+    },
+    {
+      "label": "geo_point_2d",
+      "type": "geo_point_2d",
+      "name": "geo_point_2d"
+    }
+  ],
+  "neder-over-heembeek-quarter": [
+    {
+      "label": "Name",
+      "type": "text",
+      "name": "name"
+    },
+    {
+      "label": "Description",
+      "type": "text",
+      "name": "description"
+    },
+    {
+      "label": "Address",
+      "type": "text",
+      "name": "address"
+    },
+    {
+      "label": "Geometry",
+      "type": "geo_shape",
+      "name": "geometry"
+    },
+    {
+      "label": "x",
+      "type": "text",
+      "name": "x"
+    },
+    {
+      "label": "y",
+      "type": "text",
+      "name": "y"
+    },
+    {
+      "label": "geo_point_2d",
+      "type": "geo_point_2d",
+      "name": "geo_point_2d"
+    }
+  ],
+  "bxl_urinals": [
+    {
+      "label": "Adress (in French)",
+      "type": "text",
+      "name": "urinoir"
+    },
+    {
+      "label": "Adress (in Dutch)",
+      "type": "text",
+      "name": "urinoir0"
+    },
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "coordinates"
+    }
+  ],
+  "parks": [
+    {
+      "label": "Name",
+      "type": "text",
+      "name": "name"
+    },
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "coordinates"
+    }
+  ],
+  "public-hospitals": [
+    {
+      "label": "Name",
+      "type": "text",
+      "name": "nom"
+    },
+    {
+      "label": "Address",
+      "type": "text",
+      "name": "adresse"
+    },
+    {
+      "label": "Postal code",
+      "type": "int",
+      "name": "code_postal_postcode"
+    },
+    {
+      "label": "Municipality",
+      "type": "text",
+      "name": "commune"
+    },
+    {
+      "label": "Latitude",
+      "type": "text",
+      "name": "latitude_breedtegraad"
+    },
+    {
+      "label": "Longitude",
+      "type": "text",
+      "name": "longitude_lengtegraad"
+    },
+    {
+      "label": "Telephone number",
+      "type": "text",
+      "name": "numero_de_telephone_telefoon_nummer"
+    },
+    {
+      "label": "Fax number",
+      "type": "text",
+      "name": "numero_de_fax_fax_nummer"
+    },
+    {
+      "label": "Website",
+      "type": "text",
+      "name": "site_web_website"
+    },
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "geo_coordinates"
+    }
+  ],
+  "dog-toilets": [
+    {
+      "label": "Description",
+      "type": "text",
+      "name": "description"
+    },
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "coordinates"
+    }
+  ],
+  "polling-stations": [
+    {
+      "label": "Polling station",
+      "type": "text",
+      "name": "bureau_de_vote"
+    },
+    {
+      "label": "Number",
+      "type": "int",
+      "name": "numero_du_bureau"
+    },
+    {
+      "label": "Street (in French)",
+      "type": "text",
+      "name": "rue_en_francais"
+    },
+    {
+      "label": "N°",
+      "type": "int",
+      "name": "ndeg"
+    },
+    {
+      "label": "Street (in Dutch)",
+      "type": "text",
+      "name": "rue_en_neerlandais"
+    },
+    {
+      "label": "Postal code",
+      "type": "int",
+      "name": "code_postal"
+    },
+    {
+      "label": "City (in French)",
+      "type": "text",
+      "name": "commune_en_francais"
+    },
+    {
+      "label": "City (in Dutch)",
+      "type": "text",
+      "name": "commune_en_neerlandais"
+    },
+    {
+      "label": "Coordonnées Lambert 72 (1)",
+      "type": "int",
+      "name": "coordonnees_lambert_72"
+    },
+    {
+      "label": "Coordonnées Lambert 72 (2)",
+      "type": "int",
+      "name": "coordonnees_lambert_720"
+    },
+    {
+      "label": "Coordinates wgs84",
+      "type": "geo_point_2d",
+      "name": "coordonnees_wgs84"
+    }
+  ],
+  "public-internet-access-points": [
+    {
+      "label": "PIAP",
+      "type": "text",
+      "name": "piap"
+    },
+    {
+      "label": "Latitude",
+      "type": "text",
+      "name": "latitude"
+    },
+    {
+      "label": "Longitude",
+      "type": "text",
+      "name": "longitude"
+    },
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "geos"
+    }
+  ],
+  "regional-cycling-routes": [
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "geo_point_2d"
+    },
+    {
+      "label": "Geo Shape",
+      "type": "geo_shape",
+      "name": "geo_shape"
+    },
+    {
+      "label": "ogc_fid",
+      "type": "int",
+      "name": "ogc_fid"
+    },
+    {
+      "label": "icr",
+      "type": "text",
+      "name": "icr",
+      "annotations": [
+        {
+          "name": "facet"
+        },
+        {
+          "args": [
+            "/"
+          ],
+          "name": "hierarchical"
+        }
+      ]
+    },
+    {
+      "label": "signposted",
+      "type": "text",
+      "name": "signposted"
+    }
+  ],
+  "museums0": [
+    {
+      "label": "Museum",
+      "type": "text",
+      "name": "museum"
+    },
+    {
+      "label": "Latitude",
+      "type": "double",
+      "name": "latitude"
+    },
+    {
+      "label": "Longitude",
+      "type": "double",
+      "name": "longitude"
+    },
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "coordinates"
+    }
+  ],
+  "cambio-stations": [
+    {
+      "label": "Stations",
+      "type": "text",
+      "name": "stations"
+    },
+    {
+      "label": "Stations",
+      "type": "text",
+      "name": "stations0"
+    },
+    {
+      "label": "Longitude",
+      "type": "double",
+      "name": "longitude_lengtegraad"
+    },
+    {
+      "label": "Latitude",
+      "type": "double",
+      "name": "latitude_breedtegraad"
+    },
+    {
+      "label": "Postal code",
+      "type": "int",
+      "name": "code_postal_postcode"
+    },
+    {
+      "label": "Municipality",
+      "type": "text",
+      "name": "commune"
+    },
+    {
+      "label": "Adress",
+      "type": "text",
+      "name": "adresse"
+    },
+    {
+      "label": "N°",
+      "type": "int",
+      "name": "ndeg"
+    },
+    {
+      "label": "Geocoordinates",
+      "type": "geo_point_2d",
+      "name": "geo_coordinates"
+    }
+  ],
+  "art-heritage-of-regional-roads-fountains0": [
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "geo_point_2d"
+    },
+    {
+      "label": "gid",
+      "type": "int",
+      "name": "gid"
+    },
+    {
+      "label": "Style",
+      "type": "text",
+      "name": "style",
+      "annotations": [
+        {
+          "name": "facet"
+        },
+        {
+          "args": [
+            "/"
+          ],
+          "name": "hierarchical"
+        }
+      ]
+    },
+    {
+      "label": "Water",
+      "type": "text",
+      "name": "water",
+      "annotations": [
+        {
+          "name": "facet"
+        },
+        {
+          "args": [
+            "/"
+          ],
+          "name": "hierarchical"
+        }
+      ]
+    },
+    {
+      "label": "Name in French",
+      "type": "text",
+      "name": "fr_name"
+    },
+    {
+      "label": "Name in Dutch",
+      "type": "text",
+      "name": "du_name"
+    },
+    {
+      "label": "Address in French 1",
+      "type": "text",
+      "name": "fr_ad_1"
+    },
+    {
+      "label": "Address in Dutch 1",
+      "type": "text",
+      "name": "du_ad_1"
+    },
+    {
+      "label": "Address in French 2",
+      "type": "text",
+      "name": "fr_ad_2"
+    },
+    {
+      "label": "Address in Dutch 2",
+      "type": "text",
+      "name": "du_ad_2"
+    },
+    {
+      "label": "rd_st",
+      "type": "text",
+      "name": "rd_st"
+    },
+    {
+      "label": "man",
+      "type": "text",
+      "name": "man"
+    },
+    {
+      "label": "artist",
+      "type": "text",
+      "name": "artist",
+      "annotations": [
+        {
+          "name": "facet"
+        },
+        {
+          "args": [
+            "/"
+          ],
+          "name": "hierarchical"
+        }
+      ]
+    },
+    {
+      "label": "Arch",
+      "type": "text",
+      "name": "arch"
+    },
+    {
+      "label": "Servant",
+      "type": "text",
+      "name": "servant"
+    },
+    {
+      "label": "Contractor",
+      "type": "text",
+      "name": "contractor",
+      "annotations": [
+        {
+          "name": "facet"
+        },
+        {
+          "args": [
+            "/"
+          ],
+          "name": "hierarchical"
+        }
+      ]
+    },
+    {
+      "label": "Build year",
+      "type": "date",
+      "name": "build_year",
+      "annotations": [
+        {
+          "name": "facet"
+        },
+        {
+          "args": [
+            "year"
+          ],
+          "name": "timeserie_precision"
+        },
+        {
+          "args": [
+            "/"
+          ],
+          "name": "hierarchical"
+        }
+      ]
+    },
+    {
+      "label": "mod_year_1",
+      "type": "text",
+      "name": "mod_year_1"
+    },
+    {
+      "label": "mod_year_2",
+      "type": "double",
+      "name": "mod_year_2"
+    },
+    {
+      "label": "maint_1",
+      "type": "text",
+      "name": "maint_1"
+    },
+    {
+      "label": "maint_2",
+      "type": "double",
+      "name": "maint_2"
+    },
+    {
+      "label": "maint_3",
+      "type": "double",
+      "name": "maint_3"
+    },
+    {
+      "label": "note",
+      "type": "text",
+      "name": "note"
+    },
+    {
+      "label": "ori_val",
+      "type": "text",
+      "name": "ori_val"
+    },
+    {
+      "label": "cur_val",
+      "type": "text",
+      "name": "cur_val"
+    },
+    {
+      "label": "du_key_wor",
+      "type": "text",
+      "name": "du_key_wor"
+    },
+    {
+      "label": "fr_key_wor",
+      "type": "text",
+      "name": "fr_key_wor"
+    }
+  ],
+  "invasive-exotic-plants": [
+    {
+      "label": "id",
+      "type": "double",
+      "name": "id"
+    },
+    {
+      "label": "Specie",
+      "type": "text",
+      "name": "especes"
+    },
+    {
+      "label": "Degree",
+      "type": "double",
+      "name": "graad"
+    },
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "geo"
+    }
+  ],
+  "parking-spaces-for-disabled": [
+    {
+      "label": "Adress in French",
+      "type": "text",
+      "name": "adresse"
+    },
+    {
+      "label": "Adress in Dutch",
+      "type": "text",
+      "name": "adres"
+    },
+    {
+      "label": "Number of parking spaces",
+      "type": "int",
+      "name": "nombre_de_parkings"
+    },
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "coordinates"
+    }
+  ],
+  "haren-quarter": [
+    {
+      "label": "Name",
+      "type": "text",
+      "name": "name"
+    },
+    {
+      "label": "Description",
+      "type": "text",
+      "name": "description"
+    },
+    {
+      "label": "Address",
+      "type": "text",
+      "name": "address"
+    },
+    {
+      "label": "Geometry",
+      "type": "geo_shape",
+      "name": "geometry"
+    },
+    {
+      "label": "x",
+      "type": "text",
+      "name": "x"
+    },
+    {
+      "label": "y",
+      "type": "text",
+      "name": "y"
+    },
+    {
+      "label": "geo_point_2d",
+      "type": "geo_point_2d",
+      "name": "geo_point_2d"
+    }
+  ],
+  "northeast-quarter": [
+    {
+      "label": "Name",
+      "type": "text",
+      "name": "name"
+    },
+    {
+      "label": "Description",
+      "type": "text",
+      "name": "description"
+    },
+    {
+      "label": "Address",
+      "type": "text",
+      "name": "address"
+    },
+    {
+      "label": "Geometry",
+      "type": "geo_shape",
+      "name": "geometry"
+    },
+    {
+      "label": "x",
+      "type": "text",
+      "name": "x"
+    },
+    {
+      "label": "y",
+      "type": "text",
+      "name": "y"
+    },
+    {
+      "label": "geo_point_2d",
+      "type": "geo_point_2d",
+      "name": "geo_point_2d"
+    }
+  ],
+  "north-quarter": [
+    {
+      "label": "Name",
+      "type": "text",
+      "name": "name"
+    },
+    {
+      "label": "Description",
+      "type": "text",
+      "name": "description"
+    },
+    {
+      "label": "Address",
+      "type": "text",
+      "name": "address"
+    },
+    {
+      "label": "Geometry",
+      "type": "geo_shape",
+      "name": "geometry"
+    },
+    {
+      "label": "x",
+      "type": "text",
+      "name": "x"
+    },
+    {
+      "label": "y",
+      "type": "text",
+      "name": "y"
+    },
+    {
+      "label": "geo_point_2d",
+      "type": "geo_point_2d",
+      "name": "geo_point_2d"
+    }
+  ],
+  "tourist-offices": [
+    {
+      "label": "Tourist office Brussels Info Place",
+      "type": "text",
+      "name": "tourist_office_brussels_info_place"
+    },
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "geo"
+    }
+  ],
+  "webcams0": [
+    {
+      "label": "Webcam",
+      "type": "text",
+      "name": "webcam_fr"
+    },
+    {
+      "label": "Address",
+      "type": "text",
+      "name": "adresse_fr"
+    },
+    {
+      "label": "Latitude",
+      "type": "text",
+      "name": "latitude"
+    },
+    {
+      "label": "Longitude",
+      "type": "text",
+      "name": "longitude"
+    },
+    {
+      "label": "Link",
+      "type": "text",
+      "name": "link"
+    },
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "geo_coordinates"
+    }
+  ],
+  "homes-of-the-property-management-agency": [
+    {
+      "label": "District",
+      "type": "text",
+      "name": "quartier",
+      "annotations": [
+        {
+          "name": "facet"
+        },
+        {
+          "args": [
+            "/"
+          ],
+          "name": "hierarchical"
+        }
+      ]
+    },
+    {
+      "label": "Reference",
+      "type": "text",
+      "name": "reference"
+    },
+    {
+      "label": "Name",
+      "type": "text",
+      "name": "denomination"
+    },
+    {
+      "label": "Adress",
+      "type": "text",
+      "name": "adresse"
+    },
+    {
+      "label": "Municipality",
+      "type": "text",
+      "name": "commune"
+    },
+    {
+      "label": "Number of units",
+      "type": "int",
+      "name": "nombre_d_unites"
+    },
+    {
+      "label": "Geocoordinates",
+      "type": "geo_point_2d",
+      "name": "geos"
+    },
+    {
+      "label": "geos0",
+      "type": "text",
+      "name": "geos0"
+    }
+  ],
+  "consultations-for-children-at-one": [
+    {
+      "label": "Name",
+      "type": "text",
+      "name": "denomination"
+    },
+    {
+      "label": "Street",
+      "type": "text",
+      "name": "rue"
+    },
+    {
+      "label": "Number",
+      "type": "int",
+      "name": "numero"
+    },
+    {
+      "label": "Postal code",
+      "type": "int",
+      "name": "code_postalcommune"
+    },
+    {
+      "label": "City",
+      "type": "text",
+      "name": "nomcommune"
+    },
+    {
+      "label": "Latitude",
+      "type": "text",
+      "name": "latitude"
+    },
+    {
+      "label": "Longitude",
+      "type": "text",
+      "name": "longitude"
+    },
+    {
+      "label": "Coodinates",
+      "type": "geo_point_2d",
+      "name": "geos"
+    }
+  ],
+  "cemeteries": [
+    {
+      "label": "Commune",
+      "type": "text",
+      "name": "commune"
+    },
+    {
+      "label": "N° de téléphone",
+      "type": "text",
+      "name": "ndeg_de_telephone_telefoon_nummer"
+    },
+    {
+      "label": "Latitude ",
+      "type": "double",
+      "name": "latitude_brredtegraad"
+    },
+    {
+      "label": "Longitude",
+      "type": "double",
+      "name": "longitude_lengtegraad"
+    },
+    {
+      "label": "Jours et heures d'ouverture",
+      "type": "text",
+      "name": "jours_et_heures_d_ouverture"
+    },
+    {
+      "label": "Coordonnées géographiques",
+      "type": "geo_point_2d",
+      "name": "geo_coordinates"
+    }
+  ],
+  "bruxelles_nl_theatres": [
+    {
+      "label": "Description",
+      "type": "text",
+      "name": "description"
+    },
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "coordonnees_geo"
+    },
+    {
+      "label": "Type",
+      "type": "text",
+      "name": "type",
+      "annotations": [
+        {
+          "name": "facet"
+        },
+        {
+          "args": [
+            "/"
+          ],
+          "name": "hierarchical"
+        }
+      ]
+    }
+  ],
+  "french-language-libraries": [
+    {
+      "label": "Library",
+      "type": "text",
+      "name": "library"
+    },
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "coordinates"
+    }
+  ],
+  "european-institutions": [
+    {
+      "label": "European institution",
+      "type": "text",
+      "name": "european_institution"
+    },
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "geo"
+    }
+  ],
+  "collecto-stops": [
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "geo_point_2d"
+    },
+    {
+      "label": "Geo Shape",
+      "type": "geo_shape",
+      "name": "geo_shape"
+    },
+    {
+      "label": "ogc_fid",
+      "type": "int",
+      "name": "ogc_fid"
+    },
+    {
+      "label": "Code",
+      "type": "double",
+      "name": "code"
+    },
+    {
+      "label": "Name in French",
+      "type": "text",
+      "name": "nom"
+    },
+    {
+      "label": "Name in Dutch",
+      "type": "text",
+      "name": "naam"
+    },
+    {
+      "label": "Adress",
+      "type": "text",
+      "name": "adresse"
+    },
+    {
+      "label": "Notes",
+      "type": "text",
+      "name": "notes"
+    },
+    {
+      "label": "nr",
+      "type": "double",
+      "name": "nr"
+    },
+    {
+      "label": "adres",
+      "type": "text",
+      "name": "adres"
+    }
+  ],
+  "zen-car-stations": [
+    {
+      "label": "Name of the station",
+      "type": "text",
+      "name": "nom_de_la_station"
+    },
+    {
+      "label": "Adress",
+      "type": "text",
+      "name": "adresse"
+    },
+    {
+      "label": "Postal code",
+      "type": "text",
+      "name": "code_postal_postcode"
+    },
+    {
+      "label": "City",
+      "type": "text",
+      "name": "commune"
+    },
+    {
+      "label": "Latitude",
+      "type": "text",
+      "name": "latitude_breedtegraad"
+    },
+    {
+      "label": "Longitude",
+      "type": "text",
+      "name": "longitude_lengtegraad"
+    },
+    {
+      "label": "Geo coordinates",
+      "type": "geo_point_2d",
+      "name": "geo_coordinates"
+    }
+  ],
+  "public-parkings": [
+    {
+      "label": "Parking adress",
+      "type": "text",
+      "name": "parking_adress",
+      "annotations": [
+        {
+          "name": "facet"
+        },
+        {
+          "args": [
+            "/"
+          ],
+          "name": "hierarchical"
+        }
+      ]
+    },
+    {
+      "label": "Society",
+      "type": "text",
+      "name": "society",
+      "annotations": [
+        {
+          "name": "facet"
+        },
+        {
+          "args": [
+            "/"
+          ],
+          "name": "hierarchical"
+        }
+      ]
+    },
+    {
+      "label": "Number of parking places",
+      "type": "text",
+      "name": "number_of_parking_places",
+      "annotations": [
+        {
+          "name": "facet"
+        },
+        {
+          "args": [
+            "/"
+          ],
+          "name": "hierarchical"
+        }
+      ]
+    },
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "geo"
+    }
+  ],
+  "taxis-stands": [
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "geo_point_2d"
+    },
+    {
+      "label": "Geo Shape",
+      "type": "geo_shape",
+      "name": "geo_shape"
+    },
+    {
+      "label": "ogc_fid",
+      "type": "int",
+      "name": "ogc_fid"
+    },
+    {
+      "label": "Name",
+      "type": "text",
+      "name": "nom"
+    },
+    {
+      "label": "ID Taxi",
+      "type": "text",
+      "name": "id_taxi"
+    },
+    {
+      "label": "MU DN",
+      "type": "text",
+      "name": "mu_dn",
+      "annotations": [
+        {
+          "name": "facet"
+        },
+        {
+          "args": [
+            "/"
+          ],
+          "name": "hierarchical"
+        }
+      ]
+    },
+    {
+      "label": "MU FN",
+      "type": "text",
+      "name": "mu_fn",
+      "annotations": [
+        {
+          "name": "facet"
+        },
+        {
+          "args": [
+            "/"
+          ],
+          "name": "hierarchical"
+        }
+      ]
+    },
+    {
+      "label": "Adress in French",
+      "type": "text",
+      "name": "adres_fr"
+    },
+    {
+      "label": "Adress in Dutch",
+      "type": "text",
+      "name": "adres_nl"
+    },
+    {
+      "label": "Postal code",
+      "type": "double",
+      "name": "pc_cp"
+    },
+    {
+      "label": "Number of places",
+      "type": "double",
+      "name": "places"
+    },
+    {
+      "label": "Voirie",
+      "type": "text",
+      "name": "voirie",
+      "annotations": [
+        {
+          "name": "facet"
+        },
+        {
+          "args": [
+            "/"
+          ],
+          "name": "hierarchical"
+        }
+      ]
+    }
+  ],
+  "wifi0": [
+    {
+      "label": "Description",
+      "type": "text",
+      "name": "description"
+    },
+    {
+      "label": "Latitude",
+      "type": "double",
+      "name": "latitude"
+    },
+    {
+      "label": "Longitude",
+      "type": "double",
+      "name": "longitude"
+    },
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "geo"
+    }
+  ],
+  "cinemas": [
+    {
+      "label": "Cinema",
+      "type": "text",
+      "name": "cinema"
+    },
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "coordinates"
+    }
+  ],
+  "theatres": [
+    {
+      "label": "Description",
+      "type": "text",
+      "name": "description"
+    },
+    {
+      "label": "Longitude",
+      "type": "double",
+      "name": "longitude"
+    },
+    {
+      "label": "Latitude",
+      "type": "double",
+      "name": "latitude"
+    },
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "geo"
+    }
+  ],
+  "comic-book-route": [
+    {
+      "label": "Character & author",
+      "type": "text",
+      "name": "character_author"
+    },
+    {
+      "label": "Coordinates",
+      "type": "geo_point_2d",
+      "name": "coordinates"
+    }
+  ]
+}

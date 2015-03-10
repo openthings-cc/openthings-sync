@@ -26,8 +26,6 @@ import org.djodjo.json.JsonArray;
 import org.djodjo.json.JsonElement;
 import org.djodjo.json.JsonObject;
 import org.elasticsearch.action.ListenableActionFuture;
-import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
-import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.action.index.IndexResponse;
@@ -112,21 +110,22 @@ public class ProcessData {
             System.out.println( "node: " + n);
         }
       //  --set geo mapping
-        final IndicesExistsResponse res = tc.admin().indices().prepareExists(indexName).execute().actionGet();
-        if (!res.isExists())
-        {
-            CreateIndexRequestBuilder cirb =  tc.admin().indices().prepareCreate(indexName);
-
-                cirb.addMapping(typeName,"{\n" +
-                        "\"properties\":{" +
-                        "\"coordinates\":{\n" +
-                        "\"type\": \"geo_point\",\n" +
-                        "\"lat_lon\": true\n" +
-                        "}" +
-                        "}}");
-
-            cirb.execute().actionGet();
-        }
+//todo Enable
+//        final IndicesExistsResponse res = tc.admin().indices().prepareExists(indexName).execute().actionGet();
+//        if (!res.isExists())
+//        {
+//            CreateIndexRequestBuilder cirb =  tc.admin().indices().prepareCreate(indexName);
+//
+//                cirb.addMapping(typeName,"{\n" +
+//                        "\"properties\":{" +
+//                        "\"coordinates\":{\n" +
+//                        "\"type\": \"geo_point\",\n" +
+//                        "\"lat_lon\": true\n" +
+//                        "}" +
+//                        "}}");
+//
+//            cirb.execute().actionGet();
+//        }
 /////////
 
 
@@ -212,25 +211,26 @@ public class ProcessData {
 //
 //
                     String shortId = je.getString("name");
+//TODo enable
+//                    if(checkForId(tc, shortId)) {
+//                        shortId += "_";
 //
-                    if(checkForId(tc, shortId)) {
-                        shortId += "_";
-
-                        if (checkForId(tc, shortId)) {
-                            int cnt = 1;
-                            while (checkForId(tc, shortId + cnt)) {
-                                cnt++;
-                            }
-                            shortId += cnt;
-                        }
-                    }
+//                        if (checkForId(tc, shortId)) {
+//                            int cnt = 1;
+//                            while (checkForId(tc, shortId + cnt)) {
+//                                cnt++;
+//                            }
+//                            shortId += cnt;
+//                        }
+//                    }
                     je.put("sameAs", je.get("@id"));
                     je.put("@id", baseResourceURI + shortId);
 
                     System.out.println("Will write:" + je.toString());
 
 
-                    writeObject2es(shortId, je);
+                    //TODO enable
+                  //  writeObject2es(shortId, je);
                 }
             }
             if (sc.ioException() != null) {
