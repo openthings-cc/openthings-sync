@@ -21,7 +21,6 @@ import cc.openthings.sender.HttpSender;
 import cc.openthings.sync.openbrussels.model.DataSet;
 import org.djodjo.json.JsonArray;
 import org.djodjo.json.JsonElement;
-import org.djodjo.json.JsonObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,6 +47,7 @@ public final class TestApi {
             DataSet ds = null;
             for(JsonElement je:respDataSets) {
                 ds =  new DataSet().wrap(je);
+
                 List<String> cats = new ArrayList<>();
                 if(ds.getTheme().isJsonArray()) {
                     cats.addAll(ds.getTheme().asJsonArray().toArrayList());
@@ -68,15 +68,22 @@ public final class TestApi {
 //                System.out.println("- "
 //                                + ds.getId()
 //                                //.replace("-", " ")
+
+                System.out.println("- "
+                                + ds.getId()
+                                //.replace("-", " ")
 //                                + " - " + ds.getTitle()
 //                                + " - " + ds.getKeyword()
 //                                + " - " + ds.getTheme()
 //                                + " - " + ds.getFeatures()
-//                );
-            }
-            System.out.println(new JsonObject(dataSetTypes));
+//                                + " - " + ds.getPublisher()
+                                + " - " + ds.getFields()
+                );
 
-                    System.exit(0);
+            }
+
+                     System.exit(0);
+
 //            httpResponse = getRecords("pavillons-seniors");
             // httpResponse = getRecords("pavillons-seniors", "public-hospitals");
 
