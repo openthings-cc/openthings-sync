@@ -1,4 +1,5 @@
-//info: https://github.com/GeoKnow/LinkedGeoData/blob/master/linkedgeodata-core/src/main/resources/org/aksw/linkedgeodata/sql/Mappings.sql#L323
+//info: https://github.com/GeoKnow/LinkedGeoData/blob/master/linkedgeodata-core/src/main/resources/org/aksw/linkedgeodata/sql/Mappings.sql
+        
 //k:=:V
 //"ppp:=:vvv" : {
 //        "@type" : "openthings.cc/ppp",
@@ -12,4 +13,33 @@
 //"@type" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
 //"@value": "http://openthings.cc/ontology/HighwayThing"
 //}
-
+[
+{"k":"highway", "v":null, "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","@value":"http://linkedgeodata.org/ontology/HighwayThing"},
+{"k":"barrier", "v":null, "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","@value":"http://linkedgeodata.org/ontology/BarrierThing"},
+{"k":"cycleway", "v":null, "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","@value":"http://linkedgeodata.org/ontology/CyclewayThing"},
+{"k":"waterway", "v":null, "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","@value":"http://linkedgeodata.org/ontology/WaterwayThing"},
+{"k":"railway", "v":null, "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","@value":"http://linkedgeodata.org/ontology/RailwayThing"},
+{"k":"aeroway", "v":null, "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","@value":"http://linkedgeodata.org/ontology/AerowayThing"},
+{"k":"aerialway", "v":null, "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","@value":"http://linkedgeodata.org/ontology/AerialwayThing"},
+{"k":"public_transport", "v":null, "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","@value":"http://linkedgeodata.org/ontology/PublicTransportThing"},
+{"k":"power", "v":null, "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","@value":"http://linkedgeodata.org/ontology/PowerThing"},
+{"k":"man_made", "v":null, "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","@value":"http://linkedgeodata.org/ontology/ManMadeThing"},
+{"k":"leisure", "v":null, "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","@value":"http://linkedgeodata.org/ontology/Leisure"},
+{"k":"amenity", "v":null, "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","@value":"http://linkedgeodata.org/ontology/Amenity"},
+{"k":"office", "v":null, "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","@value":"http://linkedgeodata.org/ontology/Office"},
+{"k":"shop", "v":null, "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","@value":"http://linkedgeodata.org/ontology/Shop"},
+{"k":"craft", "v":null, "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","@value":"http://linkedgeodata.org/ontology/Craft"},
+{"k":"emergency", "v":null, "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","@value":"http://linkedgeodata.org/ontology/EmergencyThing"},
+{"k":"tourism", "v":null, "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","@value":"http://linkedgeodata.org/ontology/TourismThing"},
+{"k":"historic", "v":null, "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","@value":"http://linkedgeodata.org/ontology/HistoricThing"},
+{"k":"landuse", "v":null, "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","@value":"http://linkedgeodata.org/ontology/Landuse"},
+{"k":"military", "v":null, "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","@value":"http://linkedgeodata.org/ontology/MilitaryThing"},
+{"k":"natural", "v":null, "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","@value":"http://linkedgeodata.org/ontology/NaturalThing"},
+{"k":"route", "v":null, "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","@value":"http://linkedgeodata.org/ontology/RouteThing"},
+{"k":"boundary", "v":null, "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","@value":"http://linkedgeodata.org/ontology/Boundary"},
+{"k":"sport", "v":null, "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","@value":"http://linkedgeodata.org/ontology/SportThing"},
+{"k":"abutters", "v":null, "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","@value":"http://linkedgeodata.org/ontology/Abutters"},
+{"k":"place", "v":null, "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","@value":"http://linkedgeodata.org/ontology/Place"},
+{"k":"lock", "v":null, "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","@value":"http://linkedgeodata.org/ontology/LockThing"},
+{"k":"building", "v":null, "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","@value":"http://linkedgeodata.org/ontology/Building"}
+]
