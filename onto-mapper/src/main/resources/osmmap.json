@@ -1,0 +1,15 @@
+//info: https://github.com/GeoKnow/LinkedGeoData/blob/master/linkedgeodata-core/src/main/resources/org/aksw/linkedgeodata/sql/Mappings.sql#L323
+//k:=:V
+//"ppp:=:vvv" : {
+//        "@type" : "openthings.cc/ppp",
+//        "@language" : "en",
+//        "@value": "openthings.cc/vvv"
+//}
+//
+//k
+//"highway" :
+//{
+//"@type" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+//"@value": "http://openthings.cc/ontology/HighwayThing"
+//}
+
