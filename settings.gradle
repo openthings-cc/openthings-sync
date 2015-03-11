@@ -4,3 +4,6 @@ include 'openthings-ontology'
 
 include 'wikivoyage'
 
+include 'onto-mapper'
+
+
