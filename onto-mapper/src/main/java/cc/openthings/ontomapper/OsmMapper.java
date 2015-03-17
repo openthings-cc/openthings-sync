@@ -2,9 +2,11 @@ package cc.openthings.ontomapper;
 
 import cc.openthings.ontomapper.model.OsmMap;
 import cc.openthings.ontomapper.model.OsmMapElement;
+import org.djodjo.json.JsonElement;
 import org.djodjo.json.JsonObject;
 
 import java.util.AbstractMap;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,12 +47,20 @@ public class OsmMapper extends Mapper {
 
     @Override
     public Object getThing(Object otherThing) {
-        String otherString = otherThing.toString();
-        if(!otherString.trim().startsWith("{")) {
-            throw new RuntimeException("Cannot convert from non json yet");
+        //accepts Entity records which should include list of tags (key:value)
+        //either in json or in osm v6 Entity
+        JsonObject thing =  new JsonObject();
+        if(otherThing instanceof String || otherThing instanceof JsonObject) {
+            String otherString = otherThing.toString();
+            if (!otherString.trim().startsWith("{")) {
+                throw new RuntimeException("Cannot convert from non json yet");
+            }
+            JsonObject elTags = JsonElement.wrap(otherString).asJsonObject().getJsonObject("tags");
+
+        } else if(otherThing instanceof Entity) {
+
         }
 
-        JsonObject thing =  new JsonObject();
         
         
         
