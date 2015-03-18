@@ -7,3 +7,5 @@ include 'wikivoyage'
 include 'onto-mapper'
 
 
+include 'playground'
+

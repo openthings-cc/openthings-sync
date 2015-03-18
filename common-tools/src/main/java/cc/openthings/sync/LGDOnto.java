@@ -22,10 +22,10 @@ public class LGDOnto {
 
     public static void main(String[] args) {
         LGDOnto lgdOnto = new LGDOnto();
-        //  lgdOnto.analyseLGDtypes();
+          lgdOnto.analyseLGDtypes();
         //lgdOnto.printLGDJsonLd();
         //lgdOnto.qTest();
-        lgdOnto.genOTOnto();
+      //  lgdOnto.genOTOnto();
     }
 
     public OntModel getLGDModel() {
