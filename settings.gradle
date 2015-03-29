@@ -9,3 +9,5 @@ include 'onto-mapper'
 
 include 'playground'
 
+include 'es-tools'
+

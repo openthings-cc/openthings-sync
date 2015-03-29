@@ -1,0 +1,378 @@
+{
+  "off_id_ref": "8d3b1a19bee35c78bfe509ab73fe185d",
+  "modif_date": "2015-02-26 11:08:34",
+  "titre": {
+    "lg": "fr",
+    "content": "Bonapizza"
+  },
+  "localisation": {
+    "localite": {
+      "l_nom": "Rulles",
+      "com_id": 260,
+      "x": 5.55974,
+      "y": 49.717,
+      "id": 181,
+      "postal": 6724,
+      "reg_id": 8,
+      "c_nom": "Habay"
+    }
+  },
+  "publiable": 2013,
+  "geocodes": {
+    "geocode": {
+      "trace": "",
+      "x": 5.5587162,
+      "y": 49.7174856
+    }
+  },
+  "descriptions": {
+    "description": {
+      "lot": "lot_descript",
+      "lib": [
+        "general",
+        {
+          "lg": "fr",
+          "content": "Description générale"
+        },
+        {
+          "lg": "nl",
+          "content": "algemene beschrijving"
+        },
+        {
+          "lg": "en",
+          "content": "main description"
+        },
+        {
+          "lg": "de",
+          "content": "allgemeine Beschreibung"
+        }
+      ],
+      "dat": "tjr",
+      "tri": 2,
+      "typ": "mtxt",
+      "texte": {
+        "lg": "fr",
+        "content": "Envie d'une bonne pizza à domicile? Evelyne et Robert seront ravis de vous goûter une de leurs 28 succulentes pizze ainsi que 12 recettes de pâtes différentes. Les pizze sont à emporter ou livrées à domicile. Livraison gratuire pour un montant supérieur à 18\u20ac. Pas de livraison en dessous de 13\u20ac"
+      }
+    }
+  },
+  "attributs": {
+    "attribut": [
+      {
+        "lot": "lot_label",
+        "ord": 33,
+        "val": 3,
+        "lib": [
+          "lb_lcpn",
+          {
+            "lg": "fr",
+            "content": "LCPN"
+          },
+          {
+            "lg": "nl",
+            "content": "LCPN"
+          },
+          {
+            "lg": "en",
+            "content": "LCPN"
+          },
+          {
+            "lg": "de",
+            "content": "LCPN"
+          }
+        ],
+        "tri": 33,
+        "typ": "ent",
+        "id": "lb_lcpn"
+      },
+      {
+        "lot": "lot_cuisine",
+        "ord": 18,
+        "lib": [
+          "cui_italie",
+          {
+            "lg": "fr",
+            "content": "Cuisine italienne"
+          },
+          {
+            "lg": "nl",
+            "content": "Italiaanse keuken"
+          },
+          {
+            "lg": "en",
+            "content": "Italian kitchen"
+          },
+          {
+            "lg": "de",
+            "content": "Italienische Küche"
+          }
+        ],
+        "tri": 18,
+        "typ": "chk",
+        "id": "cui_italie"
+      },
+      {
+        "lot": "lot_equip",
+        "ord": 45,
+        "lib": [
+          "prk_prox",
+          {
+            "lg": "fr",
+            "content": "Parking à proximité"
+          },
+          {
+            "lg": "nl",
+            "content": "Parking in de buurt"
+          },
+          {
+            "lg": "en",
+            "content": "Parking nearby"
+          },
+          {
+            "lg": "de",
+            "content": "Parkmöglichkeiten in der Nähe"
+          }
+        ],
+        "tri": 45,
+        "typ": "chk",
+        "id": "prk_prox"
+      },
+      {
+        "lot": "lot_cuisine",
+        "ord": 2,
+        "lib": [
+          "pizzeria",
+          {
+            "lg": "fr",
+            "content": "Pizzeria"
+          },
+          {
+            "lg": "nl",
+            "content": "Pizzeria"
+          },
+          {
+            "lg": "en",
+            "content": "Pizzeria"
+          },
+          {
+            "lg": "de",
+            "content": "Pizzeria"
+          }
+        ],
+        "tri": 2,
+        "typ": "chk",
+        "id": "pizzeria"
+      }
+    ]
+  },
+  "medias": {
+    "media": {
+      "ext": "jpg",
+      "ord": 1,
+      "titre": {
+        "lg": "fr",
+        "content": "Bonapizza"
+      },
+      "url": "http://www.ftlb.be/dbimages/restaurant/resto1229.jpg"
+    }
+  },
+  "selections": {
+    "selection": {
+      "lib": "Mbre Anlier",
+      "cl": 0,
+      "id": 21109
+    }
+  },
+  "id": 8311,
+  "categories": {
+    "categorie": {
+      "lib": [
+        "Restaurants",
+        {
+          "lg": "fr",
+          "content": "Restaurants"
+        },
+        {
+          "lg": "nl",
+          "content": "Restaurants"
+        },
+        {
+          "lg": "en",
+          "content": "Restaurants"
+        },
+        {
+          "lg": "de",
+          "content": "Restaurants"
+        }
+      ],
+      "tri": 1,
+      "id": "restaurant"
+    }
+  },
+  "contacts": {
+    "contact": [
+      {
+        "communications": {
+          "communication": {
+            "ord": 1,
+            "val": "+32(0)474 27 62 66",
+            "lib": [
+              "tel",
+              {
+                "lg": "fr",
+                "content": "Tél"
+              },
+              {
+                "lg": "nl",
+                "content": "Tel"
+              },
+              {
+                "lg": "en",
+                "content": "Tel"
+              },
+              {
+                "lg": "de",
+                "content": "Tel"
+              }
+            ],
+            "tri": 13,
+            "typ": "tel"
+          }
+        },
+        "lib": [
+          "ap",
+          {
+            "lg": "fr",
+            "content": "Adresse principale"
+          },
+          {
+            "lg": "nl",
+            "content": "Adres"
+          },
+          {
+            "lg": "en",
+            "content": "Main Contact Adress"
+          },
+          {
+            "lg": "de",
+            "content": "Zentralburo"
+          }
+        ],
+        "numero": 8,
+        "l_nom": "Rulles",
+        "adresse": "rue Corelle",
+        "tri": 1,
+        "postal": 6724,
+        "pays": "BE"
+      },
+      {
+        "communications": {
+          "communication": {
+            "ord": 1,
+            "val": "+32(0)474 27 62 66",
+            "lib": [
+              "tel",
+              {
+                "lg": "fr",
+                "content": "Tél"
+              },
+              {
+                "lg": "nl",
+                "content": "Tel"
+              },
+              {
+                "lg": "en",
+                "content": "Tel"
+              },
+              {
+                "lg": "de",
+                "content": "Tel"
+              }
+            ],
+            "tri": 13,
+            "typ": "tel"
+          }
+        },
+        "lib": [
+          "contact",
+          {
+            "lg": "fr",
+            "content": "Contact publique"
+          },
+          {
+            "lg": "nl",
+            "content": "Contact"
+          },
+          {
+            "lg": "en",
+            "content": "Contact"
+          },
+          {
+            "lg": "de",
+            "content": "Kontakt"
+          }
+        ],
+        "numero": 8,
+        "l_nom": "Rulles",
+        "adresse": "rue Corelle",
+        "tri": 3,
+        "postal": 6724,
+        "pays": "BE"
+      },
+      {
+        "communications": {
+          "communication": {
+            "ord": 1,
+            "val": "+32(0)474 27 62 66",
+            "lib": [
+              "tel",
+              {
+                "lg": "fr",
+                "content": "Tél"
+              },
+              {
+                "lg": "nl",
+                "content": "Tel"
+              },
+              {
+                "lg": "en",
+                "content": "Tel"
+              },
+              {
+                "lg": "de",
+                "content": "Tel"
+              }
+            ],
+            "tri": 13,
+            "typ": "tel"
+          }
+        },
+        "lib": [
+          "proprio",
+          {
+            "lg": "fr",
+            "content": "Contact administratif"
+          },
+          {
+            "lg": "nl",
+            "content": "Administratief contact"
+          },
+          {
+            "lg": "en",
+            "content": "Contact administratif"
+          },
+          {
+            "lg": "de",
+            "content": "Verwaltungsstelle"
+          }
+        ],
+        "numero": 8,
+        "l_nom": "Rulles",
+        "adresse": "rue Corelle",
+        "tri": 5,
+        "postal": 6724,
+        "pays": "BE"
+      }
+    ]
+  }
+}

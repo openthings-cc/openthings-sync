@@ -46,7 +46,7 @@ public class OsmMapElement extends JsonObjectWrapper {
     }
 
     public Boolean isRegex() {
-        return getJson().getBoolean("regex", false);
+        return getJson().optBoolean("regex", false);
     }
 
 

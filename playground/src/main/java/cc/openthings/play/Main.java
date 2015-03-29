@@ -15,10 +15,12 @@ import java.util.Scanner;
 
 
 public class Main extends RouteBuilder {
+
+
     public static void main(String[] args) {
         Main mm = new Main();
-        mm.xml2Json1();
-       // mm.xml2Json2();
+        //mm.xml2Json1();
+        mm.xml2Json2();
 
     }
 
@@ -40,18 +42,29 @@ public class Main extends RouteBuilder {
     }
 
     public void xml2Json2() {
-        String xmlString = getFile("xml/pivot_querier_result_55092b6253b33.json");
+        String xmlString = getFile("xml/ah.xml");
         JSONObject jsonOut = XML.toJSONObject(xmlString);
         //System.out.println(jsonOut);
         Writer fw = null;
         try {
-            fw = new FileWriter("JsonOut2.json");
+            fw = new FileWriter("AhGood.json");
 
         jsonOut.write(fw);
         fw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+//        try {
+//            JsonArray newOff =  new JsonArray();
+//            JsonObject job = JsonElement.readFrom(jsonOut.toString()).asJsonObject();
+//            JsonArray offers = job.getJsonObject("root").getJsonObject("offres").getJsonArray("offre");
+//            for(JsonElement je:offers) {
+//
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
     }
 
