@@ -1,6 +1,6 @@
 package cc.openthings.ontomapper.test;
 
-import cc.openthings.sync.osm.OsmReader;
+import cc.openthings.sync.osm.OsmParser;
 import org.junit.Test;
 
 import java.io.File;
@@ -13,7 +13,7 @@ public class OsmTest {
     public void testOsmPbfMapper() throws FileNotFoundException {
         File pbfFile = new File(getClass().getClassLoader().getResource("malta-latest.osm.pbf").getPath());
         System.out.println("processing: " + pbfFile.getPath());
-        OsmReader reader = new OsmReader();
+        OsmParser reader = new OsmParser();
         reader.readOsm(pbfFile);
     }
 

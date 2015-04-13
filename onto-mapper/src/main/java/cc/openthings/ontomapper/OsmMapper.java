@@ -102,10 +102,16 @@ public class OsmMapper extends Mapper {
                         JsonObject mapping = fixedOsmKV.get(tag.toString());
                         String prop = mapping.getString("@type");
                         if (prop.equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")) {
-                            type.put(mapping.getString("@value"));
+                            //NOTE we have multiple types only nowm but might need this for other props...
+                            if(mapping.get("@value").isJsonArray()) {
+                                type.addAll(mapping.getJsonArray("@value"));
+                            } else {
+                                type.put(mapping.getString("@value"));
+                            }
                         } else {
                             JsonObject propToPut = new JsonObject().put("@value",
                                     mapping.getString("@value"));
+
                             if(mapping.optString("@language")!=null) {
                                 propToPut.put("@language",mapping.optString("@language"));
                             }

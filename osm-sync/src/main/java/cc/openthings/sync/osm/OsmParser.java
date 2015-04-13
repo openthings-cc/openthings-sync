@@ -15,11 +15,11 @@ import org.openstreetmap.osmosis.xml.v0_6.XmlReader;
 import java.io.*;
 import java.util.Map;
 
-public class OsmReader {
+public class OsmParser {
 
 
     OsmMapper mapper;
-    public OsmReader() {
+    public OsmParser() {
         mapper = new OsmMapper();
     }
 
