@@ -17,7 +17,10 @@
 package cc.openthings.ontomapper.model;
 
 
+import org.djodjo.json.JsonElement;
 import org.djodjo.json.wrapper.JsonObjectWrapper;
+
+import java.util.ArrayList;
 
 public class OsmMapElement extends JsonObjectWrapper {
 
@@ -37,8 +40,14 @@ public class OsmMapElement extends JsonObjectWrapper {
         return getJson().getString("@type");
     }
 
-    public String getValue() {
-        return getJson().getString("@value");
+    public ArrayList<String> getValue() {
+        JsonElement value =  getJson().get("@value");
+        if(value.isJsonArray()) {
+            return value.asJsonArray().toArrayList();
+        }
+        ArrayList<String> res = new ArrayList<>();
+        res.add(value.asString());
+        return res;
     }
 
     public String getLanguage() {
