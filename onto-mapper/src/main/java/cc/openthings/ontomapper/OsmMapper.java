@@ -7,6 +7,7 @@ import org.djodjo.json.JsonElement;
 import org.djodjo.json.JsonObject;
 import org.openstreetmap.osmosis.core.domain.v0_6.*;
 
+import java.io.IOException;
 import java.util.*;
 
 public class OsmMapper extends Mapper {
@@ -14,7 +15,7 @@ public class OsmMapper extends Mapper {
     public static final String osmMapJson = "osmmap.json";
 
 
-     Set<Tag> unmappedTags = new HashSet<>();
+    HashMap<String, String> unmappedTags = new HashMap<>();
 
     private OsmMap osmMap = new OsmMap();
     //main osm kes aka main OpenThings types
@@ -48,7 +49,7 @@ public class OsmMapper extends Mapper {
                                 .put("@language", el.getLanguage())
                 );
             } else {
-                fixedOsmKV.put(new Tag(el.getTagKey(), el.getTagValue()).toString(),
+                fixedOsmKV.put(getTagId(el.getTagKey(), el.getTagValue()),
                         new JsonObject()
                                 .put("k", el.getTagKey())
                                 .put("v", el.getTagValue())
@@ -61,6 +62,9 @@ public class OsmMapper extends Mapper {
         }
     }
 
+    private static String getTagId(String tagKey, String tagValue) {
+        return "k:" + tagKey + " :-: " + "v:" + tagValue;
+    }
 
     @Override
     public Object getThing(Object otherThing) {
@@ -71,9 +75,63 @@ public class OsmMapper extends Mapper {
         if (otherThing instanceof String || otherThing instanceof JsonObject) {
             String otherString = otherThing.toString();
             if (!otherString.trim().startsWith("{")) {
-                throw new RuntimeException("Cannot convert from non json yet");
+                throw new RuntimeException("Cannot convert from non json object string yet");
             }
-            JsonObject elTags = JsonElement.wrap(otherString).asJsonObject().getJsonObject("tags");
+            JsonObject element = null;
+            try {
+                element = JsonElement.readFrom(otherString).asJsonObject();
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+            if(!element.has("type") || !element.has("tags")) {
+                return null;
+            }
+            String osmType = element.getString("type");
+            JsonObject tags = element.getJsonObject("tags");
+            if (osmType.equals("node")) {
+                thing.put("loc", new JsonArray().put(element.get("lat")).put(element.get("lon")));
+
+
+                JsonArray type = new JsonArray();
+                thing.put("@type", type);
+                type.put("http://openthings.cc/ontology/GeoThing");
+                //get maintypes
+
+
+                Iterator<Map.Entry<String, JsonElement>> tagIterator = tags.iterator();
+                while (tagIterator.hasNext()) {
+                    Map.Entry<String, JsonElement> tag = tagIterator.next();
+                    processMainTypes(type, tag.getKey());
+                }
+
+                //getother types or props
+                HashMap<String, String> otherTags = new HashMap<>();
+
+                tagIterator = tags.iterator();
+                while (tagIterator.hasNext()) {
+                    Map.Entry<String, JsonElement> tag = tagIterator.next();
+                    if (!processOtherTags(thing, type, tag.getKey(), tag.getValue().toString())) {
+                        otherTags.put(tag.getKey(), tag.getValue().toString());
+                    }
+                }
+
+
+                //get regex mappings
+                for (Map.Entry<String, String> tag : otherTags.entrySet()) {
+                    //  System.out.println("tag-->> " + tag);
+                    processRegexTags(thing, tag.getKey(), tag.getValue());
+                }
+
+                thing.put("osm:id", element.get("id"));
+
+
+            } else if (osmType.equals("way")) {
+
+            } else if (osmType.equals("relation")) {
+
+            }
+
 
         } else if (otherThing instanceof Entity) {
             Entity entity = (Entity) otherThing;
@@ -89,67 +147,25 @@ public class OsmMapper extends Mapper {
                 //get maintypes
                 Collection<Tag> tags = node.getTags();
                 for (Tag tag : tags) {
-                    if (mainOsmKeys.containsKey(tag.getKey())) {
-                        type.put(mainOsmKeys.get(tag.getKey()).getString("@value"));
-                    }
+                    processMainTypes(type, tag.getKey());
                 }
 
                 //getother types or props
                 Collection<Tag> otherTags = new ArrayList<>();
                 for (Tag tag : tags) {
-
-                    if (fixedOsmKV.containsKey(tag.toString())) {
-                        JsonObject mapping = fixedOsmKV.get(tag.toString());
-                        String prop = mapping.getString("@type");
-                        if (prop.equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")) {
-                            //NOTE we have multiple types only nowm but might need this for other props...
-                            if(mapping.get("@value").isJsonArray()) {
-                                type.addAll(mapping.getJsonArray("@value"));
-                            } else {
-                                type.put(mapping.getString("@value"));
-                            }
-                        } else {
-                            JsonObject propToPut = new JsonObject().put("@value",
-                                    mapping.getString("@value"));
-
-                            if(mapping.optString("@language")!=null) {
-                                propToPut.put("@language",mapping.optString("@language"));
-                            }
-                            if (!thing.has(prop)) {
-                                thing.put(prop, new JsonArray().put(propToPut));
-                            } else {
-                                thing.getJsonArray(prop).put(propToPut);
-                            }
-                        }
-                    } else {
+                    if (!processOtherTags(thing, type, tag.getKey(), tag.getValue())) {
                         otherTags.add(tag);
                     }
                 }
 
-
                 //get regex mappings
                 for (Tag tag : otherTags) {
-                   //  System.out.println("tag-->> " + tag);
-                    if(regexKeys.containsKey(tag.getKey())) {
-                        JsonObject mapping = regexKeys.get(tag.getKey());
-                        String prop = mapping.getString("@type");
-                        String value = tag.getValue().replaceAll(mapping.getString("v"), mapping.getString("@value"));
-                        JsonObject propToPut = new JsonObject().put("@value", value);
-                        if(mapping.optString("@language")!=null) {
-                            String language = tag.getValue().replaceAll(mapping.getString("v"), mapping.getString("@language"));
-                            propToPut.put("@language",language);
-                        }
-                        if (!thing.has(prop)) {
-                            thing.put(prop, new JsonArray().put(propToPut));
-                        } else {
-                            thing.getJsonArray(prop).put(propToPut);
-                        }
-                    }
-                    else {
-                        unmappedTags.add(tag);
-                    }
+                    //  System.out.println("tag-->> " + tag);
+                    processRegexTags(thing, tag.getKey(), tag.getValue());
                 }
 
+                thing.put("osm:id", node.getId())
+                        .put("osm:timestamp", node.getTimestamp());
 
                 //OSM meta data
 //                thing.put("osmMeta", new JsonObject()
@@ -178,12 +194,67 @@ public class OsmMapper extends Mapper {
     }
 
 
-    public Set<Tag> getUnmappedTags() {
+    public HashMap<String, String> getUnmappedTags() {
         return unmappedTags;
     }
 
 
+    private void processMainTypes(JsonArray type, String tagKey) {
+        if (mainOsmKeys.containsKey(tagKey)) {
+            type.addAll(mainOsmKeys.get(tagKey).getJsonArray("@value"));
+        }
+    }
 
+    //returns if processed or not
+    private boolean processOtherTags(JsonObject thing, JsonArray type, String tagKey, String tagValue) {
+        String tagId = getTagId(tagKey, tagValue);
+        if (fixedOsmKV.containsKey(tagId)) {
+            JsonObject mapping = fixedOsmKV.get(tagId);
+            String prop = mapping.getString("@type");
+            JsonArray values = mapping.getJsonArray("@value");
+            if (prop.equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")) {
+                type.addAll(values);
+            } else {
+                for (JsonElement je : values) {
+                    JsonObject propToPut = new JsonObject().put("@value",
+                            je.asString());
+
+                    if (mapping.optString("@language") != null) {
+                        propToPut.put("@language", mapping.optString("@language"));
+                    }
+                    if (!thing.has(prop)) {
+                        thing.put(prop, new JsonArray().put(propToPut));
+                    } else {
+                        thing.getJsonArray(prop).put(propToPut);
+                    }
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void processRegexTags(JsonObject thing, String tagKey, String tagValue) {
+        if (regexKeys.containsKey(tagKey)) {
+            JsonObject mapping = regexKeys.get(tagKey);
+            String prop = mapping.getString("@type");
+            //For now we assume we don't have 1-to-many for regex mappings as those are not types
+            String value = tagValue.replaceAll(mapping.getString("v"), mapping.getJsonArray("@value").getString(0));
+            JsonObject propToPut = new JsonObject().put("@value", value);
+            if (mapping.optString("@language") != null) {
+                String language = tagValue.replaceAll(mapping.getString("v"), mapping.getString("@language"));
+                propToPut.put("@language", language);
+            }
+            if (!thing.has(prop)) {
+                thing.put(prop, new JsonArray().put(propToPut));
+            } else {
+                thing.getJsonArray(prop).put(propToPut);
+            }
+        } else {
+            unmappedTags.put(tagKey, tagValue);
+        }
+    }
 
 
 }

@@ -17,4 +17,8 @@ dependencies {
     compile 'org.djodjo.json:json-generator:1.+'
     compile 'org.djodjo.json:json-wrapper:1.+'
 
+    compile 'org.mapsforge:mapsforge-core:0.5.1'
+
+    
+
 }

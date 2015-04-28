@@ -16,50 +16,80 @@
 
 package cc.openthings.sync.osm;
 
-import java.io.IOException;
+import cc.openthings.ontomapper.OsmMapper;
 import cc.openthings.sender.HttpResponse;
 import cc.openthings.sender.HttpSender;
+import org.djodjo.json.JsonArray;
+import org.djodjo.json.JsonElement;
 import org.djodjo.json.JsonObject;
+import org.mapsforge.core.model.BoundingBox;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
 
 public final class TestApi {
 
     public static void main(String[] args) {
         HttpResponse httpResponse;
         try {
-            httpResponse = doSearch(null);
+            httpResponse = doNodeSearch("");
+            if(httpResponse!=null) {
+                System.out.println(httpResponse.body);
+            }
+            OsmMapper mapper = new OsmMapper();
+
+            JsonArray elements = JsonElement.readFrom(httpResponse.body).asJsonObject().getJsonArray("elements");
+            JsonArray mappedEls = new JsonArray();
+            JsonArray nolabelEls = new JsonArray();
+            for(JsonElement el:elements) {
+                JsonObject mappedEl = (JsonObject) mapper.getThing(el);
+                if(mappedEl!=null) {
+                    System.out.println(mappedEl);
+                    mappedEls.put(mappedEl);
+                    if (!mappedEl.has("http://www.w3.org/2000/01/rdf-schema#label")) {
+                        nolabelEls.put(mappedEl.put("orig", el));
+                    }
+                }
+            }
+
+            System.out.println("Mapped els: " + mappedEls);
+            System.out.println("Nolabel els: " + nolabelEls);
+            System.out.println("Unmapped tags: " + mapper.getUnmappedTags());
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static HttpResponse doSearch(String featureCode) throws IOException {
-        return new HttpSender(Config.osmOverpassBaseUrl
-                + "node" + ((featureCode == null) ? "[name]" : featureCode) +
-                + Config.getBoundigboxParams(54.1,4.4,5.2,55.2)
-                + "out%20500;" )
-                .setMethod(HttpSender.GET)
-                .doCall();
-
+    private static HttpResponse doNodeSearch(String kv) throws IOException {
+        ArrayList<String> kvs =  new ArrayList<>();
+        kvs.add(kv);
+       // -0.42228282889341606,-0.2471923828125
+      //  0.42228316416045586,0.24719204753637317
+        return doNodeSearch(kvs, new BoundingBox(48.29892057002853,7.485171295702457,48.8576793564343,7.9795560613274565));
     }
 
-    public static HttpResponse doSearch(String featureCode, LatLngBounds bounds) {
+    public static HttpResponse doNodeSearch(ArrayList<String> kvs, BoundingBox bounds) {
 
-                Config.osmOverpassBaseUrl
-                        + "(" + Math.min(bounds.northeast.latitude, bounds.southwest.latitude)
-                        + "," + Math.min(bounds.northeast.longitude, bounds.southwest.longitude)
-                        + "," + Math.max(bounds.northeast.latitude, bounds.southwest.latitude)
-                        + "," + Math.max(bounds.northeast.longitude, bounds.southwest.longitude) + ");"
+        try {
+            System.out.println("overpass created request: " + kvs + ", bounds: " + bounds);
+            return new HttpSender(Config.osmOverpassBaseUrl
+                    + Config.buildQuery(kvs, bounds))
+                    .setMethod(HttpSender.GET)
+                    .doCall();
 
-                //  Config.osmOverpassBaseUrl + "node" + ((featureCode==null)?"[name]":featureCode) + "(" + Math.min(bounds.northeast.latitude, bounds.southwest.latitude)+","+Math.min(bounds.northeast.longitude, bounds.southwest.longitude)+","+Math.max(bounds.northeast.latitude, bounds.southwest.latitude)+","+ Math.max(bounds.northeast.longitude, bounds.southwest.longitude)+ ");" + "out%20500;"
-                // Config.osmOverpassBaseUrl + "node" + ((featureCode==null)?"":"["+featureCode+"]") + "(" + Math.min(bounds.northeast.latitude, bounds.southwest.latitude)+","+Math.min(bounds.northeast.longitude, bounds.southwest.longitude)+","+Math.max(bounds.northeast.latitude, bounds.southwest.latitude)+","+ Math.max(bounds.northeast.longitude, bounds.southwest.longitude)+ ");" + "out%20500;"
-                //Config.osmOverpassBaseUrl + "node" + ((featureCode==null)?"[tourism]":"["+featureCode+"]") + "(" + Math.min(bounds.northeast.latitude, bounds.southwest.latitude)+","+Math.min(bounds.northeast.longitude, bounds.southwest.longitude)+","+Math.max(bounds.northeast.latitude, bounds.southwest.latitude)+","+ Math.max(bounds.northeast.longitude, bounds.southwest.longitude)+ ");" + "out%20500;"
-                //Config.osmOverpassBaseUrl + "node" + "[tourism]" + "(" + Math.min(bounds.northeast.latitude, bounds.southwest.latitude)+","+Math.min(bounds.northeast.longitude, bounds.southwest.longitude)+","+Math.max(bounds.northeast.latitude, bounds.southwest.latitude)+","+ Math.max(bounds.northeast.longitude, bounds.southwest.longitude)+ ");" + "out%205;"
-                , null
-                , listener,
-                errorListener);
+        } catch (IOException e) {
+            e.printStackTrace();
 
-        System.out.println("overpass created request: " + featureCode + ", bounds: " + bounds);
+            return null;
+        }
+        //  Config.osmOverpassBaseUrl + "node" + ((featureCode==null)?"[name]":featureCode) + "(" + Math.min(bounds.northeast.latitude, bounds.southwest.latitude)+","+Math.min(bounds.northeast.longitude, bounds.southwest.longitude)+","+Math.max(bounds.northeast.latitude, bounds.southwest.latitude)+","+ Math.max(bounds.northeast.longitude, bounds.southwest.longitude)+ ");" + "out%20500;"
+        // Config.osmOverpassBaseUrl + "node" + ((featureCode==null)?"":"["+featureCode+"]") + "(" + Math.min(bounds.northeast.latitude, bounds.southwest.latitude)+","+Math.min(bounds.northeast.longitude, bounds.southwest.longitude)+","+Math.max(bounds.northeast.latitude, bounds.southwest.latitude)+","+ Math.max(bounds.northeast.longitude, bounds.southwest.longitude)+ ");" + "out%20500;"
+        //Config.osmOverpassBaseUrl + "node" + ((featureCode==null)?"[tourism]":"["+featureCode+"]") + "(" + Math.min(bounds.northeast.latitude, bounds.southwest.latitude)+","+Math.min(bounds.northeast.longitude, bounds.southwest.longitude)+","+Math.max(bounds.northeast.latitude, bounds.southwest.latitude)+","+ Math.max(bounds.northeast.longitude, bounds.southwest.longitude)+ ");" + "out%20500;"
+        //Config.osmOverpassBaseUrl + "node" + "[tourism]" + "(" + Math.min(bounds.northeast.latitude, bounds.southwest.latitude)+","+Math.min(bounds.northeast.longitude, bounds.southwest.longitude)+","+Math.max(bounds.northeast.latitude, bounds.southwest.latitude)+","+ Math.max(bounds.northeast.longitude, bounds.southwest.longitude)+ ");" + "out%205;"
+
+
     }
 
 }
