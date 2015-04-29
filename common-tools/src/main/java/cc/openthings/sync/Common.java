@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Common {
+    public final static String openThingsOnto = "https://raw.githubusercontent.com/openthings-cc/openthings-onto/master/OpenThingsOnto.jsonld";
     public final static String gnOnto = "geonames-ontology_v3.1.rdf";
     public final static String gnMappings = "mappings_geonames3.01-all.rdf";
     public final static String mappingGeOntoGeonames = "mapping-geOnto-geonames.nt";
@@ -65,18 +66,26 @@ public class Common {
 
     public static OntModel getOntModel(File modelFile) {
 
+        return getOntModel(modelFile.getAbsolutePath());
+
+
+    }
+
+    public static OntModel getOntModel(String path) {
+
         OntModel ontModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
 
-        ontModel.read( modelFile.getAbsolutePath());
+        ontModel.read( path);
         Model baseModel = ontModel.getBaseModel();
 
         // System.out.println("baseModel Graph=" + baseModel.getGraph().toString());
 
-        System.out.println( "======= Ont model created from: "+ modelFile.getAbsolutePath()+" =======");
+        System.out.println( "======= Ont model created from: "+ path+" =======");
 
         return ontModel;
 
     }
+
     public static int countElements(JsonObject job) {
         int jobs = 0;
         for(JsonElement je:job.valuesSet()) {
