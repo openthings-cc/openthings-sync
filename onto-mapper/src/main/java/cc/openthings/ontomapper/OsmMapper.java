@@ -200,6 +200,7 @@ public class OsmMapper extends Mapper {
 
 
     private void processMainTypes(JsonArray type, String tagKey) {
+        tagKey = tagKey.toLowerCase();
         if (mainOsmKeys.containsKey(tagKey)) {
             type.addAll(mainOsmKeys.get(tagKey).getJsonArray("@value"));
         }
@@ -207,52 +208,74 @@ public class OsmMapper extends Mapper {
 
     //returns if processed or not
     private boolean processOtherTags(JsonObject thing, JsonArray type, String tagKey, String tagValue) {
-        String tagId = getTagId(tagKey, tagValue);
-        if (fixedOsmKV.containsKey(tagId)) {
-            JsonObject mapping = fixedOsmKV.get(tagId);
-            String prop = mapping.getString("@type");
-            JsonArray values = mapping.getJsonArray("@value");
-            if (prop.equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")) {
-                type.addAll(values);
-            } else {
-                for (JsonElement je : values) {
-                    JsonObject propToPut = new JsonObject().put("@value",
-                            je.asString());
-
-                    if (mapping.optString("@language") != null) {
-                        propToPut.put("@language", mapping.optString("@language"));
-                    }
-                    if (!thing.has(prop)) {
-                        thing.put(prop, new JsonArray().put(propToPut));
-                    } else {
-                        thing.getJsonArray(prop).put(propToPut);
-                    }
+        tagKey = tagKey.toLowerCase();
+        tagValue = tagValue.toLowerCase();
+        if(tagValue.contains(";")) {
+           boolean res =true;
+            String[] tagValues = tagValue.split(";");
+            for(String singleTagValue:tagValues) {
+                if(!processOtherTags(thing, type, tagKey, singleTagValue)) {
+                    res = false;
                 }
             }
-            return true;
+            return res;
         } else {
-            return false;
+            String tagId = getTagId(tagKey, tagValue);
+            if (fixedOsmKV.containsKey(tagId)) {
+                JsonObject mapping = fixedOsmKV.get(tagId);
+                String prop = mapping.getString("@type");
+                JsonArray values = mapping.getJsonArray("@value");
+                if (prop.equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")) {
+                    type.addAll(values);
+                } else {
+                    for (JsonElement je : values) {
+                        JsonObject propToPut = new JsonObject().put("@value",
+                                je.asString());
+
+                        if (mapping.optString("@language") != null) {
+                            propToPut.put("@language", mapping.optString("@language"));
+                        }
+                        if (!thing.has(prop)) {
+                            thing.put(prop, new JsonArray().put(propToPut));
+                        } else {
+                            thing.getJsonArray(prop).put(propToPut);
+                        }
+                    }
+                }
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 
     private void processRegexTags(JsonObject thing, String tagKey, String tagValue) {
-        if (regexKeys.containsKey(tagKey)) {
-            JsonObject mapping = regexKeys.get(tagKey);
-            String prop = mapping.getString("@type");
-            //For now we assume we don't have 1-to-many for regex mappings as those are not types
-            String value = tagValue.replaceAll(mapping.getString("v"), mapping.getJsonArray("@value").getString(0));
-            JsonObject propToPut = new JsonObject().put("@value", value);
-            if (mapping.optString("@language") != null) {
-                String language = tagValue.replaceAll(mapping.getString("v"), mapping.getString("@language"));
-                propToPut.put("@language", language);
-            }
-            if (!thing.has(prop)) {
-                thing.put(prop, new JsonArray().put(propToPut));
-            } else {
-                thing.getJsonArray(prop).put(propToPut);
+        tagKey = tagKey.toLowerCase();
+        tagValue = tagValue.toLowerCase();
+        if(tagValue.contains(";")) {
+            String[] tagValues = tagValue.split(";");
+            for(String singleTagValue:tagValues) {
+                processRegexTags(thing, tagKey, singleTagValue);
             }
         } else {
-            unmappedTags.put(tagKey, tagValue);
+            if (regexKeys.containsKey(tagKey)) {
+                JsonObject mapping = regexKeys.get(tagKey);
+                String prop = mapping.getString("@type");
+                //For now we assume we don't have 1-to-many for regex mappings as those are not types
+                String value = tagValue.replaceAll(mapping.getString("v"), mapping.getJsonArray("@value").getString(0));
+                JsonObject propToPut = new JsonObject().put("@value", value);
+                if (mapping.optString("@language") != null) {
+                    String language = tagValue.replaceAll(mapping.getString("v"), mapping.getString("@language"));
+                    propToPut.put("@language", language);
+                }
+                if (!thing.has(prop)) {
+                    thing.put(prop, new JsonArray().put(propToPut));
+                } else {
+                    thing.getJsonArray(prop).put(propToPut);
+                }
+            } else {
+                unmappedTags.put(tagKey, tagValue);
+            }
         }
     }
 

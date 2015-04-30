@@ -5,9 +5,12 @@ import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.rdf.model.NodeIterator;
 import com.hp.hpl.jena.rdf.model.Resource;
+import org.djodjo.json.JsonElement;
 import org.djodjo.json.JsonObject;
 
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import static cc.openthings.sync.Common.getOntModel;
 
@@ -41,12 +44,21 @@ public class AssetsGenerator {
 
 
     public JsonObject ontoClassesToTypesMenu(OntModel ontModel) {
+        Set<String> visited = new HashSet<>();
+        Set<String> similar =  new HashSet<>();
         OntClass ontClass;
         int counter = 0;
         JsonObject typesTree =  new JsonObject();
         Iterator<OntClass> itrClass = ontModel.listClasses();
         while ( itrClass.hasNext()) {
             ontClass = itrClass.next();
+            String name =  ontClass.getLocalName();
+            if(visited.contains(name)) {
+                similar.add(name);
+            } else {
+                visited.add(name);
+            }
+
             counter++;
             System.out.println( "------- NO." + counter + " -------");
 // Parse the class
@@ -58,6 +70,7 @@ public class AssetsGenerator {
         System.out.println( "======= " + counter + " =======");
         System.out.println(typesTree.toString());
         System.out.println( "======= " + Common.countElements(typesTree) + " =======");
+        System.out.println( "similar: " + JsonElement.wrap(similar) );
 
         return typesTree;
     }
@@ -66,6 +79,7 @@ public class AssetsGenerator {
 
 
     public  JsonObject ontoClassesToTypesMenu(OntClass ontClass, JsonObject subJson) {
+
         JsonObject res = new JsonObject();
         String name =  ontClass.getLocalName();
         //.asComplementClass().getRDFType().getLocalName();
@@ -75,6 +89,7 @@ public class AssetsGenerator {
         NodeIterator superClasses = ontClass.listPropertyValues(ontClass.getProfile().SUB_CLASS_OF());
 
         if(!superClasses.hasNext()) {
+
             return new JsonObject().put(name, subJson);
         }
 
@@ -94,5 +109,7 @@ public class AssetsGenerator {
         return res;
 
     }
+
+
 
 }
