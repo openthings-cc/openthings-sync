@@ -55,7 +55,7 @@ public final class TestApi {
 
             System.out.println("Mapped els: " + mappedEls);
             System.out.println("Nolabel els: " + nolabelEls);
-            System.out.println("Unmapped tags: " + mapper.getUnmappedTags());
+            System.out.println("Unmapped tags: " + JsonElement.wrap(mapper.getUnmappedTags()));
 
         } catch (IOException e) {
             e.printStackTrace();
