@@ -22,8 +22,8 @@ public class LGDOnto {
 
     public static void main(String[] args) {
         LGDOnto lgdOnto = new LGDOnto();
-          lgdOnto.analyseLGDtypes();
-        //lgdOnto.printLGDJsonLd();
+       //   lgdOnto.analyseLGDtypes();
+        lgdOnto.printLGDJsonLd();
         //lgdOnto.qTest();
       //  lgdOnto.genOTOnto();
     }

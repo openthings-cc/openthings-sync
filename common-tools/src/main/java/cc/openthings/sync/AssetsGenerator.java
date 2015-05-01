@@ -132,6 +132,10 @@ public class AssetsGenerator {
 
         shapeLeafs(typesTree);
 
+        typesTree = finishItUp(deepSortTypeTree(typesTree));
+
+
+
         System.out.println(typesTree.toString());
         System.out.println("======= " + Common.countElements(typesTree) + " =======");
 
@@ -152,7 +156,6 @@ public class AssetsGenerator {
         NodeIterator superClasses = ontClass.listPropertyValues(ontClass.getProfile().SUB_CLASS_OF());
 
         if (!superClasses.hasNext()) {
-
             return new JsonObject().put(name, subJson);
         }
 
@@ -201,5 +204,41 @@ public class AssetsGenerator {
         }
 
     }
+
+    public static JsonObject finishItUp(JsonObject job) {
+        JsonObject res = new JsonObject();
+        res.put("MainTypes", job.get("GeoThing"));
+        res.merge(job);
+        res.remove("Thing");
+        res.remove("GeoThing");
+        return res;
+    }
+
+    public static JsonObject deepSortTypeTree(JsonObject job) {
+        if (job == null || job.length() < 1) return job;
+        TreeMap<String, JsonElement> sortedMap = new TreeMap<>();
+        Iterator<Map.Entry<String, JsonElement>> iterator = job.iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, JsonElement> el = iterator.next();
+            JsonElement val = el.getValue();
+
+            if (val.isJsonObject()) {
+                val = deepSortTypeTree(val.asJsonObject());
+            } else if (val.isJsonArray()) {
+                ArrayList<String> nList = val.asJsonArray().toArrayList();
+
+                nList.sort(new Comparator<String>() {
+                    @Override
+                    public int compare(String o1, String o2) {
+                        return o1.compareTo(o2);
+                    }
+                });
+                val = new JsonArray(nList);
+            }
+            sortedMap.put(el.getKey(), val);
+        }
+        return JsonElement.wrap(sortedMap).asJsonObject();
+    }
+
 
 }
