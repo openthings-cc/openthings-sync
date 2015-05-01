@@ -608,7 +608,7 @@
   { "k":"amenity", "v":"scout_hall", "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "@value":"http://openthings.cc/ontology/ScoutHall" },
   { "k":"amenity", "v":"scout_hut", "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "@value":"http://openthings.cc/ontology/ScoutHut" },
   { "k":"amenity", "v":"seat", "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "@value":"http://openthings.cc/ontology/Seat" },
-  { "k":"amenity", "v":"seating,ornamental", "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "@value":"http://openthings.cc/ontology/Seating%2Cornamental" },
+  { "k":"amenity", "v":"seating,ornamental", "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "@value":"http://openthings.cc/ontology/SeatingOrnamental" },
   { "k":"amenity", "v":"sento", "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "@value":"http://openthings.cc/ontology/Sento" },
   { "k":"amenity", "v":"service", "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "@value":"http://openthings.cc/ontology/Service" },
   { "k":"amenity", "v":"services", "@type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "@value":"http://openthings.cc/ontology/Services" },
