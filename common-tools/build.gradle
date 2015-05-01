@@ -17,6 +17,7 @@ dependencies {
     compile 'org.apache.jena:jena-core:2.12.1'
     compile 'org.apache.jena:jena-arq:2.12.1'
     compile project (':Sender')
+    compile project(':onto-mapper')
 }
 
 task printLGDont(type: JavaExec) {

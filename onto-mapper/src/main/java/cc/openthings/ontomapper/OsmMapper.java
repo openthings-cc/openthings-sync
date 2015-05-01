@@ -17,6 +17,7 @@ public class OsmMapper extends Mapper {
 
     HashMap<String, String> unmappedTags = new HashMap<>();
 
+
     private OsmMap osmMap = new OsmMap();
     //main osm kes aka main OpenThings types
     //*value is null
@@ -60,6 +61,10 @@ public class OsmMapper extends Mapper {
             }
 
         }
+    }
+
+    public OsmMap getOsmMap() {
+        return osmMap;
     }
 
     private static String getTagId(String tagKey, String tagValue) {
