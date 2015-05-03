@@ -33,7 +33,7 @@ public final class TestApi {
     public static void main(String[] args) {
         HttpResponse httpResponse;
         try {
-            httpResponse = doNodeSearch("");
+            httpResponse = doDummySearch("", Config.QueryType.way);
             if(httpResponse!=null) {
                 System.out.println(httpResponse.body);
             }
@@ -62,20 +62,21 @@ public final class TestApi {
         }
     }
 
-    private static HttpResponse doNodeSearch(String kv) throws IOException {
+    private static HttpResponse doDummySearch(String kv, Config.QueryType qType) throws IOException {
         ArrayList<String> kvs =  new ArrayList<>();
         kvs.add(kv);
        // -0.42228282889341606,-0.2471923828125
       //  0.42228316416045586,0.24719204753637317
-        return doNodeSearch(kvs, new BoundingBox(48.29892057002853,7.485171295702457,48.8576793564343,7.9795560613274565));
+        return doSearch(kvs, new BoundingBox(48.29892057002853, 7.485171295702457, 48.8576793564343, 7.9795560613274565), qType);
     }
 
-    public static HttpResponse doNodeSearch(ArrayList<String> kvs, BoundingBox bounds) {
+    public static HttpResponse doSearch(ArrayList<String> kvs, BoundingBox bounds, Config.QueryType qType) {
 
         try {
             System.out.println("overpass created request: " + kvs + ", bounds: " + bounds);
             return new HttpSender(Config.osmOverpassBaseUrl
-                    + Config.buildQuery(kvs, bounds))
+                    //+ Config.buildNodeQuery(kvs, bounds))
+                    + Config.buildQuery(kvs, bounds, qType))
                     .setMethod(HttpSender.GET)
                     .doCall();
 

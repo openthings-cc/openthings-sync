@@ -42,7 +42,7 @@ public class HttpSender {
 			conn = (HttpURLConnection)new URL(url).openConnection();
 			conn.setUseCaches(false);
             conn.setConnectTimeout(5000);
-            conn.setReadTimeout(5000);
+            conn.setReadTimeout(50000);
 			conn.setRequestProperty("User-Agent", USER_AGENT);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
