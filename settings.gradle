@@ -13,3 +13,5 @@ include 'es-tools'
 
 include 'osm-sync'
 
+include 'beermapping'
+
