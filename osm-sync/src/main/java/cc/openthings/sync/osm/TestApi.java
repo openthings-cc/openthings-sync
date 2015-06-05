@@ -33,7 +33,7 @@ public final class TestApi {
     public static void main(String[] args) {
         HttpResponse httpResponse;
         try {
-            httpResponse = doDummySearch("", Config.QueryType.way);
+            httpResponse = doDummySearch("[building]", Config.QueryType.way);
             if(httpResponse!=null) {
                 System.out.println(httpResponse.body);
             }
@@ -75,8 +75,8 @@ public final class TestApi {
         try {
             System.out.println("overpass created request: " + kvs + ", bounds: " + bounds);
             return new HttpSender(Config.osmOverpassBaseUrl
-                    //+ Config.buildNodeQuery(kvs, bounds))
-                    + Config.buildQuery(kvs, bounds, qType))
+                    + Config.buildNodeQuery(kvs, bounds))
+                    //+ Config.buildQuery(kvs, bounds, qType))
                     .setMethod(HttpSender.GET)
                     .doCall();
 

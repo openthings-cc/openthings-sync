@@ -20,6 +20,10 @@ public class AssetsGenerator {
 
     OntModel model;
     private int maxLevel = 2;
+    private static final int ALL_TYPES = 0;
+    private static final int NODE  = 1;
+    private static final int ROUTE  = 2;
+
 
     public AssetsGenerator() {
         model = getOpenThingsModel();
@@ -28,13 +32,23 @@ public class AssetsGenerator {
     public static void main(String[] args) {
         AssetsGenerator assetsGenerator = new AssetsGenerator();
         //assetsGenerator.analyseTypes();
-        assetsGenerator.genTypesMenu();
-        assetsGenerator.genType_KeyValueMap();
+        //assetsGenerator.genFullTypesMenu();
+        //assetsGenerator.genNodeTypesMenu();
+        assetsGenerator.genRouteTypesMenu();
+        //assetsGenerator.genType_KeyValueMap();
 
     }
 
-    private void genTypesMenu() {
-        ontoClassesToTypeTree(model);
+    private void genFullTypesMenu() {
+        ontoClassesToTypeTree(model, ALL_TYPES);
+    }
+
+    private void genNodeTypesMenu() {
+        ontoClassesToTypeTree(model, NODE);
+    }
+
+    private void genRouteTypesMenu() {
+        ontoClassesToTypeTree(model, ROUTE);
     }
 
     private void analyseTypes() {
@@ -103,7 +117,7 @@ public class AssetsGenerator {
         return new JsonArray(res);
     }
 
-    public JsonObject ontoClassesToTypeTree(OntModel ontModel) {
+    public JsonObject ontoClassesToTypeTree(OntModel ontModel, int type) {
         Set<String> visited = new HashSet<>();
         Set<String> similar = new HashSet<>();
         OntClass ontClass;
@@ -124,7 +138,25 @@ public class AssetsGenerator {
 // Parse the class
             System.out.println("----------" + ontClass.toString() + "-----------");
 
-            typesTree.merge(ontoClassesToTypeTree(ontClass, new JsonObject(), 0));
+            switch(type) {
+                case ALL_TYPES: typesTree.merge(ontoClassesToTypeTree(ontClass, new JsonObject(), 0, type)); break;
+                case NODE:
+                    if(!hasSuperClass(ontClass, "http://openthings.cc/ontology/RouteThing")) {
+                        typesTree.merge(ontoClassesToTypeTree(ontClass, new JsonObject(), 0, type));
+                    } else {
+                        System.out.println("----------" + ontClass.toString() + "is not NODE -----------");
+                    }
+                    break;
+                case ROUTE:
+                    if(hasSuperClass(ontClass, "http://openthings.cc/ontology/RouteThing")) {
+                        typesTree.merge(ontoClassesToTypeTree(ontClass, new JsonObject(), 0, type));
+                    } else {
+                        System.out.println("----------" + ontClass.toString() + "is not ROUTE -----------");
+                    }
+                    break;
+            }
+
+
 
         }
 
@@ -145,7 +177,7 @@ public class AssetsGenerator {
     }
 
 
-    public JsonObject ontoClassesToTypeTree(OntClass ontClass, JsonObject subJson, int level) {
+    public JsonObject ontoClassesToTypeTree(OntClass ontClass, JsonObject subJson, int level, int type) {
         if (level >= maxLevel) return subJson;
         JsonObject res = new JsonObject();
         String name = ontClass.getLocalName();
@@ -167,7 +199,7 @@ public class AssetsGenerator {
 
                 //if(superClass.getNameSpace().equals("http://schema.org/")) break;
                 System.out.println("\t\t\t -- " + sClass);
-                res.merge(ontoClassesToTypeTree((OntClass) sClass, new JsonObject().put(name, subJson), level));
+                res.merge(ontoClassesToTypeTree((OntClass) sClass, new JsonObject().put(name, subJson), level, type));
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -175,6 +207,21 @@ public class AssetsGenerator {
 
         return res;
 
+    }
+
+    private boolean hasSuperClass(OntClass ontClass, String className) {
+        NodeIterator superClasses = ontClass.listPropertyValues(ontClass.getProfile().SUB_CLASS_OF());
+
+        System.out.println("======= CHECKING: " + ontClass.toString() + " =======");
+        if(ontClass.toString().equals(className)) return true;
+
+        while (superClasses.hasNext()) {
+            if(hasSuperClass(superClasses.next().as(OntClass.class), className)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 
@@ -207,7 +254,7 @@ public class AssetsGenerator {
 
     public static JsonObject finishItUp(JsonObject job) {
         JsonObject res = new JsonObject();
-        res.put("MainTypes", job.get("GeoThing"));
+        res.put("MainTypes", job.opt("GeoThing"));
         res.merge(job);
         res.remove("Thing");
         res.remove("GeoThing");
