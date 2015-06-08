@@ -59,4 +59,15 @@ public class Config {
     public enum QueryType {
         node, way, relation
     }
+
+    public static String buildIdQuery(long id, Config.QueryType qType) {
+        //id += 2400000000l;
+        StringBuilder res = new StringBuilder();
+        if(QueryType.node.equals(qType)) {
+            res.append("node("+id+");");
+        } else if(QueryType.way.equals(qType)) {
+            res.append("way("+id+");");
+        }
+        return res.toString();
+    }
 }
