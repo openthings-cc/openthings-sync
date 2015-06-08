@@ -32,6 +32,8 @@ public class Config {
            return buildNodeQuery(kvs, bounds);
        } else if(QueryType.way.equals(qType)) {
            return buildWayQuery(kvs, bounds);
+       } else if(QueryType.relation.equals(qType)) {
+           return buildRelQuery(kvs, bounds);
        }
        else return "";
     }
@@ -56,6 +58,18 @@ public class Config {
         res.append(");" + "out%20500;");
         return res.toString();
     }
+
+    public static String buildRelQuery(ArrayList<String> kvs, BoundingBox bounds) {
+        StringBuilder res = new StringBuilder();
+        String bbox = getBoundigboxString(bounds);
+        res.append("(");
+        for (String kv : kvs) {
+            res.append("rel" +kv).append(bbox);
+        }
+        res.append(");" + "out%20500;");
+        return res.toString();
+    }
+    
     public enum QueryType {
         node, way, relation
     }
@@ -68,6 +82,7 @@ public class Config {
         } else if(QueryType.way.equals(qType)) {
             res.append("way("+id+");");
         }
+        res.append("out;");
         return res.toString();
     }
 }

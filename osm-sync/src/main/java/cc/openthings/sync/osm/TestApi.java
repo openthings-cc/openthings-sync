@@ -40,9 +40,12 @@ public final class TestApi {
             OsmMapper mapper = new OsmMapper();
 
             JsonArray elements = JsonElement.readFrom(httpResponse.body).asJsonObject().getJsonArray("elements");
+            System.out.println("elements: " +  elements.length());
             JsonArray mappedEls = new JsonArray();
             JsonArray nolabelEls = new JsonArray();
-
+            
+            System.exit(0);
+            
             JsonArray nodes = elements.get(0).asJsonObject().getJsonArray("nodes");
             for (JsonElement el : nodes) {
                 httpResponse = doIdSearch(el.asLong(), Config.QueryType.node);
