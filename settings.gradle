@@ -15,3 +15,5 @@ include 'osm-sync'
 
 include 'beermapping'
 
+include 'pharma-be'
+
