@@ -21,24 +21,46 @@ import cc.openthings.sender.HttpSender;
 
 import java.io.IOException;
 
+import static cc.openthings.sync.pharmabe.Config.*;
+
 public class TestApi {
 
     public static void main(String[] args) {
         try {
-            getNearByCoord(51, 4);
+            //getNearByCoord(51, 4);
+            getNearById(110104);
+            //getAllData();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public static HttpResponse getNearByCoord(double lat, double lon) throws IOException {
-        return new HttpSender(Config.baseUrl + Config.nearCoord + "?longitude="+lon+ "&latitude="+lat)
+        return new HttpSender(Config.baseUrl + Config.nearCoord + "?longitude=" + lon + "&latitude=" + lat
+                + withMaxDistance(30) //curr limit is 30
+                + withMaxResults(20) //curr limit is 20
+                + withDate("2015-06-14")
+                + withTime("22:10:00")
+                + withDutyOnly(false)
+        )
                 .setMethod(HttpSender.GET)
                 .doCall();
     }
 
     public static HttpResponse getNearById(int pharmaId) throws IOException {
-        return new HttpSender(Config.baseUrl + Config.nearId + "?caregiver_id="+pharmaId)
+        return new HttpSender(Config.baseUrl + Config.nearId + "?caregiver_id=" + pharmaId
+                + withMaxDistance(30) //curr limit is 30
+                + withMaxResults(20) //curr limit is 20
+                + withDate("2015-06-14")
+                + withTime("22:10:00")
+                + withDutyOnly(false)
+        )
+                .setMethod(HttpSender.GET)
+                .doCall();
+    }
+
+    public static HttpResponse getAllData() throws IOException {
+        return new HttpSender(Config.allDataUrl)
                 .setMethod(HttpSender.GET)
                 .doCall();
     }
