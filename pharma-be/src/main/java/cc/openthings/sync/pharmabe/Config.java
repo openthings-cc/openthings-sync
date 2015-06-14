@@ -16,7 +16,7 @@
 
 package cc.openthings.sync.pharmabe;
 
-//info from http://www.geonames.org/export/ws-overview.html
+//info  http://api.geowacht.be/Complete%2BAPI%2Bdocumentation.html
 public class Config {
 
 
