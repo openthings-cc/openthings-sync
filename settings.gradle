@@ -17,3 +17,5 @@ include 'beermapping'
 
 include 'pharma-be'
 
+include 'rental-bikes'
+
