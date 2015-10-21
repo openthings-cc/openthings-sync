@@ -504,7 +504,7 @@ public class OntAnalyser {
         }
         System.out.println("Types: " + types);
     }
-    
+
     private void analyseAgroVocTypes() {
         int types = 0;
         ClassLoader classLoader = getClass().getClassLoader();
