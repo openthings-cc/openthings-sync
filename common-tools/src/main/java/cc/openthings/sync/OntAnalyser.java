@@ -45,10 +45,9 @@ public class OntAnalyser {
         //ontAnalyser.analyseFoodTypes(Common.foodRdfOnto);
         ontAnalyser.analyseAgroVocTypes();
     }
-
+    
     private void analyseGN() {
-
-            analyseGNtypes();
+         analyseGNtypes();
      // analyseAllMappings();
 
       //   analyseLGDtypes();
