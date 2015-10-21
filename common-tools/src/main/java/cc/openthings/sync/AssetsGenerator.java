@@ -274,7 +274,7 @@ public class AssetsGenerator {
             } else if (val.isJsonArray()) {
                 ArrayList<String> nList = val.asJsonArray().toArrayList();
 
-                nList.sort(new Comparator<String>() {
+                Collections.sort(nList, new Comparator<String>() {
                     @Override
                     public int compare(String o1, String o2) {
                         return o1.compareTo(o2);
