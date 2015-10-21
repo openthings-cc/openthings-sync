@@ -19,3 +19,5 @@ include 'pharma-be'
 
 include 'rental-bikes'
 
+include 'openfoodfacts'
+
