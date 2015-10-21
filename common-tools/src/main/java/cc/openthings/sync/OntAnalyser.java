@@ -41,11 +41,14 @@ public class OntAnalyser {
 
     public static void main(String[] args) {
         OntAnalyser ontAnalyser = new OntAnalyser();
-        ontAnalyser.analyseGN();
+        //ontAnalyser.analyseGN();
+        //ontAnalyser.analyseFoodTypes(Common.foodRdfOnto);
+        ontAnalyser.analyseAgroVocTypes();
     }
 
     private void analyseGN() {
-         analyseGNtypes();
+
+            analyseGNtypes();
      // analyseAllMappings();
 
       //   analyseLGDtypes();
@@ -463,9 +466,90 @@ public class OntAnalyser {
 
     }
 
+    private void analyseFoodTypes(String url) {
+        int types = 0;
+        Model model =  getOntModel(url);
+        /////////
 
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        model.write(os, "JSON-LD");
+        InputStream is = new ByteArrayInputStream(os.toByteArray());
+        //not need to expand just keep common context for geoThings
+        //Object jObj = JsonUtils.fromInputStream(is);
+        //Object expjObj = JsonLdProcessor.expand(jObj);
+        //System.out.println("Expanded:" + expjObj);
+        InputStreamReader isr = new InputStreamReader(is);
 
+        try {
+            JsonObject je = JsonObject.readFrom(isr).asJsonObject();
+            System.out.println(je.toString());
 
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+       // System.exit(0);
+        //fetch types form json-ld
+        //////////
+
+        Query query= QueryFactory.create(queryGN2LGDmapping);
+        QueryExecution qe = QueryExecutionFactory.create(query, model);
+        ResultSet results = qe.execSelect();
+
+        while (results.hasNext()) {
+            QuerySolution row = results.next();
+            //  String value= row.getLiteral("name").toString();
+            String value = row.toString();
+            types++;
+            System.out.println(value);
+        }
+        System.out.println("Types: " + types);
+    }
+
+    private void analyseAgroVocTypes() {
+        int types = 0;
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource(Common.agroVocOnto).getFile());
+        System.out.println("will model read");
+        Model model =  getModel(file, "N-TRIPLE");
+        System.out.println("model read");
+        /////////
+
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        model.write(os, "JSON-LD");
+        InputStream is = new ByteArrayInputStream(os.toByteArray());
+        //not need to expand just keep common context for geoThings
+        //Object jObj = JsonUtils.fromInputStream(is);
+        //Object expjObj = JsonLdProcessor.expand(jObj);
+        //System.out.println("Expanded:" + expjObj);
+        InputStreamReader isr = new InputStreamReader(is);
+
+        try {
+
+            JsonObject je = JsonObject.readFrom(isr).asJsonObject();
+            System.out.println(je.toString());
+
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.exit(0);
+        //fetch types form json-ld
+        //////////
+
+        Query query= QueryFactory.create(queryGNtypes);
+        QueryExecution qe = QueryExecutionFactory.create(query, model);
+        ResultSet results = qe.execSelect();
+
+        while (results.hasNext()) {
+            QuerySolution row = results.next();
+            //  String value= row.getLiteral("name").toString();
+            String value = row.toString();
+            types++;
+            System.out.println(value);
+        }
+        System.out.println("Types: " + types);
+    }
 
     private void analyseGNtypes() {
         int types = 0;
