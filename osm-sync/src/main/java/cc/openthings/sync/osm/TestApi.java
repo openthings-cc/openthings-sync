@@ -19,6 +19,7 @@ package cc.openthings.sync.osm;
 import cc.openthings.ontomapper.OsmMapper;
 import cc.openthings.sender.HttpResponse;
 import cc.openthings.sender.HttpSender;
+import cc.openthings.sync.osm.api.Config;
 import org.djodjo.json.JsonArray;
 import org.djodjo.json.JsonElement;
 import org.djodjo.json.JsonObject;

@@ -1,11 +1,14 @@
 package cc.openthings.sync;
 
 
-import com.hp.hpl.jena.ontology.OntClass;
-import com.hp.hpl.jena.ontology.OntModel;
-import com.hp.hpl.jena.ontology.OntModelSpec;
-import com.hp.hpl.jena.rdf.model.*;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.jena.ontology.OntClass;
+import org.apache.jena.ontology.OntModel;
+import org.apache.jena.ontology.OntModelSpec;
+import org.apache.jena.rdf.model.InfModel;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.NodeIterator;
 import org.djodjo.json.JsonElement;
 import org.djodjo.json.JsonObject;
 
@@ -133,7 +136,7 @@ public class Common {
         //.asComplementClass().getRDFType().getLocalName();
         //System.out.println("\t>>>>\t" + name);
 
-        Resource superClass = null;
+       // Resource superClass = null;
         NodeIterator superClasses = ontClass.listPropertyValues(ontClass.getProfile().SUB_CLASS_OF());
 
         if(!superClasses.hasNext()) {

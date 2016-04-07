@@ -1,4 +1,4 @@
-package cc.openthings.sync.osm;
+package cc.openthings.sync.osm.api;
 
 import org.mapsforge.core.model.BoundingBox;
 

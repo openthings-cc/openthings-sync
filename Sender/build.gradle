@@ -1,6 +1,6 @@
 apply plugin: 'java'
 
-sourceCompatibility = 1.5
+sourceCompatibility = 1.7
 version = '1.0'
 
 repositories {
@@ -9,4 +9,8 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile 'io.apptik.comm:jus-java:0.6.4-SNAPSHOT'
+    compile 'io.apptik.comm:rx-jus:0.6.4-SNAPSHOT'
+    compile 'io.apptik.comm:jus-jjson:0.6.4-SNAPSHOT'
+    compile 'io.apptik.comm:retro-jus:0.6.4-SNAPSHOT'
 }

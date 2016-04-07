@@ -5,6 +5,9 @@ version = '1.0'
 
 repositories {
     mavenCentral()
+    maven {
+        url 'http://oss.sonatype.org/content/repositories/snapshots'
+    }
 }
 
 dependencies {
@@ -12,6 +15,8 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':onto-mapper')
     compile project (':Sender')
+
+    compile 'io.apptik.comm:jus-java:0.6.4-SNAPSHOT'
 
     compile 'org.djodjo.json:json-core:1.+'
     compile 'org.djodjo.json:json-generator:1.+'

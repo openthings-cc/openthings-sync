@@ -12,7 +12,7 @@ public class OsmTest {
     @Test
     public void testOsmPbfMapper() throws FileNotFoundException {
         String fname = "malta-latest.osm.pbf";
-        fname = "belgium-latest.osm.pbf";
+        //fname = "belgium-latest.osm.pbf";
         File pbfFile = new File(getClass().getClassLoader().getResource(fname).getPath());
         System.out.println("processing: " + pbfFile.getPath());
         OsmParser reader = new OsmParser();
