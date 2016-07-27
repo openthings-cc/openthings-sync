@@ -4,13 +4,13 @@ package cc.openthings.sync;
 import cc.openthings.ontomapper.OsmMapper;
 import cc.openthings.ontomapper.model.OsmMap;
 import cc.openthings.ontomapper.model.OsmMapElement;
-import com.hp.hpl.jena.ontology.OntClass;
-import com.hp.hpl.jena.ontology.OntModel;
-import com.hp.hpl.jena.rdf.model.NodeIterator;
-import com.hp.hpl.jena.rdf.model.Resource;
-import org.djodjo.json.JsonArray;
-import org.djodjo.json.JsonElement;
-import org.djodjo.json.JsonObject;
+import io.apptik.json.JsonArray;
+import io.apptik.json.JsonElement;
+import io.apptik.json.JsonObject;
+import org.apache.jena.ontology.OntClass;
+import org.apache.jena.ontology.OntModel;
+import org.apache.jena.rdf.model.NodeIterator;
+import org.apache.jena.rdf.model.Resource;
 
 import java.util.*;
 

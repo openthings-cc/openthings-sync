@@ -16,7 +16,7 @@ dependencies {
     compile project(':onto-mapper')
     compile project (':Sender')
 
-    compile 'io.apptik.comm:jus-java:0.6.4-SNAPSHOT'
+    compile 'io.apptik.comm:jus-java:0.7.0.x1-SNAPSHOT'
 
     compile 'org.djodjo.json:json-core:1.+'
     compile 'org.djodjo.json:json-generator:1.+'

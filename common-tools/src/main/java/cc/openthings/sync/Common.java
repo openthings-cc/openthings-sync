@@ -1,6 +1,7 @@
 package cc.openthings.sync;
 
 
+import io.apptik.json.JsonArray;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntModel;
@@ -9,8 +10,8 @@ import org.apache.jena.rdf.model.InfModel;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.NodeIterator;
-import org.djodjo.json.JsonElement;
-import org.djodjo.json.JsonObject;
+import io.apptik.json.JsonElement;
+import io.apptik.json.JsonObject;
 
 import java.io.File;
 import java.net.URI;
@@ -175,7 +176,7 @@ public class Common {
         if("http://www.geonames.org/ontology#T.VAL".equals(id)) {
             //System.out.println("test");
         }
-        org.djodjo.json.JsonArray modelItems = jsonLdModel.getJsonArray("@graph");
+        JsonArray modelItems = jsonLdModel.getJsonArray("@graph");
         for(JsonElement mi:modelItems) {
                 if ("gn:Code".equals(mi.asJsonObject().optString("@type")) && id.endsWith(mi.asJsonObject().getString("@id").replace("gn:",""))) {
                     return mi.asJsonObject().opt(prop);

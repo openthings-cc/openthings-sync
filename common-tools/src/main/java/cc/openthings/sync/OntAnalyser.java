@@ -16,11 +16,12 @@
 
 package cc.openthings.sync;
 
-import com.hp.hpl.jena.ontology.OntClass;
-import com.hp.hpl.jena.ontology.OntModel;
-import com.hp.hpl.jena.query.*;
-import com.hp.hpl.jena.rdf.model.*;
-import org.djodjo.json.JsonObject;
+
+import io.apptik.json.JsonObject;
+import org.apache.jena.ontology.OntClass;
+import org.apache.jena.ontology.OntModel;
+import org.apache.jena.query.*;
+import org.apache.jena.rdf.model.*;
 
 import java.io.*;
 import java.net.URI;

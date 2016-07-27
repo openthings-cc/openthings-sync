@@ -1,12 +1,12 @@
 package cc.openthings.sync;
 
-import com.hp.hpl.jena.ontology.OntModel;
-import com.hp.hpl.jena.query.*;
-import com.hp.hpl.jena.rdf.model.Model;
-import org.djodjo.json.JsonArray;
-import org.djodjo.json.JsonElement;
-import org.djodjo.json.JsonObject;
-import org.djodjo.json.JsonString;
+import io.apptik.json.JsonArray;
+import io.apptik.json.JsonElement;
+import io.apptik.json.JsonObject;
+import io.apptik.json.JsonString;
+import org.apache.jena.ontology.OntModel;
+import org.apache.jena.query.*;
+import org.apache.jena.rdf.model.Model;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -107,7 +107,7 @@ public class LGDOnto {
         JsonObject job = printJsonLd(model);
 
         job.remove("@context");
-        org.djodjo.json.JsonArray graph = job.getJsonArray("@graph");
+        JsonArray graph = job.getJsonArray("@graph");
 
         Iterator<JsonElement> jsIt = graph.iterator();
 

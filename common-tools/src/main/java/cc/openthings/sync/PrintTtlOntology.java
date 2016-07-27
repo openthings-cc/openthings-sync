@@ -1,13 +1,11 @@
 package cc.openthings.sync;
 
 
-//import com.hp.hpl.jena.query.*;
-//import com.hp.hpl.jena.rdf.model.InfModel;
-//import com.hp.hpl.jena.rdf.model.Model;
-//import com.hp.hpl.jena.rdf.model.ModelFactory;
+import org.apache.jena.query.*;
+import org.apache.jena.rdf.model.InfModel;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 
-
-import javax.management.Query;
 import java.util.ArrayList;
 import java.util.List;
 
