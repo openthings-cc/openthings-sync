@@ -9,6 +9,7 @@ import io.apptik.json.JsonElement;
 import io.apptik.json.JsonObject;
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntModel;
+import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.rdf.model.NodeIterator;
 import org.apache.jena.rdf.model.Resource;
 
@@ -57,7 +58,7 @@ public class AssetsGenerator {
 
     public OntModel getOpenThingsModel() {
 
-        return getOntModel(Common.openThingsOnto);
+        return getOntModel(Common.openThingsOnto, OntModelSpec.OWL_MEM);
 
     }
 

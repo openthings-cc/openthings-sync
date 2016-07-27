@@ -5,6 +5,7 @@ import io.apptik.json.JsonElement;
 import io.apptik.json.JsonObject;
 import io.apptik.json.JsonString;
 import org.apache.jena.ontology.OntModel;
+import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Model;
 
@@ -29,7 +30,7 @@ public class LGDOnto {
     }
 
     public OntModel getLGDModel() {
-        return getOntModel(new File(getClass().getClassLoader().getResource(Common.lgdOnto).getFile()));
+        return getOntModel(new File(getClass().getClassLoader().getResource(Common.lgdOnto).getFile()), OntModelSpec.OWL_MEM);
     }
 
     private void analyseLGDtypes() {
@@ -97,7 +98,7 @@ public class LGDOnto {
 
 
     public void genOTOnto() {
-        OntModel gnModel = getOntModel(new File(getClass().getClassLoader().getResource(Common.gnOnto).getFile()));
+        OntModel gnModel = getOntModel(new File(getClass().getClassLoader().getResource(Common.gnOnto).getFile()), OntModelSpec.OWL_MEM);
         JsonObject gnJsonLd = printJsonLd(gnModel);
 
 
