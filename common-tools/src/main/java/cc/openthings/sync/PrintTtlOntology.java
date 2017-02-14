@@ -11,15 +11,21 @@ import java.util.List;
 
 public class PrintTtlOntology {
 
-    String ttlUrl = "/home/djodjo/Downloads/2014-09-09-ontology.sorted.nt";
+    private final String ttlUrl;
+    String agrovoc = Common.agroVocOnto;
+ //   String ttlUrl = "/home/djodjo/Downloads/2014-09-09-ontology.sorted.nt";
  //   String ttlUrl = "/home/djodjo/Downloads/2014-09-09-HistoricThing.node.sorted.nt";
 //    String queryString= "select * where { ?x <http://www.w3.org/2000/01/rdf-schema#label> ?name }";
 //<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class>
 String queryString= "select * where { ?x <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> }";
 
+    public PrintTtlOntology(String ttlUrl) {
+        this.ttlUrl = ttlUrl;
+    }
+
 
     public static void main(String[] args) {
-        PrintTtlOntology printTtlOntology= new PrintTtlOntology();
+        PrintTtlOntology printTtlOntology= new PrintTtlOntology("");
         Model ontologyAndData= printTtlOntology.getModel();
         System.out.println(printTtlOntology.getNames(ontologyAndData).toString());
         System.out.println(printTtlOntology.getNames(ontologyAndData).size());
@@ -28,7 +34,7 @@ String queryString= "select * where { ?x <http://www.w3.org/1999/02/22-rdf-synta
 
     public Model getModel() {
         Model model= ModelFactory.createDefaultModel();
-        model= model.read(ttlUrl, "TTL");
+        model= model.read(ttlUrl, "NT");
         InfModel rdfs= ModelFactory.createRDFSModel(model);
        // OntModel rdfs= ModelFactory.createOntologyModel(OntModelSpec.assemble(model));
 

@@ -44,10 +44,9 @@ public class OntAnalyser {
         OntAnalyser ontAnalyser = new OntAnalyser();
         //ontAnalyser.analyseGN();
         //ontAnalyser.analyseGenericRemote(Common.foodRdfOnto, OntModelSpec.OWL_MEM);
-        ontAnalyser.analyseGenericRemote(Common.datex2Onto, OntModelSpec.OWL_MEM_MICRO_RULE_INF,
-                "TURTULE");
+        //ontAnalyser.analyseGenericRemote(Common.datex2Onto, OntModelSpec.OWL_MEM_MICRO_RULE_INF, "TURTULE");
 //agrovoc too big to store in git donot use that
-//        ontAnalyser.analyseAgroVocTypes();
+        ontAnalyser.analyseAgroVocTypes();
         //ontAnalyser
     }
 
@@ -510,8 +509,7 @@ public class OntAnalyser {
 
     private void analyseAgroVocTypes() {
         int types = 0;
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource(Common.agroVocOnto).getFile());
+        File file = new File(Common.agroVocOnto);
         System.out.println("will model read");
         Model model = getModel(file, "N-TRIPLE");
         System.out.println("model read");

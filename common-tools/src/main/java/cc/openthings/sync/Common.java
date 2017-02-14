@@ -21,7 +21,7 @@ import java.util.Iterator;
 
 public class Common {
     public final static String openThingsOnto = "https://raw.githubusercontent.com/openthings-cc/openthings-onto/master/OpenThingsOnto.jsonld";
-    public final static String agroVocOnto = "agrovoc_2015-03-24_lod.nt";
+    public final static String agroVocOnto = ".onto/agrovoc_2016-07-15_lod.nt";
     public final static String gnOnto = "geonames-ontology_v3.1.rdf";
     public final static String foodGROnto = "https://raw.githubusercontent.com/ailabitmo/food-ontology/master/food.owl";
     public final static String foodRdfOnto = "http://www.w3.org/TR/2004/REC-owl-guide-20040210/food.rdf";
