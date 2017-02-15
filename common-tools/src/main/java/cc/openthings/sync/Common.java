@@ -2,16 +2,19 @@ package cc.openthings.sync;
 
 
 import io.apptik.json.JsonArray;
+import io.apptik.json.JsonElement;
+import io.apptik.json.JsonObject;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
-import org.apache.jena.rdf.model.InfModel;
+import org.apache.jena.query.Dataset;
+import org.apache.jena.query.ReadWrite;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.NodeIterator;
-import io.apptik.json.JsonElement;
-import io.apptik.json.JsonObject;
+import org.apache.jena.tdb.TDBFactory;
+import org.apache.jena.tdb.TDBLoader;
 
 import java.io.File;
 import java.net.URI;
@@ -69,9 +72,33 @@ public class Common {
     public static Model getModel(File modelFile, String lang) {
         Model model = ModelFactory.createDefaultModel();
         model = model.read(modelFile.getAbsolutePath(), lang);
-        InfModel rdfs = ModelFactory.createRDFSModel(model);
+        System.out.println("======= Ont model read from: " + modelFile.getAbsolutePath() + " =======");
 
-        return rdfs;
+        return ModelFactory.createRDFSModel(model);
+    }
+
+    public static Dataset getAgrovocDataset() {
+        return TDBFactory.createDataset("./agrovoc-tdb-store");
+        //return ModelFactory.createRDFSModel(model);
+    }
+
+    public static void writeAgrovocModel() {
+        File file = new File(Common.agroVocOnto);
+        Dataset dataset = TDBFactory.createDataset("./agrovoc-tdb-store");
+        dataset.begin(ReadWrite.WRITE);
+        Model model = dataset.getNamedModel("http://agrovoc");
+       // FileManager.get().readModel( model, file.getAbsolutePath());
+        TDBLoader.loadModel(model, file.getAbsolutePath() );
+        model.commit();
+        dataset.end();
+        try {
+            model.close();
+        } finally {}
+        try {
+            dataset.close();
+        } finally {}
+        System.out.println("======= Ont model read from: " + file.getAbsolutePath() + " =======");
+
     }
 
     public static Model getModel(File modelFile) {

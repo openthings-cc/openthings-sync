@@ -61,6 +61,7 @@ ext {
                     'org.apache.jena:jena-core:'+jenaVer,
                     'org.apache.jena:jena-arq:'+jenaVer
             ],
+            jenatdb: 'org.apache.jena:jena-tdb:' +jenaVer,
             jus: [
                     'io.apptik.comm:jus-java:'+jusVer,
                     'io.apptik.comm:rx-jus:'+jusVer,

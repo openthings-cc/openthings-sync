@@ -26,9 +26,13 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static cc.openthings.sync.Common.getAgrovocDataset;
 import static cc.openthings.sync.Common.getOntModel;
+import static org.apache.jena.query.ReadWrite.READ;
 
 public class Main {
+
+    static Dataset agrovocDataset;
 
     //http://data.lirmm.fr/ontologies/food#
     public final static String f1 = "food.ttl";
@@ -53,13 +57,57 @@ public class Main {
             "OPTIONAL { ?x <http://www.w3.org/2000/01/rdf-schema#domain> ?domain }" +
             "}";
 
+    static String prefixSkos = "prefix skos: <http://www.w3.org/2004/02/skos/core#> ";
+
+    static String qAgrovocRoots = prefixSkos +
+            "select ?x ?l where {" +
+                "?x skos:topConceptOf <http://aims.fao.org/aos/agrovoc> ." +
+                "?x skos:prefLabel ?l ." +
+                "     FILTER (lang(?l) = 'en')" +
+            "}";
+
+    static String agrovocObjects = "<http://aims.fao.org/aos/agrovoc/c_330919>";
+    static String agrovocSubjects = "<http://aims.fao.org/aos/agrovoc/c_330829>";
+    static String agrovocEntities = "<http://aims.fao.org/aos/agrovoc/c_330892>";
+    static String agrovocSystems = "<http://aims.fao.org/aos/agrovoc/c_330985>";
+    static String agrovocProducts = "<http://aims.fao.org/aos/agrovoc/c_6211>";
+    static String agrovocOrganisms = "<http://aims.fao.org/aos/agrovoc/c_49904>";
+    static String agrovocProcesses = "<http://aims.fao.org/aos/agrovoc/c_13586>";
+    static String agrovocPlants = "<http://aims.fao.org/aos/agrovoc/c_5993>";
+
+    public static String qBroader(String parent) {
+        return prefixSkos +
+                "select ?x ?l where {" +
+                "?x skos:broader "+parent+" ." +
+                "?x skos:prefLabel ?l ." +
+                "     FILTER (lang(?l) = 'en')" +
+                "}";
+    }
+
+    public static String qSkosLabel(String label) {
+        String q = prefixSkos +
+                "select ?x ?l where {" +
+                "?x skos:prefLabel ?l ." +
+                "     FILTER regex(?l, \""+label+"\", \"i\") " +
+                "     FILTER (lang(?l) = 'en')" +
+                "}";
+        System.out.println("Quering: " + q);
+        return q;
+    }
+
+
     public static void main(String[] args) {
         Main mm = new Main();
-        Model model = mm.getFoodModel2();
-        mm.printLGDJsonLd(model);
-        mm.printQuery(model, queryString);
-        mm.printQuery(model, queryStringProps23);
+       // Model model = mm.getFoodModel2();
+        Model agrovocModel = mm.getAgrovocModel();
+       // mm.printLGDJsonLd(model);
+//        mm.printQuery(model, queryString);
+//        mm.printQuery(model, queryStringProps23);
 
+        agrovocDataset.begin(READ);
+        //mm.printQuery(agrovocModel, qAgrovocRoots);
+        mm.printQuery(agrovocModel, qSkosLabel("Vegetables"));
+        agrovocDataset.end();
     }
 
 
@@ -77,6 +125,17 @@ public class Main {
     }
     public OntModel getFoodModel3() {
         return getFoodModel(f3);
+    }
+    public Model getAgrovocModel() {
+        int types = 0;
+        System.out.println("will read model");
+        agrovocDataset = getAgrovocDataset();
+        agrovocDataset.begin(READ) ;
+        Model model = agrovocDataset.getDefaultModel();
+        System.out.println("======= Agrovoc model read from: agrovoc-tdb-store =======");
+        System.out.println("model read: " +  model.getGraph().size());
+        agrovocDataset.end();
+        return model;
     }
 
     private void printLGDJsonLd(Model model) {

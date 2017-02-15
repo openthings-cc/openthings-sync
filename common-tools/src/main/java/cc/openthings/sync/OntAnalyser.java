@@ -509,12 +509,17 @@ public class OntAnalyser {
 
     private void analyseAgroVocTypes() {
         int types = 0;
-        File file = new File(Common.agroVocOnto);
-        System.out.println("will model read");
-        Model model = getModel(file, "N-TRIPLE");
-        System.out.println("model read");
+        System.out.println("will read model");
+        Dataset dataset = getAgrovocDataset();
+        dataset.begin(ReadWrite.READ) ;
+        Model model = dataset.getDefaultModel();
+        System.out.println("======= Agrovoc model read from: agrovoc-tdb-store =======");
+        System.out.println("model read: " +  model.getGraph().size());
+        dataset.end();
         /////////
 
+        System.exit(0);
+        dataset.begin(ReadWrite.WRITE) ;
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         model.write(os, "JSON-LD");
         InputStream is = new ByteArrayInputStream(os.toByteArray());
@@ -523,6 +528,7 @@ public class OntAnalyser {
         //Object expjObj = JsonLdProcessor.expand(jObj);
         //System.out.println("Expanded:" + expjObj);
         InputStreamReader isr = new InputStreamReader(is);
+
 
         try {
 
@@ -533,6 +539,9 @@ public class OntAnalyser {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        dataset.end();
+
         System.exit(0);
         //fetch types form json-ld
         //////////
