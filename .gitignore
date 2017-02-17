@@ -1,4 +1,5 @@
 /.onto
+.out
 .gradle
 /local.properties
 /.idea/workspace.xml

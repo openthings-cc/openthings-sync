@@ -86,8 +86,9 @@ public class Main {
 
     public static String qSkosLabel(String label) {
         String q = prefixSkos +
-                "select ?x ?l where {" +
+                "select ?x ?l ?t where {" +
                 "?x skos:prefLabel ?l ." +
+                "?x <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?t ." +
                 "     FILTER regex(?l, \""+label+"\", \"i\") " +
                 "     FILTER (lang(?l) = 'en')" +
                 "}";
@@ -155,10 +156,6 @@ public class Main {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         model.write(os, "JSON-LD");
         InputStream is = new ByteArrayInputStream(os.toByteArray());
-        //not need to expand just keep common context for geoThings
-        //Object jObj = JsonUtils.fromInputStream(is);
-        //Object expjObj = JsonLdProcessor.expand(jObj);
-        //System.out.println("Expanded:" + expjObj);
         InputStreamReader isr = new InputStreamReader(is);
 
         try {

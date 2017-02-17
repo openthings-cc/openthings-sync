@@ -18,6 +18,10 @@ allprojects {
         maven {
             url 'http://oss.sonatype.org/content/repositories/snapshots'
         }
+        maven {
+//            name "jitpack"
+            url "https://jitpack.io"
+        }
     }
 }
 
