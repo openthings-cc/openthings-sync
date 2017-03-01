@@ -35,6 +35,7 @@ public class Main {
     static Dataset agrovocDataset;
 
     //http://data.lirmm.fr/ontologies/food#
+    //http://data.lirmm.fr/ontologies/food.ttl
     public final static String f1 = "food.ttl";
     //http://www.w3.org/TR/2004/REC-owl-guide-20040210/food.rdf (demo)
     public final static String f2 = "food2.rdf";
@@ -75,10 +76,19 @@ public class Main {
     static String agrovocProcesses = "<http://aims.fao.org/aos/agrovoc/c_13586>";
     static String agrovocPlants = "<http://aims.fao.org/aos/agrovoc/c_5993>";
 
-    public static String qBroader(String parent) {
+    public static String qWithParent(String parent) {
         return prefixSkos +
                 "select ?x ?l where {" +
                 "?x skos:broader "+parent+" ." +
+                "?x skos:prefLabel ?l ." +
+                "     FILTER (lang(?l) = 'en')" +
+                "}";
+    }
+
+    public static String qParentOf(String child) {
+        return prefixSkos +
+                "select ?x ?l where {" +
+                "?x skos:narrower "+child+" ." +
                 "?x skos:prefLabel ?l ." +
                 "     FILTER (lang(?l) = 'en')" +
                 "}";
@@ -106,8 +116,9 @@ public class Main {
 //        mm.printQuery(model, queryStringProps23);
 
         agrovocDataset.begin(READ);
-        //mm.printQuery(agrovocModel, qAgrovocRoots);
-        mm.printQuery(agrovocModel, qSkosLabel("Vegetables"));
+        mm.printQuery(agrovocModel, qAgrovocRoots);
+        //mm.printQuery(agrovocModel, qSkosLabel("Meat"));
+       // mm.printQuery(agrovocModel, qParentOf("<http://aims.fao.org/aos/agrovoc/c_6147>"));
         agrovocDataset.end();
     }
 
