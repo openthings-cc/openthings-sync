@@ -27,6 +27,8 @@ import org.apache.jena.ontology.*;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.riot.Lang;
+import org.apache.jena.riot.RDFFormat;
 import org.apache.jena.util.iterator.ExtendedIterator;
 import org.semanticweb.owlapi.model.IRI;
 
@@ -37,9 +39,11 @@ import java.util.Map;
 public class Convert {
 
     public static void main(String[] args) throws Exception {
-        //convert("GeoThingsOnto.jsonld", "JSONLD", "TTL");
-     //   convertOnt(".out/all_vf.TTL", "TTL", "TTL");
-        convertOnt(".out/all_vf.TTL", "TTL", "JSONLD");
+        //convert(".onto/ofd/ofd-actors.ttl", "TTL", "JSONLD");
+        genLD(".onto/ofd-core.ttl", "TTL", "ofd-core");
+        //    convertOnt(".out/all_vf.TTL", "TTL", "TTL");
+        //convertOnt(".out/all_vf.TTL", "TTL", "JSONLD");
+        // convertOnt2GitBookTable(".out/all_vf.TTL", "TTL");
         //  convert(".out/out.JSONLD", "JSONLD", "TTL");
         // convertToJsonDocs("GeoThingsOnto.jsonld", "JSONLD");
         //convertToVowl(".onto/ofd-core.ttl");
@@ -47,13 +51,97 @@ public class Convert {
         // convertToVowl(".out/out.TTL");
     }
 
-    public static void convertOnt(String file, String fromLang, String toLang) throws IOException {
+    static Writer writer;
+
+    public static void write(String str) {
+        try {
+            writer.write(str);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public static void genLD(String file, String fromLang, String outFile) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        StringBuilder sb2 = new StringBuilder();
+        ArrayList<Lang> langs = new ArrayList<>();
+        langs.add(RDFFormat.RDFXML.getLang());
+        langs.add(RDFFormat.JSONLD.getLang());
+        langs.add(RDFFormat.NQUADS.getLang());
+        langs.add(RDFFormat.NTRIPLES.getLang());
+        langs.add(RDFFormat.TURTLE.getLang());
+        langs.add(RDFFormat.RDFJSON.getLang());
+        langs.add(RDFFormat.TRIG.getLang());
+        langs.add(RDFFormat.TRIX.getLang());
+
+        for (Lang lang : langs) {
+            System.out.println("generating: " + lang);
+            convert(file, fromLang, lang, outFile);
+            sb.append(
+                    "# Rewrite rule to serve " + lang.getLabel() + " content if requested\n" +
+                            "RewriteCond %{HTTP_ACCEPT} " + lang.getContentType().toHeaderString().replace("+", "\\+") + "\n" +
+                            "RewriteRule ^$ /" + outFile + "." + lang.getFileExtensions().get(0) + " [R=303,L]\n\n");
+            sb2.append("<link rel=\"alternate\" href=\"/" + outFile + "." + lang.getFileExtensions().get(0) + "\" " +
+                    "type=\"" + lang.getContentType().toHeaderString() + "\"/>\n");
+        }
+
+        System.out.print(sb);
+        System.out.print(sb2);
+    }
+
+    public static void convertOnt2GitBookTable(String file, String fromLang) {
+        writer = new OutputStreamWriter(System.out);
+
         OntModel model = Common.getOntModel(new File(file).getAbsoluteFile().toString(), OntModelSpec.OWL_MEM, fromLang);
-//        ExtendedIterator<OntClass> classes = model.listClasses();
+        ExtendedIterator<OntClass> classes = model.listClasses();
+
+        classes.forEachRemaining(Convert::writeClasses);
+
+        try {
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void writeClasses(OntClass ontClass) {
+        write(String.format("| %s | %s |\n",
+                ontClass.getLocalName(), ""));
+        ontClass.listDeclaredProperties().forEachRemaining(Convert::writeProp);
+
+        //ontClass.listDeclaredProperties().forEachRemaining(Convert::writeProp);
+    }
+
+    public static void writeProp(OntProperty p) {
+        write(String.format("| %s | %s |\n",
+                p.getLocalName(), p.getRange()));
+
+    }
+
+    public static void convertOnt(String file, String fromLang, String toLang) throws IOException {
+        convert(file, fromLang, toLang, toLang);
+    }
+
+    public static void convertOnt(String file, String fromLang, Lang toLang) throws IOException {
+        convert(file, fromLang, toLang.getName(), toLang.getFileExtensions().get(0));
+    }
+
+    public static void convertOnt(String file, String fromLang, Lang toLang, String outFile) throws IOException {
+        convert(file, fromLang, toLang.getName(), toLang.getFileExtensions().get(0), outFile);
+    }
+
+    public static void convertOnt(String file, String fromLang, String toLang, String ext) throws IOException {
+        convert(file, fromLang, toLang, ext, "out");
+    }
+
+    public static void convertOnt(String file, String fromLang, String toLang, String ext, String outFile) throws IOException {
+        OntModel model = Common.getOntModel(new File(file).getAbsoluteFile().toString(), OntModelSpec.OWL_MEM, fromLang);
+        //        ExtendedIterator<OntClass> classes = model.listClasses();
 //        classes.forEachRemaining(System.out::println);
 //        ExtendedIterator<OntProperty> props = model.listAllOntProperties();
 //        props.forEachRemaining(Convert::unionRangeAndDomainsForProp);
-        FileWriter fw = new FileWriter(new File(".out/out." + toLang));
+        FileWriter fw = new FileWriter(new File(".out/" + outFile.replace("/", "_") + "." + ext.replace("/", "_")));
         model.write(fw, toLang);
         model.close();
     }
@@ -92,7 +180,7 @@ public class Convert {
                 nodes.add(r);
                 if (splitProps) {
                     ExtendedIterator<? extends OntResource> ranges = p.listRange();
-                    if(!ranges.hasNext()) {
+                    if (!ranges.hasNext()) {
                         OntProperty nProp = p.getOntModel().createOntProperty(p.getURI() + "_" + ((Resource) r).getLocalName());
                         nProp.addDomain((Resource) r);
                         nProp.addSuperProperty(p);
@@ -136,8 +224,26 @@ public class Convert {
     }
 
     public static void convert(String file, String fromLang, String toLang) throws IOException {
+        convert(file, fromLang, toLang, toLang);
+    }
+
+    public static void convert(String file, String fromLang, Lang toLang) throws IOException {
+        convert(file, fromLang, toLang.getName(), toLang.getFileExtensions().get(0));
+    }
+
+    public static void convert(String file, String fromLang, Lang toLang, String outFile) throws IOException {
+        convert(file, fromLang, toLang.getName(), toLang.getFileExtensions().get(0), outFile);
+    }
+
+    public static void convert(String file, String fromLang, String toLang, String ext) throws IOException {
+        convert(file, fromLang, toLang, ext, "out");
+    }
+
+    public static void convert(String file, String fromLang, String toLang, String ext, String outFile) throws IOException {
         Model model = Common.getModel(new File(file), fromLang);
-        FileWriter fw = new FileWriter(new File(".out/out." + toLang));
+//       InfModel inf = ModelFactory.createInfModel( ReasonerRegistry.getOWLReasoner(), model);
+//       inf.validate();
+        FileWriter fw = new FileWriter(new File(".out/" + outFile.replace("/", "_") + "." + ext.replace("/", "_")));
         model.write(fw, toLang);
         model.close();
     }
