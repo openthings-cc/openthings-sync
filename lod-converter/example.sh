@@ -1,1 +1,1 @@
-java -jar ./build/libs/lod-converter.jar ../.onto/all_vf.TTL TTL vf
+java -jar ./build/libs/lod-converter.jar ../.onto/all_vf.TTL TTL vf https://valueflows.github.io/valueflows/vf.ttl

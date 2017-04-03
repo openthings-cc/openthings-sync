@@ -33,15 +33,21 @@ public class Main {
         }
         String inFile = args[0];
         String format = args[1];
+        String outFName = "";
+        LODIn lodIn = new LODIn(inFile, format, args.length>3);
+
         if(args.length>2) {
-            String outFName = args[2];
-            genLD(inFile, format, outFName);
-        } else {
-            LODIn lodIn = new LODIn(inFile, format, true);
+            outFName = args[2];
+            genLD(lodIn, outFName);
+        }
+
+        if(args.length>3) {
+            String ontDocIRI =args[3];
+            lodIn.writeOntologyHtml(outFName, ontDocIRI);
         }
     }
 
-    public static void genLD(String file, String fromLang, String outFile) throws IOException {
+    public static void genLD(LODIn lodIn, String outFile) throws IOException {
         StringBuilder sb = new StringBuilder();
         StringBuilder sb2 = new StringBuilder();
         ArrayList<Lang> langs = new ArrayList<>();
@@ -53,9 +59,6 @@ public class Main {
         langs.add(RDFFormat.RDFJSON.getLang());
         langs.add(RDFFormat.TRIG.getLang());
         langs.add(RDFFormat.TRIX.getLang());
-
-        LODIn lodIn = new LODIn(file, fromLang, true);
-        lodIn.writeOntologyHtml(outFile);
 
         for (Lang lang : langs) {
             System.out.println("generating: " + lang);

@@ -110,13 +110,13 @@ public class LODIn {
     }
 
 
-    public void writeOntologyHtml(String outFile) {
+    public void writeOntologyHtml(String outFile, String ontologyDocUrl) {
         String inn;
 
         try {
             //inn = getOntoWithJenaPellet();
             inn = getOntoWithOWLAPI();
-            applyXSLTTransformation(inn, "http://linked.farm", "en", outFile);
+            applyXSLTTransformation(inn, ontologyDocUrl, "en", outFile);
 
         } catch (Exception e) {
             throw new RuntimeException("Error creating HTML", e);
