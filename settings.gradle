@@ -21,4 +21,5 @@ include 'rental-bikes'
 
 include 'openfoodfacts'
 include 'food-onto'
+include 'lod-converter'
 

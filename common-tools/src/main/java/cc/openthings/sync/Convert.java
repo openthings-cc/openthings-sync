@@ -40,15 +40,16 @@ public class Convert {
 
     public static void main(String[] args) throws Exception {
         //convert(".onto/ofd/ofd-actors.ttl", "TTL", "JSONLD");
-        genLD(".onto/ofd-core.ttl", "TTL", "ofd-core");
-        //    convertOnt(".out/all_vf.TTL", "TTL", "TTL");
+        //  genLD(".onto/ofd-core.ttl", "TTL", "ofd-core");
+          genLD(".onto/all_vf.TTL", "TTL", "vf");
+        //     convertOnt(".out/all_vf.TTL", "TTL", "TTL");
         //convertOnt(".out/all_vf.TTL", "TTL", "JSONLD");
         // convertOnt2GitBookTable(".out/all_vf.TTL", "TTL");
         //  convert(".out/out.JSONLD", "JSONLD", "TTL");
         // convertToJsonDocs("GeoThingsOnto.jsonld", "JSONLD");
         //convertToVowl(".onto/ofd-core.ttl");
         //  convertToVowl(".onto/ofd/ofd-food.ttl");
-        // convertToVowl(".out/out.TTL");
+       //  convertToVowl(".out/all_vf.TTL");
     }
 
     static Writer writer;
