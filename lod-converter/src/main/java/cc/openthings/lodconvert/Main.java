@@ -26,10 +26,10 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        genLD(".onto/all_vf.TTL", "TTL", "vf");
-        System.exit(0);
-        if(args == null || args.length<1) {
-            System.out.println("Expected at least input file parameter");
+        //genLD(".onto/all_vf.TTL", "TTL", "vf");
+        if(args == null || args.length<2) {
+            System.out.println("Expected at least input file and format parameters");
+            System.exit(1);
         }
         String inFile = args[0];
         String format = args[1];
@@ -56,7 +56,6 @@ public class Main {
 
         LODIn lodIn = new LODIn(file, fromLang, true);
         lodIn.writeOntologyHtml(outFile);
-        System.exit(0);
 
         for (Lang lang : langs) {
             System.out.println("generating: " + lang);

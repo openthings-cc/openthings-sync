@@ -1,0 +1,1 @@
+java -jar ./build/libs/lod-converter-all-1.0.jar ./.onto/all_vf.TTL TTL vf
