@@ -38,5 +38,6 @@ shadowJar {
     baseName = 'lod-converter'
     classifier = null
     version = null
+    mergeServiceFiles()
 
 }

@@ -19,13 +19,19 @@ package cc.openthings.lodconvert;
 
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFFormat;
+import org.apache.jena.system.JenaSystem;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main {
 
+    static {
+        JenaSystem.init() ;
+    }
+
     public static void main(String[] args) throws Exception {
+
         //genLD(".onto/all_vf.TTL", "TTL", "vf");
         if(args == null || args.length<2) {
             System.out.println("Expected at least input file and format parameters");
