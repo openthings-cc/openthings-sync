@@ -17,10 +17,14 @@
 package cc.openthings.lodconvert;
 
 
+import de.uni_stuttgart.vis.vowl.owl2vowl.converter.IRIConverter;
+import de.uni_stuttgart.vis.vowl.owl2vowl.export.types.FileExporter;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFFormat;
 import org.apache.jena.system.JenaSystem;
+import org.semanticweb.owlapi.model.IRI;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -52,6 +56,7 @@ public class Main {
         if(args.length>3) {
             String ontDocIRI =args[3];
             lodIn.writeOntologyHtml(outFName, ontDocIRI, extraHeader);
+            genVowl(inFile, outFName);
         }
     }
 
@@ -86,6 +91,18 @@ public class Main {
         System.out.print(extraHeader);
     }
 
+    public static void genVowl(String file, String outFile) throws Exception {
+        IRI ontologyIri = IRI.create(new File(file));
+        try {
+            IRIConverter converter = new IRIConverter(ontologyIri);
+            //Converter converter = new Converter(ontologyIri);
+            converter.convert();
+            converter.export(new FileExporter(new File(".out/vowl-"+outFile+".json")));
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName());
+            throw e;
+        }
+    }
 
 
 }
