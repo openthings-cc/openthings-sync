@@ -39,7 +39,7 @@
     <xsl:param name="css-location" select="'./'" as="xs:string" />
     <xsl:param name="source" as="xs:string" select="''" />
     <xsl:param name="ontology-url" as="xs:string" select="''" />
-    <xsl:param name="alternate-path" select="''" as="xs:string" />
+    <xsl:param name="extra-header" select="''" as="xs:string" />
 
     <xsl:variable name="def-lang" select="'en'" as="xs:string" />
     <xsl:variable name="n" select="'\n|\r|\r\n'" />
@@ -110,14 +110,7 @@
         <link href="{$css-location}rec.css" rel="stylesheet" type="text/css" />
         <link href="{$css-location}extra.css" rel="stylesheet" type="text/css" />
         <link rel="shortcut icon" href="{$css-location}favicon.ico" />
-        <link rel="alternate" href="{$alternate-path}.rdf" type="application/rdf+xml"/>
-        <link rel="alternate" href="{$alternate-path}.jsonld" type="application/ld+json"/>
-        <link rel="alternate" href="{$alternate-path}.nq" type="application/n-quads"/>
-        <link rel="alternate" href="{$alternate-path}.nt" type="application/n-triples"/>
-        <link rel="alternate" href="{$alternate-path}.ttl" type="text/turtle"/>
-        <link rel="alternate" href="{$alternate-path}.rj" type="application/rdf+json"/>
-        <link rel="alternate" href="{$alternate-path}.trig" type="text/trig"/>
-        <link rel="alternate" href="{$alternate-path}.trix" type="application/trix"/>
+        <xsl:value-of select="$extra-header" disable-output-escaping="yes" />
         <script src="{$css-location}jquery.js"><!-- Comment for compatibility --></script>
         <script src="{$css-location}jquery.scrollTo.js"><!-- Comment for compatibility --></script>
         <script src="{$css-location}marked.min.js"><!-- Comment for compatibility --></script>

@@ -116,13 +116,13 @@ public class LODIn {
     }
 
 
-    public void writeOntologyHtml(String outFile, String ontologyDocUrl) {
+    public void writeOntologyHtml(String outFile, String ontologyDocUrl, String extraHeader) {
         String inn;
 
         try {
             //inn = getOntoWithJenaPellet();
             inn = getOntoWithOWLAPI();
-            applyXSLTTransformation(inn, ontologyDocUrl, "en", outFile);
+            applyXSLTTransformation(inn, ontologyDocUrl, "en", outFile, extraHeader);
 
         } catch (Exception e) {
             throw new RuntimeException("Error creating HTML", e);
@@ -130,7 +130,7 @@ public class LODIn {
     }
 
     // from https://github.com/essepuntato/LODE
-    private void applyXSLTTransformation(String source, String ontologyUrl, String lang, String outFile) throws TransformerException, IOException {
+    private void applyXSLTTransformation(String source, String ontologyUrl, String lang, String outFile, String extraHeader) throws TransformerException, IOException {
         String xsltURL = "extraction.xsl";
         String cssLocation = "https://rawgit.com/essepuntato/LODE/master/src/main/webapp/";
 
@@ -141,12 +141,10 @@ public class LODIn {
                 LODIn.class.getClassLoader().getResourceAsStream(xsltURL))
         );
 
-        //TODO there is the big assumption that the url parent will contain all the generated variants
-        // also with the same name
-        String alternatePath = ontologyUrl.substring(0, ontologyUrl.lastIndexOf("."));
+
         transformer.setParameter("css-location", cssLocation);
         transformer.setParameter("lang", lang);
-        transformer.setParameter("alternate-path", alternatePath);
+        transformer.setParameter("extra-header", extraHeader);
         transformer.setParameter("ontology-url", ontologyUrl);
         transformer.setParameter("source", "http://eelst.cs.unibo.it/apps/LODE/" + "source");
 

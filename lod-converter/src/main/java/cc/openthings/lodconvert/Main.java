@@ -30,6 +30,8 @@ public class Main {
         JenaSystem.init() ;
     }
 
+    private static String extraHeader = "";
+
     public static void main(String[] args) throws Exception {
 
         //genLD(".onto/all_vf.TTL", "TTL", "vf");
@@ -49,7 +51,7 @@ public class Main {
 
         if(args.length>3) {
             String ontDocIRI =args[3];
-            lodIn.writeOntologyHtml(outFName, ontDocIRI);
+            lodIn.writeOntologyHtml(outFName, ontDocIRI, extraHeader);
         }
     }
 
@@ -75,12 +77,13 @@ public class Main {
                     "# Rewrite rule to serve " + lang.getLabel() + " content if requested\n" +
                             "RewriteCond %{HTTP_ACCEPT} " + lang.getContentType().toHeaderString().replace("+", "\\+") + "\n" +
                             "RewriteRule ^$ /" + outFile + "." + lang.getFileExtensions().get(0) + " [R=303,L]\n\n");
-            sb2.append("<link rel=\"alternate\" href=\"/" + outFile + "." + lang.getFileExtensions().get(0) + "\" " +
+            sb2.append("<link rel=\"alternate\" href=\"" + outFile + "." + lang.getFileExtensions().get(0) + "\" " +
                     "type=\"" + lang.getContentType().toHeaderString() + "\"/>\n");
         }
 
+        extraHeader = sb2.toString();
         System.out.print(sb);
-        System.out.print(sb2);
+        System.out.print(extraHeader);
     }
 
 
