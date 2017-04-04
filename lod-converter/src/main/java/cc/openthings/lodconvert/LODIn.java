@@ -30,14 +30,20 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.reasoner.Reasoner;
 import org.apache.jena.riot.Lang;
+import org.apache.xerces.jaxp.DocumentBuilderFactoryImpl;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.io.RDFXMLOntologyFormat;
 import org.semanticweb.owlapi.io.StringDocumentTarget;
 import org.semanticweb.owlapi.model.*;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
@@ -125,19 +131,20 @@ public class LODIn {
 
     // from https://github.com/essepuntato/LODE
     private void applyXSLTTransformation(String source, String ontologyUrl, String lang, String outFile) throws TransformerException, IOException {
-        String xsltURL = "https://rawgit.com/essepuntato/LODE/master/src/main/webapp/extraction.xsl";
+        String xsltURL = "extraction.xsl";
         String cssLocation = "https://rawgit.com/essepuntato/LODE/master/src/main/webapp/";
 
         TransformerFactory tfactory = new net.sf.saxon.TransformerFactoryImpl();
 
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-
-        Transformer transformer = tfactory.newTransformer(new StreamSource(xsltURL));
+        tfactory.setURIResolver(new ClasspathResourceURIResolver());
+        Transformer transformer = tfactory.newTransformer(new StreamSource(
+                LODIn.class.getClassLoader().getResourceAsStream(xsltURL))
+        );
 
         transformer.setParameter("css-location", cssLocation);
         transformer.setParameter("lang", lang);
         transformer.setParameter("ontology-url", ontologyUrl);
-        transformer.setParameter("source", cssLocation + "source");
+        transformer.setParameter("source", "http://eelst.cs.unibo.it/apps/LODE/" + "source");
 
         StreamSource inputSource = new StreamSource(new StringReader(source));
 
@@ -199,6 +206,33 @@ public class LODIn {
         result = parsedOntology.toString();
 
         return result;
+    }
+
+    class ClasspathResourceURIResolver implements URIResolver {
+        @Override
+        public Source resolve(String href, String base) throws TransformerException {
+            try {
+            ClassLoader cl = this.getClass().getClassLoader();
+            java.io.InputStream in = cl.getResourceAsStream(href);
+            InputSource xslInputSource = new InputSource(in);
+            DocumentBuilderFactory dbf = new DocumentBuilderFactoryImpl();
+            DocumentBuilder dBuilder = dbf.newDocumentBuilder();
+            Document xslDoc = dBuilder.parse(xslInputSource);
+            DOMSource xslDomSource = new DOMSource(xslDoc);
+            xslDomSource.setSystemId(href);
+            return xslDomSource;
+            } catch (ParserConfigurationException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            } catch (SAXException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+            //return new StreamSource(LODIn.class.getClassLoader().getResourceAsStream(href));
+        }
     }
 
 //    /*
