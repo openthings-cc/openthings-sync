@@ -141,8 +141,12 @@ public class LODIn {
                 LODIn.class.getClassLoader().getResourceAsStream(xsltURL))
         );
 
+        //TODO there is the big assumption that the url parent will contain all the generated variants
+        // also with the same name
+        String alternatePath = ontologyUrl.substring(0, ontologyUrl.lastIndexOf("."));
         transformer.setParameter("css-location", cssLocation);
         transformer.setParameter("lang", lang);
+        transformer.setParameter("alternate-path", alternatePath);
         transformer.setParameter("ontology-url", ontologyUrl);
         transformer.setParameter("source", "http://eelst.cs.unibo.it/apps/LODE/" + "source");
 

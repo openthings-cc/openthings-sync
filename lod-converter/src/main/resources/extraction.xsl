@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Copyright (c) 2010-2014, Silvio Peroni <essepuntato@gmail.com>
-
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted, provided that the above
-copyright notice and this permission notice appear in all copies.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
-WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
-MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
-ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
-WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
-ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
-OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
--->
+  ~ Copyright (C) 2014 OpenThings Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs xd dc rdfs swrl owl2xml owl xsd swrlb rdf f dcterms"
     xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" version="2.0"
@@ -34,12 +34,13 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
     <xsl:include href="structural-reasoner.xsl"/>
     
     <xsl:output encoding="UTF-8" indent="no" method="xhtml" />
-    
+
     <xsl:param name="lang" select="'en'" as="xs:string" />
     <xsl:param name="css-location" select="'./'" as="xs:string" />
     <xsl:param name="source" as="xs:string" select="''" />
     <xsl:param name="ontology-url" as="xs:string" select="''" />
-    
+    <xsl:param name="alternate-path" select="''" as="xs:string" />
+
     <xsl:variable name="def-lang" select="'en'" as="xs:string" />
     <xsl:variable name="n" select="'\n|\r|\r\n'" />
     <xsl:variable name="rdf" select="/rdf:RDF" as="element()" />
@@ -109,6 +110,14 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
         <link href="{$css-location}rec.css" rel="stylesheet" type="text/css" />
         <link href="{$css-location}extra.css" rel="stylesheet" type="text/css" />
         <link rel="shortcut icon" href="{$css-location}favicon.ico" />
+        <link rel="alternate" href="{$alternate-path}.rdf" type="application/rdf+xml"/>
+        <link rel="alternate" href="{$alternate-path}.jsonld" type="application/ld+json"/>
+        <link rel="alternate" href="{$alternate-path}.nq" type="application/n-quads"/>
+        <link rel="alternate" href="{$alternate-path}.nt" type="application/n-triples"/>
+        <link rel="alternate" href="{$alternate-path}.ttl" type="text/turtle"/>
+        <link rel="alternate" href="{$alternate-path}.rj" type="application/rdf+json"/>
+        <link rel="alternate" href="{$alternate-path}.trig" type="text/trig"/>
+        <link rel="alternate" href="{$alternate-path}.trix" type="application/trix"/>
         <script src="{$css-location}jquery.js"><!-- Comment for compatibility --></script>
         <script src="{$css-location}jquery.scrollTo.js"><!-- Comment for compatibility --></script>
         <script src="{$css-location}marked.min.js"><!-- Comment for compatibility --></script>
