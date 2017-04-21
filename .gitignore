@@ -1,3 +1,4 @@
+
 /.onto
 .out
 .gradle
@@ -9,7 +10,7 @@
 # built application files
 *.apk
 *.ap_
-/owl2vowl_logs
+owl2vowl_logs
 # files for the dex VM
 *.dex
 

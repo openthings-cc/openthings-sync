@@ -17,6 +17,8 @@ import org.apache.jena.tdb.TDBFactory;
 import org.apache.jena.tdb.TDBLoader;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -120,10 +122,14 @@ public class Common {
     public static OntModel getOntModel(String path, OntModelSpec spec, String lang) {
 
         OntModel ontModel = ModelFactory.createOntologyModel(spec);
+        try {
         if (lang != null) {
-            ontModel.read(path, lang);
+            ontModel.read(new FileReader(path), "", lang);
         } else {
-            ontModel.read(path);
+            ontModel.read(new FileReader(path), "");
+        }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
         }
         Model baseModel = ontModel.getBaseModel();
 

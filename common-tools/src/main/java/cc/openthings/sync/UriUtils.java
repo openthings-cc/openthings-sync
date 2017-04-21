@@ -29,7 +29,11 @@ public class UriUtils {
     }
 
     public static String getLastBit(URI uri) {
-        Matcher m = lastBitPattern.matcher(uri.toString());
+        return getLastBit(uri.toString());
+    }
+
+    public static String getLastBit(String uri) {
+        Matcher m = lastBitPattern.matcher(uri);
         if (m.matches()) {
             return m.group(1);
         }
