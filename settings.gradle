@@ -22,4 +22,6 @@ include 'rental-bikes'
 include 'openfoodfacts'
 include 'food-onto'
 include 'lod-converter'
+include 'ArcGIS'
+include 'vlam-sync'
 

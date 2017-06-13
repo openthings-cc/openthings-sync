@@ -29,7 +29,7 @@ import java.util.Map;
 
 public class HttpSender {
 
-    private final String USER_AGENT = "openthingsSync/1.0";
+    private final String USER_AGENT = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0";
     public static String POST = "POST";
     public static String GET = "GET";
     public static String PUT = "PUT";
