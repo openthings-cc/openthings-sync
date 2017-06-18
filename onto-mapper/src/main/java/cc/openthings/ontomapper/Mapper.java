@@ -17,8 +17,8 @@
 package cc.openthings.ontomapper;
 
 
-import org.djodjo.json.JsonArray;
-import org.djodjo.json.JsonElement;
+import io.apptik.json.JsonArray;
+import io.apptik.json.JsonElement;
 
 import java.io.IOException;
 import java.io.InputStreamReader;

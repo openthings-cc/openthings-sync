@@ -2,9 +2,9 @@ package cc.openthings.ontomapper;
 
 import cc.openthings.ontomapper.model.OsmMap;
 import cc.openthings.ontomapper.model.OsmMapElement;
-import org.djodjo.json.JsonArray;
-import org.djodjo.json.JsonElement;
-import org.djodjo.json.JsonObject;
+import io.apptik.json.JsonArray;
+import io.apptik.json.JsonElement;
+import io.apptik.json.JsonObject;
 import org.openstreetmap.osmosis.core.domain.v0_6.*;
 
 import java.io.IOException;

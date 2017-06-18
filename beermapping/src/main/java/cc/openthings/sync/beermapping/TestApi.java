@@ -32,7 +32,7 @@ import static cc.openthings.sync.beermapping.Config.userString;
 public class TestApi {
 
     public static void main(String[] args) {
-        int max = 20000;
+        int max = 20;
         HttpResponse httpResponse;
         JsonArray jarr = new JsonArray();
         for (int i = 0; i < max; i++) {

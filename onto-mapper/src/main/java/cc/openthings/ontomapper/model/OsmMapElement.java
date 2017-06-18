@@ -17,8 +17,8 @@
 package cc.openthings.ontomapper.model;
 
 
-import org.djodjo.json.JsonElement;
-import org.djodjo.json.wrapper.JsonObjectWrapper;
+import io.apptik.json.JsonElement;
+import io.apptik.json.wrapper.JsonObjectWrapper;
 
 import java.util.ArrayList;
 

@@ -16,14 +16,14 @@
 
 package cc.openthings.ontomapper.model;
 
-import org.djodjo.json.JsonElement;
-import org.djodjo.json.wrapper.TypedJsonArray;
+import io.apptik.json.JsonElement;
+import io.apptik.json.wrapper.TypedJsonArray;
 
 public class OsmMap extends TypedJsonArray<OsmMapElement> {
 
     @Override
     protected OsmMapElement get(JsonElement jsonElement, int pos) {
-        return new OsmMapElement().wrap(jsonElement);
+        return new OsmMapElement().wrap(jsonElement.asJsonObject());
     }
 
     @Override
