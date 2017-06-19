@@ -21,6 +21,7 @@ import cc.openthings.sender.HttpSender;
 import cc.openthings.sync.UriUtils;
 import io.apptik.json.JsonArray;
 import io.apptik.json.JsonObject;
+import io.apptik.json.JsonWriter;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 import org.jsoup.Jsoup;
@@ -28,6 +29,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.Normalizer;
@@ -325,6 +327,15 @@ public class TestApi {
                                             .map(response -> toJsonLD(null, response.body))
                                             .doOnSuccess(o -> logger.info("Saving jsonLD: " + o.getString("@id")))
                                             .subscribe(actor -> saveStage3(actor));
+                                } else {
+                                    try {
+                                        Single.just(new Scanner(producer).useDelimiter("\\Z").next())
+                                                .map(o -> toJsonLD(null, o))
+                                                .doOnSuccess(o -> logger.info("Saving jsonLD: " + o.getString("@id")))
+                                                .subscribe(actor -> saveStage3(actor));
+                                    } catch (FileNotFoundException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             }
                         } else {
@@ -422,9 +433,11 @@ public class TestApi {
     public static void saveStage3(JsonObject actor) throws IOException {
         final File f = new File(getFileName3(actor));
         FileWriter fw = new FileWriter(f);
-        actor.writeTo(fw);
-        fw.flush();
-        fw.close();
+        JsonWriter jw = new JsonWriter(fw);
+        jw.setIndent(" ");
+        actor.write(jw);
+        jw.flush();
+        jw.close();
     }
 
 
