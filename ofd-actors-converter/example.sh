@@ -1,0 +1,1 @@
+java -jar ./build/libs/ofd-actors-converter.jar ./sample
