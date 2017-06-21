@@ -20,12 +20,12 @@ package cc.openthings.lodconvert;
 import cc.openthings.sync.Common;
 import de.uni_stuttgart.vis.vowl.owl2vowl.converter.IRIConverter;
 import de.uni_stuttgart.vis.vowl.owl2vowl.export.types.FileExporter;
-import org.apache.jena.query.Query;
-import org.apache.jena.query.QueryFactory;
+import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFFormat;
+import org.apache.jena.riot.adapters.RDFReaderRIOT;
 import org.apache.jena.system.JenaSystem;
 import org.semanticweb.owlapi.model.IRI;
 
@@ -44,10 +44,21 @@ public class Main {
     private static Model model;
 
     public static void main(String[] args) throws Exception {
-//        model = Common.getModel(new File(".out/_all.ttl"), RDFFormat.TURTLE.getLang().getName());
-//        Query query = QueryFactory.create("select * where { ?x <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/GeoCoordinates> }");
-//
-//        System.exit(0);
+        model = Common.getModel(new File(".out/_all.ttl"), RDFFormat.TURTLE.getLang().getName());
+
+        Query query = QueryFactory.create("select * where { ?x <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/GeoCoordinates> }");
+        QueryExecution qe = QueryExecutionFactory.create(query, model);
+        ResultSet results = qe.execSelect();
+
+        while (results.hasNext()) {
+            QuerySolution row = results.next();
+            //  String value= row.getLiteral("name").toString();
+            String value = row.toString();
+
+            System.out.println(value);
+        }
+
+        System.exit(0);
         if(args == null || args.length<1) {
             System.out.println("Expected at least input file and format parameters");
             System.exit(1);
@@ -147,7 +158,7 @@ public class Main {
     }
 
     public static void writeGeoJson() throws IOException {
-        model.query("");
+        //model.query("");
     }
 
 }
