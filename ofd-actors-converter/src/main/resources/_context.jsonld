@@ -1,0 +1,13 @@
+{
+ "@context": {
+  "ofd": "https://w3id.org/openfooddata/onto/core#",
+  "ft": "https://w3id.org/openfooddata/vocab/foodtype#",
+  "at": "https://w3id.org/openfooddata/vocab/actortype#",
+  "schema": "https://schema.org/",
+  "foaf": "http://xmlns.com/foaf/0.1/",
+  "skos": "http://www.w3.org/2004/02/skos/core#",
+  "xsd": "http://www.w3.org/2001/XMLSchema#",
+  "frapo": "http://purl.org/cerif/frapo/",
+  "dct": "http://purl.org/dc/terms/"
+ }
+}

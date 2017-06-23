@@ -1,1 +1,1 @@
-java -jar ./build/libs/ofd-actors-converter.jar ./sample
+java -jar ./build/libs/ofd-actors-converter.jar ./sample/belgium

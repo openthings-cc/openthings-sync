@@ -32,6 +32,7 @@ version = '1.0'
 
 dependencies {
     compile project(':common-tools')
+    compile libs.jsonld
     compile rootProject.ext.rxJava2
     compile rootProject.ext.rxJavaExtras
     compile rootProject.ext.reactorCore

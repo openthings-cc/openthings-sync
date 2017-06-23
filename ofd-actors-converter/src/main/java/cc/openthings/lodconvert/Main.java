@@ -17,19 +17,19 @@
 package cc.openthings.lodconvert;
 
 
-import cc.openthings.sync.Common;
 import de.uni_stuttgart.vis.vowl.owl2vowl.converter.IRIConverter;
 import de.uni_stuttgart.vis.vowl.owl2vowl.export.types.FileExporter;
-import org.apache.jena.query.*;
+import io.apptik.json.JsonObject;
+import io.apptik.json.JsonWriter;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFFormat;
-import org.apache.jena.riot.adapters.RDFReaderRIOT;
 import org.apache.jena.system.JenaSystem;
 import org.semanticweb.owlapi.model.IRI;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,21 +44,23 @@ public class Main {
     private static Model model;
 
     public static void main(String[] args) throws Exception {
-        model = Common.getModel(new File(".out/_all.ttl"), RDFFormat.TURTLE.getLang().getName());
+//        model = Common.getModel(new File(".out/_all.ttl"), RDFFormat.TURTLE.getLang().getName());
+//
+//        Query query = QueryFactory.create("select * where { ?x <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/GeoCoordinates> }");
+//        QueryExecution qe = QueryExecutionFactory.create(query, model);
+//        ResultSet results = qe.execSelect();
+//
+//        while (results.hasNext()) {
+//            QuerySolution row = results.next();
+//            //  String value= row.getLiteral("name").toString();
+//            String value = row.toString();
+//
+//            System.out.println(value);
+//        }
+//
+//        System.exit(0);
 
-        Query query = QueryFactory.create("select * where { ?x <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/GeoCoordinates> }");
-        QueryExecution qe = QueryExecutionFactory.create(query, model);
-        ResultSet results = qe.execSelect();
 
-        while (results.hasNext()) {
-            QuerySolution row = results.next();
-            //  String value= row.getLiteral("name").toString();
-            String value = row.toString();
-
-            System.out.println(value);
-        }
-
-        System.exit(0);
         if(args == null || args.length<1) {
             System.out.println("Expected at least input file and format parameters");
             System.exit(1);
@@ -80,14 +82,36 @@ public class Main {
 
     }
 
+    private static void replaceContext(File dir) throws IOException {
+        final String newC = "https://openfooddata.github.io/actors/_common/context.jsonld";
+        File[] files = dir.listFiles();
+        for(File file:files) {
+            if(file.isDirectory()) {
+                replaceContext(file);
+            } else {
+                String fname = file.getName();
+                if (fname.endsWith(".jsonld")) {
+                    FileReader fr = new FileReader(file);
+                    JsonObject j = JsonObject.readFrom(fr).asJsonObject();
+                    fr.close();
+                    j.put("@context", newC);
+                    JsonWriter jw = new JsonWriter(new FileWriter(file));
+                    jw.setIndent(" ");
+                    j.write(jw);
+                    jw.flush();
+                    jw.close();
+
+                }
+            }
+        }
+    }
+
     private static void processDir(File dir) throws IOException {
         File[] files = dir.listFiles();
         for(File file:files) {
             if(file.isDirectory()) {
                 processDir(file);
             } else {
-                //TODO DO NOT CATCH fail. remove when initial uri errors are fixed.
-                try {
                     String fname = file.getName();
                     if (fname.endsWith(".jsonld")) {
                         fname = fname.substring(0, fname.length() - 7);
@@ -96,9 +120,6 @@ public class Main {
                         genLD(lodIn, fname);
                         lodIn.writeHtml(fname, extraHeader);
                     }
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
             }
         }
     }
@@ -117,7 +138,7 @@ public class Main {
         langs.add(RDFFormat.TRIX.getLang());
 
         for (Lang lang : langs) {
-            System.out.println("generating: " + lang);
+        //    System.out.println("generating: " + lang);
 
             lodIn.write(lang, outFile);
 
