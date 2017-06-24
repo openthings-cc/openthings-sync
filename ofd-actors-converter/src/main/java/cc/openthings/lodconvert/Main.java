@@ -17,10 +17,13 @@
 package cc.openthings.lodconvert;
 
 
+import cc.openthings.sync.Common;
 import de.uni_stuttgart.vis.vowl.owl2vowl.converter.IRIConverter;
 import de.uni_stuttgart.vis.vowl.owl2vowl.export.types.FileExporter;
+import io.apptik.json.JsonArray;
 import io.apptik.json.JsonObject;
 import io.apptik.json.JsonWriter;
+import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
@@ -42,25 +45,9 @@ public class Main {
 
     private static String extraHeader = "";
     private static Model model;
+    private static JsonArray geoFeatures = new JsonArray();
 
     public static void main(String[] args) throws Exception {
-//        model = Common.getModel(new File(".out/_all.ttl"), RDFFormat.TURTLE.getLang().getName());
-//
-//        Query query = QueryFactory.create("select * where { ?x <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/GeoCoordinates> }");
-//        QueryExecution qe = QueryExecutionFactory.create(query, model);
-//        ResultSet results = qe.execSelect();
-//
-//        while (results.hasNext()) {
-//            QuerySolution row = results.next();
-//            //  String value= row.getLiteral("name").toString();
-//            String value = row.toString();
-//
-//            System.out.println(value);
-//        }
-//
-//        System.exit(0);
-
-
         if(args == null || args.length<1) {
             System.out.println("Expected at least input file and format parameters");
             System.exit(1);
@@ -72,12 +59,15 @@ public class Main {
             String outFName = args[1];
             genLD(lodIn, outFName);
             lodIn.writeHtml(outFName, extraHeader);
+            lodIn.writeGeoJson(outFName);
+            lodIn.writeGeoJsonMin(outFName);
         } else {
             //parse a DIR
             model = ModelFactory.createDefaultModel();
             File rootDir = new File(inFile);
             processDir(rootDir);
             writeDump();
+            writeGeoJson();
         }
 
     }
@@ -119,6 +109,11 @@ public class Main {
                         model.add(lodIn.model());
                         genLD(lodIn, fname);
                         lodIn.writeHtml(fname, extraHeader);
+                        lodIn.writeGeoJson(fname);
+                        JsonObject feature = lodIn.writeGeoJsonMin(fname);
+                        if(feature!=null) {
+                            geoFeatures.add(feature);
+                        }
                     }
             }
         }
@@ -178,8 +173,42 @@ public class Main {
         fw.close();
     }
 
-    public static void writeGeoJson() throws IOException {
-        //model.query("");
+    private static void writeGeoJson() throws IOException {
+        File ff = new File(".out/_all.geojson");
+        ff.getParentFile().mkdirs();
+        FileWriter fw = new FileWriter(ff);
+        JsonObject geoJson = new JsonObject()
+                .put("type", "FeatureCollection")
+                .put("features", geoFeatures);
+        geoJson.write(new JsonWriter(fw));
+        fw.flush();
+        fw.close();
+    }
+
+    public static void getGeoSparql() throws IOException {
+        model = Common.getModel(new File(".out/_all.ttl"), RDFFormat.TURTLE.getLang().getName());
+
+        Query query = QueryFactory.create("select * where { " +
+                "?x <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/GeoCoordinates> ." +
+                "?x <https://schema.org/longitude> ?lon ." +
+                "?x <https://schema.org/latitude> ?lat ." +
+                "?a <https://schema.org/geo> ?x " +
+                "}");
+        QueryExecution qe = QueryExecutionFactory.create(query, model);
+        ResultSet results = qe.execSelect();
+
+        while (results.hasNext()) {
+            QuerySolution row = results.next();
+            //  String value= row.getLiteral("name").toString();
+            System.out.println("-------------"
+                    + row.getResource("a") + ": "
+                    + row.getLiteral("lat") + ", " + row.getLiteral("lon")
+            );
+//            row.get("x").asResource().listProperties()
+//                    .forEachRemaining(statement -> System.out.println(statement));
+
+
+        }
     }
 
 }
