@@ -51,7 +51,7 @@ public class TestApi {
         //example();
         //test1();
         //getAll();
-        getFromCache();
+       // getFromCache();
     }
 
     public static void test1() throws IOException {

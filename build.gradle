@@ -51,12 +51,13 @@ task analyseOnt(type: JavaExec) {
 
 ext {
     jjsonVer = '1.1.0-alpha1'
-    jenaVer = '3.2.0'
+    jenaVer = '3.3.0'
     jusVer = '0.7.0x2-SNAPSHOT'
-    rxJava2 = 'io.reactivex.rxjava2:rxjava:2.1.0'
+    rxJava2 = 'io.reactivex.rxjava2:rxjava:2.1.1'
     rxJavaExtras = 'com.github.davidmoten:rxjava2-extras:0.1.10'
     reactorCore = 'io.projectreactor:reactor-core:3.0.5.RELEASE'
     libs = [ // Groovy map literal
+             jsonld: 'com.github.jsonld-java:jsonld-java:0.10.0',
              jjson: [
                      'io.apptik.json:json-core:' + jjsonVer,
                      //'io.apptik.json:json-generator:' + jjsonVer,

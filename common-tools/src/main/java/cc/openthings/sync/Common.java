@@ -19,6 +19,7 @@ import org.apache.jena.tdb.TDBLoader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.Reader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -78,6 +79,16 @@ public class Common {
 
         return ModelFactory.createRDFSModel(model);
     }
+
+
+    public static Model getModel(Reader reader, File modelFile, String lang) {
+        Model model = ModelFactory.createDefaultModel();
+        model = model.read(reader, modelFile.getAbsolutePath(), lang);
+        System.out.println("======= Ont model read from: " + modelFile.getAbsolutePath() + " =======");
+
+        return ModelFactory.createRDFSModel(model);
+    }
+
 
     public static Dataset getAgrovocDataset() {
         return TDBFactory.createDataset("./agrovoc-tdb-store");

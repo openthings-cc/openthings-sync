@@ -46,6 +46,7 @@ public class Main {
     private static String extraHeader = "";
     private static Model model;
     private static JsonArray geoFeatures = new JsonArray();
+    private static int mergeCandidates = 0;
 
     public static void main(String[] args) throws Exception {
         if(args == null || args.length<1) {
@@ -72,6 +73,7 @@ public class Main {
 
     }
 
+
     private static void replaceContext(File dir) throws IOException {
         final String newC = "https://openfooddata.github.io/actors/_common/context.jsonld";
         File[] files = dir.listFiles();
@@ -90,7 +92,6 @@ public class Main {
                     j.write(jw);
                     jw.flush();
                     jw.close();
-
                 }
             }
         }

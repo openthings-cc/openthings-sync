@@ -44,6 +44,7 @@ public class HttpSender {
             conn.setConnectTimeout(5000);
             conn.setReadTimeout(50000);
             conn.setRequestProperty("User-Agent", USER_AGENT);
+            conn.setInstanceFollowRedirects(true);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {

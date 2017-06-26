@@ -70,7 +70,7 @@ public class Config {
     }
 
     public static final String baseSearchUrl = "http://www.rechtvanbijdeboer.be/zoeken";
-    public static final String baseUrl = "http://www.rechtvanbijdeboer.be";
+    public static final String baseUrl = "https://www.rechtvanbijdeboer.be";
 
     public static final String contentType = "application/x-www-form-urlencoded";
 
