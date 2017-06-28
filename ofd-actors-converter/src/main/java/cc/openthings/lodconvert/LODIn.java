@@ -114,11 +114,13 @@ public class LODIn {
         File ff = new File(".out/" + outFName.replace("/", "_") + "/index.html");
         ff.getParentFile().mkdirs();
         FileWriter fw = new FileWriter(ff);
-        job.put("extraHeader", extraHeader);
+        final HashMap mjob = new HashMap();
+        mjob.put("data", job);
+        mjob.put("extraHeader", extraHeader);
         MustacheFactory mf = new DefaultMustacheFactory();
         Mustache mustache = mf.compile("html.mustache");
         try {
-            mustache.execute(fw, job).flush();
+            mustache.execute(fw, mjob).flush();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

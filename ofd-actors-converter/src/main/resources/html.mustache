@@ -6,7 +6,11 @@
     {{#extraHeader}}
       {{{.}}}
     {{/extraHeader}}
+{{#data}}
     <title>{{foaf:name}}</title>
+      <script type="application/ld+json">
+           {{{.}}}
+      </script>
   </head>
   <body>
   <style>
@@ -26,3 +30,4 @@
           </div>
   </body>
 </html>
+{{/data}}
