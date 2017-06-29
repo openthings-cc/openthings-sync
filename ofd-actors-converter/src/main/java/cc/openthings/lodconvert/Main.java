@@ -18,11 +18,17 @@ package cc.openthings.lodconvert;
 
 
 import cc.openthings.sync.Common;
+import com.github.mustachejava.DefaultMustacheFactory;
+import com.github.mustachejava.Mustache;
+import com.github.mustachejava.MustacheFactory;
 import de.uni_stuttgart.vis.vowl.owl2vowl.converter.IRIConverter;
 import de.uni_stuttgart.vis.vowl.owl2vowl.export.types.FileExporter;
 import io.apptik.json.JsonArray;
 import io.apptik.json.JsonObject;
 import io.apptik.json.JsonWriter;
+import io.reactivex.Flowable;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -35,9 +41,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
 
@@ -70,8 +75,9 @@ public class Main {
             model = ModelFactory.createDefaultModel();
             File rootDir = new File(inFile);
             processDir(rootDir);
-            writeDump();
-            writeGeoJson();
+            writeLists();
+//            writeDump();
+//            writeGeoJson();
         }
 
     }
@@ -110,7 +116,8 @@ public class Main {
                     if (fname.endsWith(".jsonld")) {
                         fname = fname.substring(0, fname.length() - 7);
                         LODIn lodIn = new LODIn(file.getAbsolutePath());
-                       // all.put(model.getResource("https://"))
+                        all.put(lodIn.job.get("@id").toString(),
+                                lodIn.job.get("schema:name") + "");
                         model.add(lodIn.model());
                         genLD(lodIn, fname);
                         lodIn.writeHtml(fname, extraHeader);
@@ -190,18 +197,45 @@ public class Main {
         fw.close();
     }
 
-    private static void writeList() throws IOException {
-        int totalPages = (int) Math.ceil(geoFeatures.size()/1000);
+    private static void writeLists() throws IOException {
+        final int totalPages = (int) Math.ceil(all.size()/1000);
+        Flowable.fromIterable(all.entrySet()).window(1000)
+                .zipWith(Flowable.range(0, Integer.MAX_VALUE),
+                        (items, cnt) -> new ImmutablePair<>(items, cnt))
+                .doOnNext(o ->
+                        writeListHtml(o.getRight(), totalPages,
+                                o.getLeft().toList().blockingGet()))
+                .blockingSubscribe();
 
-        File ff = new File(".out/list.html");
-        ff.getParentFile().mkdirs();
+    }
+
+    private static void writeListHtml(int pageno, int totalPages,
+                                      List<Map.Entry<String, String>> items)
+            throws IOException {
+        File ff = new File(".out/list"+pageno+".html");
         FileWriter fw = new FileWriter(ff);
-        JsonObject geoJson = new JsonObject()
-                .put("type", "FeatureCollection")
-                .put("features", geoFeatures);
-        geoJson.write(new JsonWriter(fw));
-        fw.flush();
-        fw.close();
+        final HashMap mjob = new HashMap();
+        final List data = new ArrayList<>();
+        for(Map.Entry<String, String> entry:items) {
+            final HashMap dataitem = new HashMap();
+            dataitem.put("@id", entry.getKey());
+            dataitem.put("name", entry.getValue());
+            data.add(dataitem);
+        }
+        mjob.put("data", data);
+        mjob.put("pageno", pageno);
+        mjob.put("prev", Math.max(0, pageno-1));
+        mjob.put("next", Math.min(pageno+1,totalPages));
+        mjob.put("totalpages", totalPages);
+        MustacheFactory mf = new DefaultMustacheFactory();
+        Mustache mustache = mf.compile("list.mustache");
+        try {
+            mustache.execute(fw, mjob).flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            fw.close();
+        }
     }
 
     public static void getGeoSparql() throws IOException {
