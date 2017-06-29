@@ -36,6 +36,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class Main {
 
@@ -47,6 +49,7 @@ public class Main {
     private static Model model;
     private static JsonArray geoFeatures = new JsonArray();
     private static int mergeCandidates = 0;
+    private static Map<String,String> all = new TreeMap<>();
 
     public static void main(String[] args) throws Exception {
         if(args == null || args.length<1) {
@@ -107,6 +110,7 @@ public class Main {
                     if (fname.endsWith(".jsonld")) {
                         fname = fname.substring(0, fname.length() - 7);
                         LODIn lodIn = new LODIn(file.getAbsolutePath());
+                       // all.put(model.getResource("https://"))
                         model.add(lodIn.model());
                         genLD(lodIn, fname);
                         lodIn.writeHtml(fname, extraHeader);
@@ -176,6 +180,20 @@ public class Main {
 
     private static void writeGeoJson() throws IOException {
         File ff = new File(".out/_all.geojson");
+        ff.getParentFile().mkdirs();
+        FileWriter fw = new FileWriter(ff);
+        JsonObject geoJson = new JsonObject()
+                .put("type", "FeatureCollection")
+                .put("features", geoFeatures);
+        geoJson.write(new JsonWriter(fw));
+        fw.flush();
+        fw.close();
+    }
+
+    private static void writeList() throws IOException {
+        int totalPages = (int) Math.ceil(geoFeatures.size()/1000);
+
+        File ff = new File(".out/list.html");
         ff.getParentFile().mkdirs();
         FileWriter fw = new FileWriter(ff);
         JsonObject geoJson = new JsonObject()
