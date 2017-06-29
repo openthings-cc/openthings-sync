@@ -1,1 +1,1 @@
-java -jar ./build/libs/ofd-actors-converter.jar './sample/belgium/flanders/geitenhoeve-hoeveberg.jsonld' _testcase
+java -jar ./build/libs/ofd-actors-converter.jar './sample/belgium/flanders/linkedfarm.jsonld' _testcase

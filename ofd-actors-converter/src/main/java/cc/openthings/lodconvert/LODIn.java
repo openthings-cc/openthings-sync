@@ -116,6 +116,7 @@ public class LODIn {
         FileWriter fw = new FileWriter(ff);
         final HashMap mjob = new HashMap();
         mjob.put("data", job);
+        mjob.put("datastr", new JsonObject(job).toString());
         mjob.put("extraHeader", extraHeader);
         MustacheFactory mf = new DefaultMustacheFactory();
         Mustache mustache = mf.compile("html.mustache");
