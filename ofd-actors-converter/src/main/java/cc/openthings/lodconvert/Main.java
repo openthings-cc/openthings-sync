@@ -42,7 +42,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 public class Main {
 
@@ -54,7 +53,7 @@ public class Main {
     private static Model model;
     private static JsonArray geoFeatures = new JsonArray();
     private static int mergeCandidates = 0;
-    private static Map<String,String> all = new TreeMap<>();
+    private static Map<String,Pair<String,String>> all = new TreeMap<>();
 
     public static void main(String[] args) throws Exception {
         if(args == null || args.length<1) {
@@ -76,8 +75,8 @@ public class Main {
             File rootDir = new File(inFile);
             processDir(rootDir);
             writeLists();
-//            writeDump();
-//            writeGeoJson();
+            writeDump();
+            writeGeoJson();
         }
 
     }
@@ -117,7 +116,7 @@ public class Main {
                         fname = fname.substring(0, fname.length() - 7);
                         LODIn lodIn = new LODIn(file.getAbsolutePath());
                         all.put(lodIn.job.get("@id").toString(),
-                                lodIn.job.get("schema:name") + "");
+                                new ImmutablePair<String,String>(lodIn.job.get("schema:name") + "", fname));
                         model.add(lodIn.model());
                         genLD(lodIn, fname);
                         lodIn.writeHtml(fname, extraHeader);
@@ -198,8 +197,8 @@ public class Main {
     }
 
     private static void writeLists() throws IOException {
-        final int totalPages = (int) Math.ceil(all.size()/1000);
-        Flowable.fromIterable(all.entrySet()).window(1000)
+        final int totalPages = (int) Math.ceil(all.size()/500);
+        Flowable.fromIterable(all.entrySet()).window(500)
                 .zipWith(Flowable.range(0, Integer.MAX_VALUE),
                         (items, cnt) -> new ImmutablePair<>(items, cnt))
                 .doOnNext(o ->
@@ -210,16 +209,20 @@ public class Main {
     }
 
     private static void writeListHtml(int pageno, int totalPages,
-                                      List<Map.Entry<String, String>> items)
+                                      List<Map.Entry<String, Pair<String,String>>> items)
             throws IOException {
         File ff = new File(".out/list"+pageno+".html");
         FileWriter fw = new FileWriter(ff);
         final HashMap mjob = new HashMap();
         final List data = new ArrayList<>();
-        for(Map.Entry<String, String> entry:items) {
+        for(Map.Entry<String, Pair<String,String>> entry:items) {
             final HashMap dataitem = new HashMap();
-            dataitem.put("@id", entry.getKey());
-            dataitem.put("name", entry.getValue());
+            String id = entry.getKey();
+            String fname = entry.getValue().getRight();
+            dataitem.put("@id", id);
+            dataitem.put("name", entry.getValue().getLeft());
+            dataitem.put("jsonld", fname + "/" + fname + ".jsonld");
+            dataitem.put("ttl", fname + "/" + fname + ".ttl");
             data.add(dataitem);
         }
         mjob.put("data", data);

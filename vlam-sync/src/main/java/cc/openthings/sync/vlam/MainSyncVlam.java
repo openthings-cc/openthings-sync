@@ -42,7 +42,26 @@ public class MainSyncVlam {
         //add_isPrimaryTopicOf(rootDir);
         //cleanDefImage(rootDir);
         //merge_0_doubles(rootDir);
-        System.out.println("------------ Merge Candidates: " + mergeCandidates + " --------------");
+        //System.out.println("------------ Merge Candidates: " + mergeCandidates + " --------------");
+        checkGeo(rootDir);
+    }
+
+    private static void checkGeo(File dir) throws IOException {
+        File[] files = dir.listFiles();
+        for (File file : files) {
+            if (file.isDirectory()) {
+                checkGeo(file);
+            } else {
+                String fname = file.getName();
+                if (fname.endsWith(".jsonld")) {
+                    JsonObject actor = JsonObject.readFrom(new FileReader(file)).asJsonObject();
+                    String lat = actor.getJsonObject("schema:geo").optString("schema:latitude");
+                    if(lat !=null && lat.equals("0.000000")) {
+                       logger.severe("Geo Wrong: " + actor.get("@id"));
+                    }
+                }
+            }
+        }
     }
 
     private static void cleanDefImage(File dir) throws IOException {
