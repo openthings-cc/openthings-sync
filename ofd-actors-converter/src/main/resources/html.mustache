@@ -2,14 +2,15 @@
 
 <html class="no-js" lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 {{#extraHeader}}
     {{{.}}}
 {{/extraHeader}}
     <script type="application/ld+json">
            {{{datastr}}}
-      </script>
+
+    </script>
 {{#data}}
         <title>{{foaf:name}}</title>
         <link rel="stylesheet" href="https://openfooddata.github.io/actors/css/foundation.min.css"/>
@@ -53,21 +54,28 @@
             <p>{{schema:description}}</p>
             <hr>
             <div class="row">Web: {{#schema:url}}
-                <div class="row"> <a href="{{.}}" target="_blank">{{.}}</a></div>
+                <div class="row"><a href="{{.}}" target="_blank">{{.}}</a></div>
             {{/schema:url}}
             </div>
             <hr>
-        <div class="row">Address:
+            <div class="row">Address:</div>
             {{#schema:geo}}
-                <a href="https://www.openstreetmap.org/search?query={{schema:latitude}},{{schema:longitude}}" target="_blank">
-                    map: ({{schema:latitude}},{{schema:longitude}})</a></div>
-                {{#schema:address}}
-                    <div class="row">{{schema:streetAddress}} {{schema:addressLocality}} {{schema:postalCode}}</div>
-                {{/schema:address}}
-                <div class="row">{{schema:country}}</div>
+                <div class="columns medium-6">
+                    {{#schema:address}}
+                        <div class="row">{{schema:streetAddress}} {{schema:addressLocality}} {{schema:postalCode}}</div>
+                    {{/schema:address}}
+                    <div class="row">{{schema:country}}</div>
+                </div>
+                <div class="columns medium-6">
+                    <a href="https://www.openstreetmap.org/search?query={{schema:latitude}},{{schema:longitude}}"
+                       target="_blank">
+                        map: ({{schema:latitude}},{{schema:longitude}})
+                        <img src="http://staticmap.openstreetmap.de/staticmap.php?center={{schema:latitude}},{{schema:longitude}}&zoom=10&size=256x256&maptype=mapnik&markers={{schema:latitude}},{{schema:longitude}}"/>
+                    </a>
+                </div>
+
             {{/schema:geo}}
         </div>
-    </div>
     </div>
     <hr>
     <div class="row">
@@ -99,7 +107,8 @@
         {{#ofd:upstreamRel}}
             <div class="column">
                 <li><a class="relatedActor" href="{{ofd:relatedActor}}">{{ofd:relatedActor}}</a>
-                     (<span class="relatedContext">{{ofd:relatedContext}}</span>) </li>
+                    (<span class="relatedContext">{{ofd:relatedContext}}</span>)
+                </li>
             </div>
         {{/ofd:upstreamRel}}
     </div>
@@ -114,21 +123,22 @@
         {{#ofd:downstreamRel}}
             <div class="column">
                 <li><a class="relatedActor" href="{{ofd:relatedActor}}">{{ofd:relatedActor}}</a>
-                     (<span class="relatedContext">{{ofd:relatedContext}}</span>) </li>
+                    (<span class="relatedContext">{{ofd:relatedContext}}</span>)
+                </li>
             </div>
         {{/ofd:downstreamRel}}
     </div>
 
     <hr>
     <div class="row column">
-    <h3>Primary Topic Of</h3>
+        <h3>Primary Topic Of</h3>
     </div>
     <div class="row">
-    {{#foaf:isPrimaryTopicOf}}
-        <div class="column">
-            <li> <a href="{{.}}" target="_blank">{{.}}</a> </li>
-        </div>
-    {{/foaf:isPrimaryTopicOf}}
+        {{#foaf:isPrimaryTopicOf}}
+            <div class="column">
+                <li><a href="{{.}}" target="_blank">{{.}}</a></li>
+            </div>
+        {{/foaf:isPrimaryTopicOf}}
     </div>
 
     <hr>
