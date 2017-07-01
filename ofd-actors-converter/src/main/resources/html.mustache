@@ -1,33 +1,287 @@
 <!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
-    {{#extraHeader}}
-      {{{.}}}
-    {{/extraHeader}}
-      <script type="application/ld+json">
+
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+{{#extraHeader}}
+    {{{.}}}
+{{/extraHeader}}
+    <script type="application/ld+json">
            {{{datastr}}}
       </script>
 {{#data}}
         <title>{{foaf:name}}</title>
-  </head>
-  <body>
-  <style>
-  </style>
-          <h2>{{foaf:name}}</h2>
+        <link rel="stylesheet" href="http://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
+    </head>
+    <body>
 
-          <div class="row">URI: <a href="{{@id}}" target="_blank">{{@id}}</a></div>
-          <div class="row">Actor Type: {{#ofd:actorType}} {{.}}, {{/ofd:actorType}} </div>
-          <div class="row">Web: {{#schema:url}}
-          <div> <a href="{{.}}" target="_blank">{{.}}</a></div>
-          {{/schema:url}}
-          </div>
-          <div> <h2>Types of Food:</h2>
-          {{#ofd:offersFoodType}}
-              <div>{{.}}</div>
-          {{/ofd:offersFoodType}}
-          </div>
-  </body>
-</html>
+    <!-- Start Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <ul class="menu">
+                <li class="menu-text">Open Food Data Actors</li>
+                <li><a href="https://openfooddata.github.io/actors/list0.html">List</a></li>
+                <li><a href="https://openfooddata.github.io/actors/map.html">Map</a></li>
+            </ul>
+        </div>
+        <div class="top-bar-right">
+            <ul class="menu">
+                <li><a href="http://openfooddata.github.io/">Main OFD Page</a></li>
+                <li><a href="https://github.com/openfooddata/actors">GitHub</a></li>
+                <li><a href="https://w3id.org/openfooddata/onto/core">OFD Ontology</a></li>
+                <li><a href="https://github.com/openfooddata/vocab">OFD Vocabs</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- End Top Bar -->
+
+    <div class="callout large">
+        <div class="row column text-center">
+            <h1>{{foaf:name}}</h1>
+            <p class="lead">{{schema:disambiguatingDescription}}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="medium-6 columns medium-push-6">
+            <img class="thumbnail" src="{{foaf:thumbnail}}">
+        </div>
+        <div class="medium-6 columns medium-pull-6">
+            <h5>{{@id}}</h5>
+            <p>{{schema:description}}</p>
+            <hr>
+            <div class="row">Web: {{#schema:url}}
+                <div class="row"> <a href="{{.}}" target="_blank">{{.}}</a></div>
+            {{/schema:url}}
+            </div>
+            <hr>
+        <div class="row">Address:
+            {{#schema:geo}}
+                <a href="https://www.openstreetmap.org/search?query={{schema:latitude}},{{schema:longitude}}" target="_blank">
+                    map: ({{schema:latitude}},{{schema:longitude}})</a></div>
+                {{#schema:address}}
+                    <div class="row">{{schema:streetAddress}} {{schema:addressLocality}} {{schema:postalCode}}</div>
+                {{/schema:address}}
+                <div class="row">{{schema:country}}</div>
+            {{/schema:geo}}
+        </div>
+    </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="medium-6 columns">
+            <h3>Actor Type</h3>
+            <ul>
+                {{#ofd:actorType}}
+                    <li><a class="actortype" href="#">{{.}}</a></li>
+                {{/ofd:actorType}}
+            </ul>
+        </div>
+        <div class="medium-6 columns">
+            <h3>Types of Food</h3>
+            <ul>
+                {{#ofd:offersFoodType}}
+                    <li><a class="foodtype" href="#">{{.}}</a></li>
+                {{/ofd:offersFoodType}}
+            </ul>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row column">
+        <h3>Sources</h3>
+    </div>
+
+    <div class="row medium-up-3 large-up-4">
+        {{#ofd:upstreamRel}}
+            <div class="column">
+                <li><a class="relatedActor" href="{{ofd:relatedActor}}">{{ofd:relatedActor}}</a>
+                     (<span class="relatedContext">{{ofd:relatedContext}}</span>) </li>
+            </div>
+        {{/ofd:upstreamRel}}
+    </div>
+
+    <hr>
+
+    <div class="row column">
+        <h3>Distributors</h3>
+    </div>
+
+    <div class="row medium-up-3 large-up-4">
+        {{#ofd:downstreamRel}}
+            <div class="column">
+                <li><a class="relatedActor" href="{{ofd:relatedActor}}">{{ofd:relatedActor}}</a>
+                     (<span class="relatedContext">{{ofd:relatedContext}}</span>) </li>
+            </div>
+        {{/ofd:downstreamRel}}
+    </div>
+
+    <hr>
+    <div class="row column">
+    <h3>Primary Topic Of</h3>
+    </div>
+    <div class="row">
+    {{#foaf:isPrimaryTopicOf}}
+        <div class="column">
+            <li> <a href="{{.}}" target="_blank">{{.}}</a> </li>
+        </div>
+    {{/foaf:isPrimaryTopicOf}}
+    </div>
+
+    <hr>
+
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="http://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+    <script>
+        $(document).foundation();
+    </script>
+    <script type="text/javascript">
+        var fts = null;
+        var ats = null;
+
+        $(document).ready(function () {
+            $.ajax({
+                url: 'https://openfooddata.github.io/vocab/foodtype/foodtype.jsonld',
+                cache: true,
+                headers: {
+                    Accept: "application/ld+json"
+                },
+                success: function (response) {
+                    fts = response;
+                    dofoodtype();
+                }
+            });
+
+            $.ajax({
+                url: 'https://openfooddata.github.io/vocab/actortype/actortype.jsonld',
+                cache: true,
+                headers: {
+                    Accept: "application/ld+json"
+                },
+                success: function (response) {
+                    ats = response;
+                    doactortype();
+                    dorelatedContext();
+                }
+            });
+
+            dorelatedActor();
+        });
+
+        function doactortype() {
+            document.querySelectorAll('.actortype').forEach(function (el) {
+                var uri = getOFDatUri(el.innerText);
+                el.href = uri;
+                if(ats == null) {
+                    setNameUri(uri, el)
+                } else {
+                    setName(ats, el, uri);
+                }
+            });
+        }
+
+        function dofoodtype() {
+            document.querySelectorAll('.foodtype').forEach(function (el) {
+                var uri = getOFDftUri(el.innerText);
+                el.href = uri;
+                if(fts == null) {
+                    setNameUri(uri, el)
+                } else {
+                    setName(fts, el, uri);
+                }
+            });
+        }
+
+        function dorelatedContext() {
+            document.querySelectorAll('.relatedContext').forEach(function (el) {
+                var uri = getOFDatUri(el.innerText);
+                if(ats == null) {
+                    setNameUri(uri, el)
+                } else {
+                    setName(ats, el, uri);
+                }
+            });
+        }
+
+        function dorelatedActor() {
+            document.querySelectorAll('.relatedActor').forEach(function (el) {
+                var uri = el.innerText;
+                if(ats == null) {
+                    setActorName(el, uri)
+                }
+            });
+        }
+
+        function setActorName(el, uri) {
+            $.ajax({
+                url: uri,
+                cache: true,
+                headers: {
+                    Accept: "application/ld+json"
+                },
+                success: function (response) {
+                    response['@graph'].filter(function (obj) {
+                                return obj['@id'] == el.innerText || obj['@id'] == uri;
+                            }
+                    ).forEach(function (obj) {
+                        if(obj.name) {
+                            el.innerText = obj.name;
+                        } else {
+                            el.innerText = uri.replace("https://w3id.org/openfooddata/actors/","");
+                        }
+                    });
+                }
+            });
+        }
+
+        function setNameUri(uri, el) {
+            $.ajax({
+                url: uri,
+                cache: true,
+                headers: {
+                    Accept: "application/ld+json"
+                },
+                success: function (response) {
+                    setName(response, el, uri);
+                }
+            });
+        }
+
+        function setName(response, el, uri) {
+            response['@graph'].filter(function (obj) {
+                        return obj['@id'] == el.innerText || obj['@id'] == uri;
+                    }
+            ).forEach(function (obj) {
+                el.innerText = getLabel(obj);
+            });
+
+        }
+
+        function getLabel(obj) {
+            var result = null;
+            if (Object.prototype.toString.call(obj.prefLabel) === '[object Array]') {
+                obj.prefLabel.forEach(function (lbl) {
+                    if (lbl['@language'] == 'en') {
+                        result = lbl['@value'];
+                        return;
+                    }
+                    ;
+                });
+            } else {
+                result = obj.prefLabel['@value'];
+            }
+            return result;
+        }
+        function getOFDatUri(curie) {
+            return curie.replace('at:', 'https://w3id.org/openfooddata/vocab/actortype#');
+        }
+        function getOFDftUri(curie) {
+            return curie.replace('ft:', 'https://w3id.org/openfooddata/vocab/foodtype#');
+        }
+    </script>
+    </body>
+    </html>
 {{/data}}
+
