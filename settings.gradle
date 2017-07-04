@@ -25,4 +25,5 @@ include 'lod-converter'
 include 'ArcGIS'
 include 'vlam-sync'
 include 'ofd-actors-converter'
+include 'ofd-tools'
 

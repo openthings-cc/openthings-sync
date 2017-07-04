@@ -10,6 +10,7 @@
     <script type="application/ld+json">
            {{{datastr}}}
 
+
     </script>
 {{#data}}
         <title>{{foaf:name}}</title>
@@ -47,35 +48,44 @@
 
     <div class="row">
         <div class="medium-6 columns medium-push-6">
-            <img class="thumbnail" src="{{foaf:thumbnail}}">
+            <img class="thumbnail" src="{{schema:logo}}">
         </div>
         <div class="medium-6 columns medium-pull-6">
             <h5>{{@id}}</h5>
             <p>{{schema:description}}</p>
             <hr>
-            <div class="row">Web: {{#schema:url}}
-                <div class="row"><a href="{{.}}" target="_blank">{{.}}</a></div>
-            {{/schema:url}}
+            <div class="row columns">Website:</div> {{#schema:url}}
+            <div class="row columns"><a href="{{.}}" target="_blank">{{.}}</a></div>
+        {{/schema:url}}
+        </div>
+    </div>
+    <hr>
+    <div class="row columns"><h3>Contact Details</h3></div>
+    <div class="row">
+
+    {{#schema:geo}}
+            <div class="medium-6 columns">
+                {{#schema:address}}
+                    <div class="row columns">{{schema:streetAddress}} {{schema:addressLocality}} {{schema:postalCode}}</div>
+                {{/schema:address}}
+                <div class="row columns">{{schema:addressCountry}}</div>
+                <hr>
+                <div class="row columns">{{schema:telephone}}</div>
+                <div class="row columns"><a href="mailto:{{schema:email}}">{{schema:email}}</a></div>
             </div>
-            <hr>
-            <div class="row">Address:</div>
-            {{#schema:geo}}
-                <div class="columns medium-6">
-                    {{#schema:address}}
-                        <div class="row">{{schema:streetAddress}} {{schema:addressLocality}} {{schema:postalCode}}</div>
-                    {{/schema:address}}
-                    <div class="row">{{schema:country}}</div>
-                </div>
-                <div class="columns medium-6">
+            <div class="medium-6 columns">
+                <div class="row columns">
                     <a href="https://www.openstreetmap.org/search?query={{schema:latitude}},{{schema:longitude}}"
                        target="_blank">
-                        map: ({{schema:latitude}},{{schema:longitude}})
-                        <img src="http://staticmap.openstreetmap.de/staticmap.php?center={{schema:latitude}},{{schema:longitude}}&zoom=10&size=256x256&maptype=mapnik&markers={{schema:latitude}},{{schema:longitude}}"/>
-                    </a>
+                        map: ({{schema:latitude}},{{schema:longitude}})</a>
+                </div>
+                <div class="row columns">
+                    <img src="http://staticmap.openstreetmap.de/staticmap.php?center={{schema:latitude}},{{schema:longitude}}&zoom=10&size=256x256&maptype=mapnik&markers={{schema:latitude}},{{schema:longitude}}"/>
                 </div>
 
-            {{/schema:geo}}
+            </div>
         </div>
+    {{/schema:geo}}
     </div>
     <hr>
     <div class="row">

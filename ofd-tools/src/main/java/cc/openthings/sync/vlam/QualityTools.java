@@ -16,10 +16,15 @@
 
 package cc.openthings.sync.vlam;
 
-import cc.openthings.sender.HttpSender;
+import cc.openthings.sync.Common;
 import io.apptik.json.*;
-import io.reactivex.Single;
-import org.jsoup.Jsoup;
+import org.apache.jena.query.*;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.riot.RDFFormat;
+import org.apache.jena.sparql.expr.NodeValue;
+import org.apache.jena.sparql.function.FunctionBase2;
+import org.apache.jena.sparql.function.FunctionRegistry;
 
 import java.io.File;
 import java.io.FileReader;
@@ -31,19 +36,71 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 
-//used to sync from already obtained jsonld objs
-public class MainSyncVlam {
-    private static final Logger logger = Logger.getLogger("vlam-sync");
+public class QualityTools {
+    private static final Logger logger = Logger.getLogger("OFD-QTools");
     private static int mergeCandidates = 0;
 
     public static void main(String[] args) throws IOException {
-        String inFile = "./vlam-sync/stage3/belgium/flanders";
+        FunctionRegistry.get().put("http://openthings.cc/func#", lev.class) ;
+        String inFile = "./ofd-tools/works/actors/data";
         File rootDir = new File(inFile);
         //add_isPrimaryTopicOf(rootDir);
-        //cleanDefImage(rootDir);
         //merge_0_doubles(rootDir);
         //System.out.println("------------ Merge Candidates: " + mergeCandidates + " --------------");
-        checkGeo(rootDir);
+        //checkGeo(rootDir);
+        //checkForLogo(rootDir);
+        //checkForSimilar(rootDir);
+    }
+
+    private static Model loadModel(File dir) throws IOException {
+        Model model = ModelFactory.createDefaultModel();
+        File[] files = dir.listFiles();
+        for (File file : files) {
+            if (file.isDirectory()) {
+                loadModel(file);
+            } else {
+                String fname = file.getName();
+                if (fname.endsWith(".jsonld")) {
+                   Model actModel = Common.getModel(file, RDFFormat.JSONLD.getLang().getName());
+                    if (actModel == null) {
+                        throw new RuntimeException("Error parsing");
+                    }
+                    model.add(actModel);
+                }
+            }
+        }
+        return model;
+    }
+
+    private static void checkForSimilar(Model model) throws IOException {
+        Query query = QueryFactory.create("" +
+                "PREFIX foaf: <http://xmlns.com/foaf/0.1/> " +
+                "PREFIX func: <http://openthings.cc/func#> " +
+                "select ?x,?y where { " +
+                "?x a foaf:Agent . " +
+                "?x foaf:name ?nameX . " +
+                "filter exists { " +
+                "?y a foaf:Agent . " +
+                "?y foaf:name ?nameY . " +
+                " FILTER (?x != ?y && func:lev(?nameX,?nameY) < 3 ) " +
+                        "} "+
+                "}"
+        );
+        QueryExecution qe = QueryExecutionFactory.create(query, model);
+        ResultSet results = qe.execSelect();
+
+        while (results.hasNext()) {
+            QuerySolution row = results.next();
+            //  String value= row.getLiteral("name").toString();
+            System.out.println("-------------"
+                    + row.getResource("a") + ": "
+                    + row.getLiteral("lat") + ", " + row.getLiteral("lon")
+            );
+//            row.get("x").asResource().listProperties()
+//                    .forEachRemaining(statement -> System.out.println(statement));
+
+
+        }
     }
 
     private static void checkGeo(File dir) throws IOException {
@@ -56,29 +113,28 @@ public class MainSyncVlam {
                 if (fname.endsWith(".jsonld")) {
                     JsonObject actor = JsonObject.readFrom(new FileReader(file)).asJsonObject();
                     String lat = actor.getJsonObject("schema:geo").optString("schema:latitude");
-                    if(lat !=null && lat.equals("0.000000")) {
+                    String lon = actor.getJsonObject("schema:geo").optString("schema:latitude");
+                    if(lat == null || lon == null || Double.parseDouble(lat) == 0 || Double.parseDouble(lon) == 0) {
                        logger.severe("Geo Wrong: " + actor.get("@id"));
+                       logger.severe("Geo: " + actor.getJsonObject("schema:geo").toString());
                     }
                 }
             }
         }
     }
 
-    private static void cleanDefImage(File dir) throws IOException {
+    private static void checkForLogo(File dir) throws IOException {
         File[] files = dir.listFiles();
         for (File file : files) {
             if (file.isDirectory()) {
-                cleanDefImage(file);
+                checkForLogo(file);
             } else {
                 String fname = file.getName();
                 if (fname.endsWith(".jsonld")) {
                     JsonObject actor = JsonObject.readFrom(new FileReader(file)).asJsonObject();
-                    JsonString defImage
-                            = new JsonString("/sites/all/themes/rechtvanbijdeboer/images/beeld_kar.jpg");
-                    if (actor.has("schema:image")) {
-                        actor.getJsonArray("schema:image").remove(defImage);
-                        actor.getJsonArray("foaf:depiction").remove(defImage);
-                        writeItNice(file,actor);
+                    if (!actor.has("schema:logo")) {
+                        logger.info("No Logo:" + actor.getString("@id"));
+                        
                     }
 
                 }
@@ -86,34 +142,6 @@ public class MainSyncVlam {
         }
     }
 
-    private static void add_isPrimaryTopicOf(File dir) throws IOException {
-        File[] files = dir.listFiles();
-        for (File file : files) {
-            if (file.isDirectory()) {
-                add_isPrimaryTopicOf(file);
-            } else {
-                String fname = file.getName();
-                if (fname.endsWith(".jsonld")) {
-                    JsonObject actor = JsonObject.readFrom(new FileReader(file)).asJsonObject();
-                    if (!actor.has("foaf:isPrimaryTopicOf")) {
-                        actor.put("foaf:isPrimaryTopicOf",
-                                Single.just(Config.baseUrl + "/" + fname.substring(0, fname.length() - 7))
-                                        .doOnSuccess(o -> logger.info("Calling: " + o))
-                                        .map(p -> new HttpSender(p).doCall())
-                                        //.doOnSuccess(o -> logger.info("Got Details Producer Response: " + o))
-                                        .doOnSuccess(r -> r.headers
-                                                .forEach((s, strings) -> System.out.println(s + "::" + strings)))
-                                        .map(r -> Jsoup.parse(r.body))
-                                        .map(doc -> Funcs.getPrimaryTopicOf(doc))
-                                        .blockingGet()
-                        );
-                        writeItNice(file,actor);
-                    }
-
-                }
-            }
-        }
-    }
 
 
     private static String getAddrAsString(JsonElement je) {
@@ -302,6 +330,15 @@ public class MainSyncVlam {
         actor.write(jw);
         jw.flush();
         jw.close();
+    }
+
+    public class lev extends FunctionBase2
+    {
+        public lev() { super() ; }
+        public NodeValue exec(NodeValue nv1, NodeValue nv2)
+        {
+            return NodeValue.makeInteger(Common.levenshtein(nv1.toString(), nv2.toString()));
+        }
     }
 
 }
