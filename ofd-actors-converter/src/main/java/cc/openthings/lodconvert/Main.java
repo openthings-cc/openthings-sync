@@ -75,6 +75,7 @@ public class Main {
             File rootDir = new File(inFile);
             processDir(rootDir);
             writeLists();
+            writeIndexHtml();
             writeDump();
             writeGeoJson();
         }
@@ -182,6 +183,12 @@ public class Main {
         model.write(fw, RDFFormat.TURTLE.getLang().getName());
         fw.flush();
         fw.close();
+        ff = new File(".out/_all.rdf");
+        ff.getParentFile().mkdirs();
+        fw = new FileWriter(ff);
+        model.write(fw, RDFFormat.RDFXML.getLang().getName());
+        fw.flush();
+        fw.close();
     }
 
     private static void writeGeoJson() throws IOException {
@@ -234,6 +241,52 @@ public class Main {
         Mustache mustache = mf.compile("list.mustache");
         try {
             mustache.execute(fw, mjob).flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            fw.close();
+        }
+    }
+
+    private static List<Map<String,String>> getStats(Query query) {
+        List<Map<String,String>> res = new ArrayList<>();
+        QueryExecution qe = QueryExecutionFactory.create(query, model);
+        ResultSet results = qe.execSelect();
+        Map<String, String> entry;
+        while (results.hasNext()) {
+            QuerySolution row = results.next();
+            System.out.println("-------------"
+                    + row.getLiteral("x") + ": "
+                    + row.getLiteral("cnt").getValue().toString()
+            );
+            entry = new HashMap<>();
+            entry.put("name",row.getLiteral("x").toString());
+            entry.put("count",row.getLiteral("cnt").getValue().toString());
+            res.add(entry);
+        }
+        return res;
+    }
+
+    private static void writeIndexHtml() throws IOException {
+        File ff = new File(".out/index.html");
+        FileWriter fw = new FileWriter(ff);
+        final Map data = new HashMap();
+        Query queryTypes = QueryFactory.create("" +
+                "SELECT ?x (COUNT(?y) as ?cnt) " +
+                "    WHERE { " +
+                "        ?y <https://w3id.org/openfooddata/onto/core#actorType> ?x ." +
+                "} GROUP BY ?x");
+        data.put("actortype", getStats(queryTypes));
+        Query queryCountries = QueryFactory.create("" +
+                "SELECT ?x (COUNT(?y) as ?cnt) " +
+                "    WHERE { " +
+                "        ?y <https://schema.org/addressCountry> ?x ." +
+                "} GROUP BY ?x");
+        data.put("country", getStats(queryCountries));
+        MustacheFactory mf = new DefaultMustacheFactory();
+        Mustache mustache = mf.compile("index.mustache");
+        try {
+            mustache.execute(fw, data).flush();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
